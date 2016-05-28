@@ -109,7 +109,7 @@ def download_torrent(torrent):
 
     elif platform == "win32":
         if os.path.exists("C:\Users\Aly Akhtar\AppData\Roaming\uTorrent\uTorrent.exe"):
-            subprocess.Popen(['C:\Users\Aly Akhtar\AppData\Roaming\uTorrent\uTorrent.exe'])
+            subprocess.Popen(['C:\Users\Aly Akhtar\AppData\Roaming\uTorrent\uTorrent.exe', mag[torrent-1]]])
         elif os.path.exists("C:\Users\Aly Akhtar\AppData\Roaming\BitTorrent\BitTorrent.exe"):
             subprocess.Popen(['C:\Users\Aly Akhtar\AppData\Roaming\BitTorrent\BitTorrent.exe', mag[torrent-1]])
 
