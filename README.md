@@ -1,2 +1,2 @@
 # Katastrophe
-Donload torren from Kat.ph through terminal
+Donload torrent from Kat.ph through terminal
