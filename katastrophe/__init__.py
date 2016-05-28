@@ -1,1 +1,1 @@
-from .moviemon import main
+from .katastrophe import main
