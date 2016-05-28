@@ -2,7 +2,7 @@ from distutils.core import setup
 setup(
   name = 'katastrophe',
   packages = ['katastrophe'], 
-  version = '0.2',
+  version = '0.1.2',
   description = 'Download torrents from kat.ph directly through terminal',
   author = 'Aly Akhtar',
   author_email = 'samurai.aly@gmail.com',

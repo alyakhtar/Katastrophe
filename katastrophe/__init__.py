@@ -1,1 +1,1 @@
-from .katastrophe import main
+from katastrophe import main
