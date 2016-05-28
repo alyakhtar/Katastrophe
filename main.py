@@ -7,23 +7,21 @@ from tabulate import tabulate
 import subprocess
 
 
+def print_table(serial, torrent, size, seeds, leechers):
+    table = zip(serial, torrent, size, seeds, leechers)
 
-def print_table(serial,torrent,size,seeds,leechers):
-    table = zip(serial,torrent,size,seeds,leechers)
-
-    headers = ['S.No.','Torrent Name','Size','Seeders','Leechers']
-    print tabulate(table,headers,tablefmt='psql',numalign="center")
-
+    headers = ['S.No.', 'Torrent Name', 'Size', 'Seeders', 'Leechers']
+    print tabulate(table, headers, tablefmt='psql', numalign="center")
 
 
-def url_generetor(url,page):
+def url_generetor(url, page):
     words = url.split()
     if page == 1:
         if len(words) == 1:
             link = 'https://kat.cr/usearch/'+words[0]
         else:
             for i in xrange(len(words)):
-                if  i == 0:
+                if i == 0:
                     link = 'https://kat.cr/usearch/'+words[i]
                 else:
                     link += '%20'+words[i]
@@ -35,7 +33,7 @@ def url_generetor(url,page):
             link = 'https://kat.cr/usearch/'+words[0]
         else:
             for i in xrange(len(words)):
-                if  i == 0:
+                if i == 0:
                     link = 'https://kat.cr/usearch/'+words[i]
                 else:
                     link += '%20'+words[i]
@@ -43,10 +41,9 @@ def url_generetor(url,page):
         return link + '/' + str(page) + '/'
 
 
+def fetch(url, page):
 
-def fetch(url,page):
-
-    link = url_generetor(url,page)
+    link = url_generetor(url, page)
 
     source_code = requests.get(link)
 
@@ -63,45 +60,42 @@ def fetch(url,page):
     sno = []
     i = 0
 
-    for name in soup.findAll('div',{'class':'torrentname'}):
-        for title in name('a',{'class':'cellMainLink'}):
+    for name in soup.findAll('div', {'class': 'torrentname'}):
+        for title in name('a', {'class': 'cellMainLink'}):
             torr.append(title.text)
+            
     for box in soup.findAll('div', {'class': 'iaconbox center floatright'}):
         i += 1
-        # for title in box('a',{'class':'torrentname'}):
-        #     for name in title('a',{'class':'cellMainLink'}):
-        #         # print title.get('href')
-        #         comment = title.get('href')
-        #         comment_clean = comment.split('/')
-        #         name = ''.join(comment[1:])
-        #         name_clean = name.split('.')
-        #         # print name_clean[0]
-        #         torr.append(name_clean[0])
-        for magnet in box('a',{'title':'Torrent magnet link'}):
+        for magnet in box('a', {'title': 'Torrent magnet link'}):
             magnet = magnet.get('href')
             mag.append(magnet)
             # print magnet
         sno.append(i)
 
-    for space in soup.findAll('td',{'class':'nobr center'}):
+    for space in soup.findAll('td', {'class': 'nobr center'}):
         size = space.get_text()
         sz.append(size)
         # print size
 
-    for seed in soup.findAll('td',{'class':'green center'}):
+    for seed in soup.findAll('td', {'class': 'green center'}):
         seeds = seed.get_text()
         sd.append(seeds)
         # print seeds
 
-    for leech in soup.findAll('td',{'class':'red lasttd center'}):
+    for leech in soup.findAll('td', {'class': 'red lasttd center'}):
         leechers = leech.get_text()
         lc.append(leechers)
         # print leechers
 
-    print_table(sno,torr,sz,sd,lc)
+    print_table(sno, torr, sz, sd, lc)
+
+
+def download_torrent(torrent):
+    print 'heyy : ', torrent
+
     # mytable = zip(sno,torr,sz,sd,lc)
     # headers = ['S.No.','Torrent Name','Size','Seeders','Leechers']
-    # print tabulate(mytable,headers,tablefmt='psql',numalign="center")
+    # print tabulate(mytable, headers, tablefmt = 'psql', numalign = "center")
 
   #   print 'Enter torrent No. to download : ',
   #   serial = int(raw_input())
@@ -121,28 +115,23 @@ def fetch(url,page):
 
     # sys.stdout.flush()
 
-def download_torrent(torrent):
-    print 'heyy : ',torrent
-
 
 if __name__ == "__main__":
     page = 1
     start = time.time()
     print "Enter Search field : ",
     query = raw_input()
-    table = fetch(query,page)
+    table = fetch(query, page)
 
     while True:
         page += 1
         print 'Enter torrent No. to download  or m for more: ',
         serial = raw_input()
         if serial == 'm' or serial == 'M':
-            fetch(query,page)
+            fetch(query, page)
         else:
             download_torrent(int(serial))
             break
 
-
     end = time.time()
     print '\nTime Taken : ', end - start, 'seconds'
-
