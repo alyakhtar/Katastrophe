@@ -5,7 +5,7 @@ import os
 import time
 from tabulate import tabulate
 import subprocess
-from sys import platform 
+from sys import platform
 
 
 def print_table(serial, torrent, size, seeds, leechers):
@@ -99,27 +99,25 @@ def fetch(url, page):
 
 
 def download_torrent(torrent):
-    # os.startfile('C:\Users\Aly Akhtar\AppData\Roaming\BitTorrent\BitTorrent.exe')
     if platform == "linux" or platform == "linux2":
-            subprocess.Popen(['xdg-open', mag[torrent-1]], stdout=subprocess.PIPE, stderr=subprocess.PIPE)
+        subprocess.Popen(
+            ['xdg-open', mag[torrent-1]], stdout=subprocess.PIPE, stderr=subprocess.PIPE)
 
     elif platform == "darwin":
-        subprocess.Popen(['xdg-open', mag[torrent-1]], stdout=subprocess.PIPE, stderr=subprocess.PIPE)
+        subprocess.Popen(
+            ['xdg-open', mag[torrent-1]], stdout=subprocess.PIPE, stderr=subprocess.PIPE)
 
     elif platform == "win32":
-        # if os.startfile('C:\Users\Aly Akhtar\AppData\Roaming\BitTorrent\BitTorrent.exe') == True:
-        #     print 'bit torrent'
-        # elif os.startfile('C:\Users\Aly Akhtar\AppData\Roaming\uTorrent\uTorrent.exe') == True:
-        #     print 'utorrent'
-        subprocess.Popen(['C:\Users\Aly Akhtar\AppData\Roaming\BitTorrent\BitTorrent.exe', mag[torrent-1]])
-        # subprocess.Popen(['C:\Users\Aly Akhtar\AppData\Roaming\uTorrent\uTorrent.exe', mag[torrent-1]], stdout=subprocess.PIPE, stderr=subprocess.PIPE)
-
+        if os.path.exists("C:\Users\Aly Akhtar\AppData\Roaming\uTorrent\uTorrent.exe"):
+            subprocess.Popen(['C:\Users\Aly Akhtar\AppData\Roaming\uTorrent\uTorrent.exe'])
+        elif os.path.exists("C:\Users\Aly Akhtar\AppData\Roaming\BitTorrent\BitTorrent.exe"):
+            subprocess.Popen(['C:\Users\Aly Akhtar\AppData\Roaming\BitTorrent\BitTorrent.exe', mag[torrent-1]])
 
 
 if __name__ == "__main__":
     page = 1
     start = time.time()
-    print "Enter Search field : ",
+    print "Enter Search Query : ",
     query = raw_input()
     table = fetch(query, page)
 
@@ -132,7 +130,7 @@ if __name__ == "__main__":
         elif serial == 'b' or serial == 'B':
             if page != 1:
                 page -= 1
-                fetch(query,page)
+                fetch(query, page)
             else:
                 print "\n Can't Go Back !\n"
         elif serial == 'e' or serial == 'E':
