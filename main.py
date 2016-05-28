@@ -5,13 +5,18 @@ import os
 import time
 from tabulate import tabulate
 import subprocess
+from sys import platform 
 
 
 def print_table(serial, torrent, size, seeds, leechers):
     table = zip(serial, torrent, size, seeds, leechers)
-
-    headers = ['S.No.', 'Torrent Name', 'Size', 'Seeders', 'Leechers']
-    print tabulate(table, headers, tablefmt='psql', numalign="center")
+    if not table:
+        print '\nNOTHING FOUND !'
+        exit()
+    else:
+        headers = ['S.No.', 'Torrent Name', 'Size', 'Seeders', 'Leechers']
+        print tabulate(table, headers, tablefmt='psql', numalign="center")
+        # print table
 
 
 def url_generetor(url, page):
@@ -50,7 +55,9 @@ def fetch(url, page):
     plain_text = source_code.text.encode('utf-8')
 
     soup = BeautifulSoup(plain_text, "lxml")
+    # soup = soup.encode("utf-8")
 
+    global mag
     torr = []
     mag = []
     sd = []
@@ -62,8 +69,9 @@ def fetch(url, page):
 
     for name in soup.findAll('div', {'class': 'torrentname'}):
         for title in name('a', {'class': 'cellMainLink'}):
-            torr.append(title.text)
-            
+            clean_name = title.text
+            torr.append(clean_name.encode("utf-8"))
+
     for box in soup.findAll('div', {'class': 'iaconbox center floatright'}):
         i += 1
         for magnet in box('a', {'title': 'Torrent magnet link'}):
@@ -91,29 +99,21 @@ def fetch(url, page):
 
 
 def download_torrent(torrent):
-    print 'heyy : ', torrent
+    # os.startfile('C:\Users\Aly Akhtar\AppData\Roaming\BitTorrent\BitTorrent.exe')
+    if platform == "linux" or platform == "linux2":
+            subprocess.Popen(['xdg-open', mag[torrent-1]], stdout=subprocess.PIPE, stderr=subprocess.PIPE)
 
-    # mytable = zip(sno,torr,sz,sd,lc)
-    # headers = ['S.No.','Torrent Name','Size','Seeders','Leechers']
-    # print tabulate(mytable, headers, tablefmt = 'psql', numalign = "center")
+    elif platform == "darwin":
+        subprocess.Popen(['xdg-open', mag[torrent-1]], stdout=subprocess.PIPE, stderr=subprocess.PIPE)
 
-  #   print 'Enter torrent No. to download : ',
-  #   serial = int(raw_input())
+    elif platform == "win32":
+        # if os.startfile('C:\Users\Aly Akhtar\AppData\Roaming\BitTorrent\BitTorrent.exe') == True:
+        #     print 'bit torrent'
+        # elif os.startfile('C:\Users\Aly Akhtar\AppData\Roaming\uTorrent\uTorrent.exe') == True:
+        #     print 'utorrent'
+        subprocess.Popen(['C:\Users\Aly Akhtar\AppData\Roaming\BitTorrent\BitTorrent.exe', mag[torrent-1]])
+        # subprocess.Popen(['C:\Users\Aly Akhtar\AppData\Roaming\uTorrent\uTorrent.exe', mag[torrent-1]], stdout=subprocess.PIPE, stderr=subprocess.PIPE)
 
-  #   # print serial
-  #   print mag[serial-1]
-
-  #   # os.startfile('C:\Users\Aly Akhtar\AppData\Roaming\BitTorrent\BitTorrent.exe')
-  #   subprocess.Popen(['xdg-open', mag[serial-1]+'.torrent'], stdout=subprocess.PIPE, stderr=subprocess.PIPE)
-    # if i == 37:
-    #     done = 98
-
-    # sys.stdout.write("\r[%s%s] %d%% Completed" %
-    #                  ('=' * i, ' ' * (38 - i), done))
-    # done = done + 2.63
-    # i += 1
-
-    # sys.stdout.flush()
 
 
 if __name__ == "__main__":
@@ -124,14 +124,22 @@ if __name__ == "__main__":
     table = fetch(query, page)
 
     while True:
-        page += 1
-        print 'Enter torrent No. to download  or m for more: ',
+        print 'Enter torrent No. to download or m for more or b for back or e to exit : ',
         serial = raw_input()
         if serial == 'm' or serial == 'M':
+            page += 1
             fetch(query, page)
+        elif serial == 'b' or serial == 'B':
+            if page != 1:
+                page -= 1
+                fetch(query,page)
+            else:
+                print "\n Can't Go Back !\n"
+        elif serial == 'e' or serial == 'E':
+            break
         else:
             download_torrent(int(serial))
             break
 
     end = time.time()
-    print '\nTime Taken : ', end - start, 'seconds'
+    # print '\nTime Taken : ', end - start, 'seconds'
