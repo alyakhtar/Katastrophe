@@ -1,0 +1,4 @@
+beautifulsoup4
+tabulate
+requests
+lxml

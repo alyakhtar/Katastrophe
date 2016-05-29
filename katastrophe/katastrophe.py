@@ -1,11 +1,24 @@
+"""Katastrophe.
+Usage:
+  katastrophe PATH
+  katastrophe -h | --help
+  katastrophe --version
+Options:
+  -h, --help            Show this screen.
+  --version             Show version.
+"""
+
+
+
 import requests
 import sys
-from bs4 import BeautifulSoup
+from bs4 import BeautifulSoup 
 import os
 import time
 from tabulate import tabulate
 import subprocess
 from sys import platform
+import subprocess
 
 
 def print_table(serial, torrent, size, seeds, leechers):
@@ -65,20 +78,21 @@ def fetch(url, page):
     sz = []
     mytable = []
     sno = []
-    i = 0
+    count = 0
 
     for name in soup.findAll('div', {'class': 'torrentname'}):
         for title in name('a', {'class': 'cellMainLink'}):
             clean_name = title.text
-            torr.append(clean_name.encode("utf-8"))
+            new_name = ''.join([i if ord(i) < 128 else '' for i in clean_name])
+            torr.append(new_name)
 
     for box in soup.findAll('div', {'class': 'iaconbox center floatright'}):
-        i += 1
+        count += 1
         for magnet in box('a', {'title': 'Torrent magnet link'}):
             magnet = magnet.get('href')
             mag.append(magnet)
             # print magnet
-        sno.append(i)
+        sno.append(count)
 
     for space in soup.findAll('td', {'class': 'nobr center'}):
         size = space.get_text()
@@ -108,10 +122,37 @@ def download_torrent(torrent):
             ['xdg-open', mag[torrent-1]], stdout=subprocess.PIPE, stderr=subprocess.PIPE)
 
     elif platform == "win32":
-        if os.path.exists("C:\Users\Aly Akhtar\AppData\Roaming\uTorrent\uTorrent.exe"):
-            subprocess.Popen(['C:\Users\Aly Akhtar\AppData\Roaming\uTorrent\uTorrent.exe', mag[torrent-1]])
-        elif os.path.exists("C:\Users\Aly Akhtar\AppData\Roaming\BitTorrent\BitTorrent.exe"):
-            subprocess.Popen(['C:\Users\Aly Akhtar\AppData\Roaming\BitTorrent\BitTorrent.exe', mag[torrent-1]])
+        procs = []
+        flag = 0
+        cmd = 'WMIC PROCESS get Caption'
+        proc = subprocess.Popen(cmd, shell=True, stdout=subprocess.PIPE)
+        for line in proc.stdout:
+            procs.append(line.strip())
+
+        client1 = 'bittorrent'
+        client2 = 'utorrent'
+
+        for i in procs :
+            if client1 in i.lower() :
+                flag = 1
+            elif client2 in i.lower():
+                flag = 2
+
+        if flag == 1:            
+            cmd1 = 'wmic process where "name=\'BitTorrent.exe\'" get ExecutablePath'
+            proc1 = subprocess.Popen(cmd1, shell=True, stdout=subprocess.PIPE)
+            loc1 = proc1.stdout.read()
+            dir1 = loc1.split('ExecutablePath')[1].strip()
+            subprocess.Popen(['%s' %dir1, mag[torrent-1]])
+        elif flag == 2:
+            cmd2 = 'wmic process where "name=\'uTorrent.exe\'" get ExecutablePath'
+            proc2 = subprocess.Popen(cmd2, shell=True, stdout=subprocess.PIPE)
+            loc2 = proc2.stdout.read()
+            dir2 = loc2.split('ExecutablePath')[1].strip()
+            subprocess.Popen(['%s' %dir2, mag[torrent-1]])
+            
+        else: 
+            print "\nPlease Install/Run BitTorrent or uTorrent\n"
 
 
 def main():
