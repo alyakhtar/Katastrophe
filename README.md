@@ -1,5 +1,5 @@
 # Katastrophe
-** Python tool to download torrents from Kat.ph using the terminal or command promt.
+**Python tool to download torrents from Kat.ph using the terminal or command promt.
 
 ![ScreenShot](http://i.imgur.com/gVdTRPk.png)
 
