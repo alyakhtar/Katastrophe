@@ -2,7 +2,7 @@ from setuptools import setup
 setup(
   name = 'katastrophe',
   packages = ['katastrophe'], 
-  version = '1.0.0',
+  version = '1.0.2',
   description = 'Download torrents from kat.ph directly through terminal',
   author = 'Aly Akhtar',
   license = 'MIT',

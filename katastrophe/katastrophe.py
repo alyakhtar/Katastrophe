@@ -1,13 +1,15 @@
-"""Katastrophe.
+"""
+Katastrophe.
+
 Usage:
-  katastrophe PATH
+  katastrophe
   katastrophe -h | --help
   katastrophe --version
+
 Options:
   -h, --help            Show this screen.
   --version             Show version.
 """
-
 
 
 import requests
@@ -17,6 +19,7 @@ import os
 import time
 from tabulate import tabulate
 import subprocess
+from docopt import docopt
 from sys import platform
 import subprocess
 
@@ -135,6 +138,7 @@ def download_torrent(torrent):
         for i in procs :
             if client1 in i.lower() :
                 flag = 1
+                break
             elif client2 in i.lower():
                 flag = 2
 
@@ -155,7 +159,8 @@ def download_torrent(torrent):
             print "\nPlease Install/Run BitTorrent or uTorrent\n"
 
 
-def main():
+def main():    
+    args = docopt(__doc__, version='katastrophe 1.0.2')
     page = 1
     start = time.time()
     print "Torrent Search : ",
@@ -183,5 +188,5 @@ def main():
     end = time.time()
     # print '\nTime Taken : ', end - start, 'seconds'
 
-if __name__ == "__main__":
+if __name__ == "__main__":    
     main()
