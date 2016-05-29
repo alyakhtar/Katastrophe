@@ -17,7 +17,8 @@ setup(
           'beautifulsoup4',
           'tabulate',
           'requests',
-          'lxml'
+          'lxml',
+          'docopt'
           ],
   keywords = ['torrent', 'download', 'kat.ph'],
 )
