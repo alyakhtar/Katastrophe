@@ -56,7 +56,7 @@
 `$ katastrophe -m`
 
 
-[!ScreenShot](http://i.imgur.com/sMbc4Pb.png)
+![ScreenShot](http://i.imgur.com/sMbc4Pb.png)
 
 
 #### Latest TV Shows
@@ -66,7 +66,7 @@
 `$ katastrophe -t`
 
 
-[!Screenshot](http://i.imgur.com/NJKtGWH.png)
+![Screenshot](http://i.imgur.com/NJKtGWH.png)
 
 
 #### Latest Games and Applications
@@ -75,7 +75,7 @@
 `$ katastrophe -g`
 
 
-[!ScreenShot](http://i.imgur.com/YSQoOpS.png)
+![ScreenShot](http://i.imgur.com/YSQoOpS.png)
 
 
 #### Latest Music 
@@ -84,7 +84,7 @@
 `$ katastrophe -s`
 
 
-[!ScreenShot](http://i.imgur.com/PXcGIEO.png)
+![ScreenShot](http://i.imgur.com/PXcGIEO.png)
 
 
 #### Latest Anime
@@ -93,7 +93,7 @@
 `$ katastrophe -a`
 
 
-[!ScreenShot](http://i.imgur.com/IVnSAs1.png)
+![ScreenShot](http://i.imgur.com/IVnSAs1.png)
 
 
 ### Latest Books
@@ -102,7 +102,7 @@
 `$ katastrophe -b`
 
 
-[!ScreenShot](http://i.imgur.com/DDwqrZF.png)
+![ScreenShot](http://i.imgur.com/DDwqrZF.png)
 
 
 #### Latest Lossless Music
@@ -111,7 +111,7 @@
 `$ katastrophe -l`
 
 
-[!ScreenShot](http://i.imgur.com/tknw3Zt.png)
+![ScreenShot](http://i.imgur.com/tknw3Zt.png)
 
 
 ### Contribute
