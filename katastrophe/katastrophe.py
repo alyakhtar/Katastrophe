@@ -3,12 +3,21 @@ Katastrophe.
 
 Usage:
   katastrophe
+  katastrophe [-m | -t | -a | -s | -l | -g | -b]
   katastrophe -h | --help
   katastrophe --version
+
 
 Options:
   -h, --help            Show this screen.
   --version             Show version.
+  -m, --movies          Show latest Movie torrents
+  -t, --tv              Show latest TV torrents
+  -a, --anime           Show latest Anime torrents
+  -s, --songs           Show latest Music torrents
+  -l, --losslessmusic   Show latest Lossless Music torrents
+  -g, --appsandgames    Show lates Application and Game Torrents
+  -b, --books           Show latest Book Torrents
 """
 
 
@@ -21,7 +30,7 @@ from tabulate import tabulate
 import subprocess
 from docopt import docopt
 from sys import platform
-import subprocess
+from latest import movies_torrent,tv_torrent,anime_torrent,music_torrent,loslessmusic_torrent,appsndgames_torrent,books_torrent
 
 
 def print_table(serial, torrent, size, seeds, leechers):
@@ -160,7 +169,6 @@ def download_torrent(torrent):
 
 
 def main():    
-    args = docopt(__doc__, version='katastrophe 1.0.2')
     page = 1
     start = time.time()
     print "Torrent Search : ",
@@ -189,4 +197,20 @@ def main():
     # print '\nTime Taken : ', end - start, 'seconds'
 
 if __name__ == "__main__":    
-    main()
+    args = docopt(__doc__, version='katastrophe 1.0.2')
+    if args["--movies"]:
+        movies_torrent()
+    elif args["--tv"]:
+        tv_torrent()
+    elif args['--anime']:
+        anime_torrent()
+    elif args["--songs"]:
+        music_torrent()
+    elif args["--losslessmusic"]:
+        loslessmusic_torrent()
+    elif args["--appsandgames"]:
+        appsndgames_torrent()
+    elif args["--books"]:
+        books_torrent()
+    else:
+        main()
