@@ -29,6 +29,7 @@
 ### Usage:
 ```sh
   katastrophe.py 
+  katastrophe [-m | -t | -a | -s | -l | -g | -b]
   katastrophe -h | --help
   katastrophe --version
 ```
@@ -37,7 +38,80 @@
 ```sh
   -h, --help            Show this screen.
   --version             Show version.
+  -m, --movies          Show latest Movie torrents
+  -t, --tv              Show latest TV torrents
+  -a, --anime           Show latest Anime torrents
+  -s, --songs           Show latest Music torrents
+  -l, --losslessmusic   Show latest Lossless Music torrents
+  -g, --appsandgames    Show lates Application and Game Torrents
+  -b, --books           Show latest Book Torrents
 ```
+
+### Screenshots
+
+
+#### Latest Movies
+
+
+`$ katastrophe -m`
+
+
+[!ScreenShot](http://i.imgur.com/sMbc4Pb.png)
+
+
+#### Latest TV Shows
+
+
+
+`$ katastrophe -t`
+
+
+[!Screenshot](http://i.imgur.com/NJKtGWH.png)
+
+
+#### Latest Games and Applications
+
+
+`$ katastrophe -g`
+
+
+[!ScreenShot](http://i.imgur.com/YSQoOpS.png)
+
+
+#### Latest Music 
+
+
+`$ katastrophe -s`
+
+
+[!ScreenShot](http://i.imgur.com/PXcGIEO.png)
+
+
+#### Latest Anime
+
+
+`$ katastrophe -a`
+
+
+[!ScreenShot](http://i.imgur.com/IVnSAs1.png)
+
+
+### Latest Books
+
+
+`$ katastrophe -b`
+
+
+[!ScreenShot](http://i.imgur.com/DDwqrZF.png)
+
+
+#### Latest Lossless Music
+
+
+`$ katastrophe -l`
+
+
+[!ScreenShot](http://i.imgur.com/tknw3Zt.png)
 
 
 ### Contribute
