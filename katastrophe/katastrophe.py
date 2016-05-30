@@ -1,12 +1,10 @@
-"""
-Katastrophe.
+"""Katastrophe.
 
 Usage:
   katastrophe
   katastrophe [-m | -t | -a | -s | -l | -g | -b]
   katastrophe -h | --help
   katastrophe --version
-
 
 Options:
   -h, --help            Show this screen.
