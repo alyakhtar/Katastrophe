@@ -166,36 +166,8 @@ def download_torrent(torrent):
             print "\nPlease Install/Run BitTorrent or uTorrent\n"
 
 
-def main():    
-    page = 1
-    start = time.time()
-    print "Torrent Search : ",
-    query = raw_input()
-    table = fetch(query, page)
-
-    while True:
-        print 'Enter torrent No. to download or m for more or b for back or e to exit : ',
-        serial = raw_input()
-        if serial == 'm' or serial == 'M':
-            page += 1
-            fetch(query, page)
-        elif serial == 'b' or serial == 'B':
-            if page != 1:
-                page -= 1
-                fetch(query, page)
-            else:
-                print "\n Can't Go Back !\n"
-        elif serial == 'e' or serial == 'E':
-            break
-        else:
-            download_torrent(int(serial))
-            break
-
-    end = time.time()
-    # print '\nTime Taken : ', end - start, 'seconds'
-
-if __name__ == "__main__":    
-    args = docopt(__doc__, version='katastrophe 1.0.2')
+def main():      
+    args = docopt(__doc__, version='katastrophe 1.1.3')
     if args["--movies"]:
         movies_torrent()
     elif args["--tv"]:
@@ -210,5 +182,30 @@ if __name__ == "__main__":
         appsndgames_torrent()
     elif args["--books"]:
         books_torrent()
-    else:
-        main()
+    else:  
+        page = 1
+        print "Torrent Search : ",
+        query = raw_input()
+        table = fetch(query, page)
+
+        while True:
+            print 'Enter torrent No. to download or m for more or b for back or e to exit : ',
+            serial = raw_input()
+            if serial == 'm' or serial == 'M':
+                page += 1
+                fetch(query, page)
+            elif serial == 'b' or serial == 'B':
+                if page != 1:
+                    page -= 1
+                    fetch(query, page)
+                else:
+                    print "\n Can't Go Back !\n"
+            elif serial == 'e' or serial == 'E':
+                break
+            else:
+                download_torrent(int(serial))
+                break
+
+
+if __name__ == "__main__":   
+    main()
