@@ -24,7 +24,15 @@
 * [docopt](https://github.com/docopt/docopt)
 * [requests](https://pypi.python.org/pypi/requests/)
 * [lxml](https://pypi.python.org/pypi/lxml)
-* [BitTorrent](https://www.bittorrent.com)/[μTorrent](https://utorrent.com)
+
+
+### Requires
+
+* for Linux/Mac OS X
+  - [Deluge](http://deluge-torrent.org)/[Transmission](http://transmissionbt.com)/[QBitTorrent](http://qbittorrent.sourceforge.net)/[Vuze](http://vuze.com)
+* for Windows
+  - [BitTorrent](https://www.bittorrent.com)/[μTorrent](https://utorrent.com)
+
 
 
 ### Usage:
