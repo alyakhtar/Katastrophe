@@ -24,7 +24,7 @@
 * [docopt](https://github.com/docopt/docopt)
 * [requests](https://pypi.python.org/pypi/requests/)
 * [lxml](https://pypi.python.org/pypi/lxml)
-* [BitTorrent](https://www.bittorrent.com)/ [μTorrent](https://utorrent.com)
+* [BitTorrent](https://www.bittorrent.com)/[μTorrent](https://utorrent.com) client
 
 
 ### Usage:
