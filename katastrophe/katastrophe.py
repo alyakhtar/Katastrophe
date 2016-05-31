@@ -18,27 +18,36 @@ Options:
   -b, --books           Show latest Book Torrents
 """
 
-
 import requests
 import sys
-from bs4 import BeautifulSoup 
+from bs4 import BeautifulSoup
 import os
 import time
 from tabulate import tabulate
 import subprocess
 from docopt import docopt
 from sys import platform
-from latest import movies_torrent,tv_torrent,anime_torrent,music_torrent,loslessmusic_torrent,appsndgames_torrent,books_torrent
+from latest import movies_torrent, tv_torrent, anime_torrent, music_torrent, loslessmusic_torrent, appsndgames_torrent, books_torrent
+
+try:
+    raw_input_ = raw_input
+except NameError:
+    raw_input_ = input
+
+try:
+    xrange_ = xrange
+except NameError:
+    xrange_ = range
 
 
 def print_table(serial, torrent, size, seeds, leechers):
     table = zip(serial, torrent, size, seeds, leechers)
     if not table:
-        print '\nNOTHING FOUND !'
+        print('\nNOTHING FOUND !')
         exit()
     else:
         headers = ['S.No.', 'Torrent Name', 'Size', 'Seeders', 'Leechers']
-        print tabulate(table, headers, tablefmt='psql', numalign="center")
+        print(tabulate(table, headers, tablefmt='psql', numalign="center"))
         # print table
 
 
@@ -46,25 +55,25 @@ def url_generetor(url, page):
     words = url.split()
     if page == 1:
         if len(words) == 1:
-            link = 'https://kat.cr/usearch/'+words[0]
+            link = 'https://kat.cr/usearch/' + words[0]
         else:
-            for i in xrange(len(words)):
+            for i in xrange_(len(words)):
                 if i == 0:
-                    link = 'https://kat.cr/usearch/'+words[i]
+                    link = 'https://kat.cr/usearch/' + words[i]
                 else:
-                    link += '%20'+words[i]
+                    link += '%20' + words[i]
 
-        return link+'/'
+        return link + '/'
 
     else:
         if len(words) == 1:
-            link = 'https://kat.cr/usearch/'+words[0]
+            link = 'https://kat.cr/usearch/' + words[0]
         else:
-            for i in xrange(len(words)):
+            for i in xrange_(len(words)):
                 if i == 0:
-                    link = 'https://kat.cr/usearch/'+words[i]
+                    link = 'https://kat.cr/usearch/' + words[i]
                 else:
-                    link += '%20'+words[i]
+                    link += '%20' + words[i]
 
         return link + '/' + str(page) + '/'
 
@@ -124,12 +133,14 @@ def fetch(url, page):
 
 def download_torrent(torrent):
     if platform == "linux" or platform == "linux2":
-        subprocess.Popen(
-            ['xdg-open', mag[torrent-1]], stdout=subprocess.PIPE, stderr=subprocess.PIPE)
+        subprocess.Popen(['xdg-open', mag[torrent - 1]],
+                         stdout=subprocess.PIPE,
+                         stderr=subprocess.PIPE)
 
     elif platform == "darwin":
-        subprocess.Popen(
-            ['xdg-open', mag[torrent-1]], stdout=subprocess.PIPE, stderr=subprocess.PIPE)
+        subprocess.Popen(['xdg-open', mag[torrent - 1]],
+                         stdout=subprocess.PIPE,
+                         stderr=subprocess.PIPE)
 
     elif platform == "win32":
         procs = []
@@ -142,31 +153,31 @@ def download_torrent(torrent):
         client1 = 'bittorrent'
         client2 = 'utorrent'
 
-        for i in procs :
-            if client1 in i.lower() :
+        for i in procs:
+            if client1 in i.lower():
                 flag = 1
                 break
             elif client2 in i.lower():
                 flag = 2
 
-        if flag == 1:            
+        if flag == 1:
             cmd1 = 'wmic process where "name=\'BitTorrent.exe\'" get ExecutablePath'
             proc1 = subprocess.Popen(cmd1, shell=True, stdout=subprocess.PIPE)
             loc1 = proc1.stdout.read()
             dir1 = loc1.split('ExecutablePath')[1].strip()
-            subprocess.Popen(['%s' %dir1, mag[torrent-1]])
+            subprocess.Popen(['%s' % dir1, mag[torrent - 1]])
         elif flag == 2:
             cmd2 = 'wmic process where "name=\'uTorrent.exe\'" get ExecutablePath'
             proc2 = subprocess.Popen(cmd2, shell=True, stdout=subprocess.PIPE)
             loc2 = proc2.stdout.read()
             dir2 = loc2.split('ExecutablePath')[1].strip()
-            subprocess.Popen(['%s' %dir2, mag[torrent-1]])
-            
-        else: 
-            print "\nPlease Install/Run BitTorrent or uTorrent\n"
+            subprocess.Popen(['%s' % dir2, mag[torrent - 1]])
+
+        else:
+            print("\nPlease Install/Run BitTorrent or uTorrent\n")
 
 
-def main():      
+def main():
     args = docopt(__doc__, version='katastrophe 1.1.3')
     if args["--movies"]:
         movies_torrent()
@@ -182,15 +193,15 @@ def main():
         appsndgames_torrent()
     elif args["--books"]:
         books_torrent()
-    else:  
+    else:
         page = 1
-        print "Torrent Search : ",
-        query = raw_input()
+        print("Torrent Search : "),
+        query = raw_input_()
         table = fetch(query, page)
 
         while True:
-            print 'Enter torrent No. to download or m for more or b for back or e to exit : ',
-            serial = raw_input()
+            print('Enter torrent No. to download or m for more or b for back or e to exit : '),
+            serial = raw_input_()
             if serial == 'm' or serial == 'M':
                 page += 1
                 fetch(query, page)
@@ -199,7 +210,7 @@ def main():
                     page -= 1
                     fetch(query, page)
                 else:
-                    print "\n Can't Go Back !\n"
+                    print("\n Can't Go Back !\n")
             elif serial == 'e' or serial == 'E':
                 break
             else:
@@ -207,5 +218,10 @@ def main():
                 break
 
 
-if __name__ == "__main__":   
-    main()
+if __name__ == "__main__":
+    try:
+        main()
+    except KeyboardInterrupt:
+        sys.exit()
+    except ValueError:
+        sys.exit()
