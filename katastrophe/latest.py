@@ -86,33 +86,27 @@ def fetch():
         for j in i('div', {'class': 'markeredBlock torType filmType'}):
             for l in j('a', {'class': 'cellMainLink'}):
                 flag1 += 1
-                if flag1 <= 8:
-                    torrentname = ''.join(
+                torrentname = ''.join(
                         [k if ord(k) < 128 else '' for k in l.get_text()])
+                if flag1 <= 8:
                     movies_name.append(torrentname)
                     movies_href.append(l.get('href'))
                 elif flag1 > 8 and flag1 <= 15:
-                    torrentname = ''.join(
-                        [k if ord(k) < 128 else '' for k in l.get_text()])
                     tv_name.append(torrentname)
                     tv_href.append(l.get('href'))
                 elif flag1 > 15 and flag1 <= 22:
-                    torrentname = ''.join(
-                        [k if ord(k) < 128 else '' for k in l.get_text()])
                     anime_name.append(torrentname)
                     anime_href.append(l.get('href'))
 
         for j in i('div', {'class': 'markeredBlock torType musicType'}):
             for l in j('a', {'class': 'cellMainLink'}):
                 flag2 += 1
-                if flag2 <= 8:
-                    torrentname = ''.join(
+                torrentname = ''.join(
                         [k if ord(k) < 128 else '' for k in l.get_text()])
+                if flag2 <= 8:
                     music_name.append(torrentname)
                     music_href.append(l.get('href'))
                 else:
-                    torrentname = ''.join(
-                        [k if ord(k) < 128 else '' for k in l.get_text()])
                     loslessmusic_name.append(torrentname)
                     loslessmusic_href.append(l.get('href'))
 
@@ -141,33 +135,27 @@ def fetch():
         for j in i('div', {'class': 'markeredBlock torType filmType'}):
             for l in j('a', {'class': 'cellMainLink'}):
                 flag3 += 1
-                if flag3 <= 7:
-                    torrentname = ''.join(
+                torrentname = ''.join(
                         [k if ord(k) < 128 else '' for k in l.get_text()])
+                if flag3 <= 7:
                     movies_name.append(torrentname)
                     movies_href.append(l.get('href'))
                 elif flag3 > 7 and flag3 <= 15:
-                    torrentname = ''.join(
-                        [k if ord(k) < 128 else '' for k in l.get_text()])
                     tv_name.append(torrentname)
                     tv_href.append(l.get('href'))
                 elif flag3 > 15 and flag3 <= 23:
-                    torrentname = ''.join(
-                        [k if ord(k) < 128 else '' for k in l.get_text()])
                     anime_name.append(torrentname)
                     anime_href.append(l.get('href'))
 
         for j in i('div', {'class': 'markeredBlock torType musicType'}):
             for l in j('a', {'class': 'cellMainLink'}):
                 flag4 += 1
-                if flag4 <= 7:
-                    torrentname = ''.join(
+                torrentname = ''.join(
                         [k if ord(k) < 128 else '' for k in l.get_text()])
+                if flag4 <= 7:
                     music_name.append(torrentname)
                     music_href.append(l.get('href'))
                 else:
-                    torrentname = ''.join(
-                        [k if ord(k) < 128 else '' for k in l.get_text()])
                     loslessmusic_name.append(torrentname)
                     loslessmusic_href.append(l.get('href'))
 
