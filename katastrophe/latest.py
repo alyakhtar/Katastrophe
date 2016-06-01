@@ -4,6 +4,16 @@ from tabulate import tabulate
 from sys import platform
 import subprocess
 
+try:
+    raw_input_ = raw_input
+except NameError:
+    raw_input_ = input
+
+try:
+    xrange_ = xrange
+except NameError:
+    xrange_ = range
+
 
 def fetch():
 
@@ -202,29 +212,29 @@ def fetch():
         for j in i('td', {'class': 'red lasttd center'}):
             leechers_even.append(j.get_text())
 
-    for i in xrange(60):
+    for i in xrange_(60):
         if i < 8:
             movies_size.append(size_odd[i])
             movies_seeds.append(seeds_odd[i])
             movies_leechers.append(leechers_odd[i])
-            sno15.append(i+1)
-            sno30.append(i+1)
+            sno15.append(i + 1)
+            sno30.append(i + 1)
         elif i >= 8 and i < 15:
             tv_size.append(size_odd[i])
             tv_seeds.append(seeds_odd[i])
             tv_leechers.append(leechers_odd[i])
-            sno15.append(i+1)
-            sno30.append(i+1)
+            sno15.append(i + 1)
+            sno30.append(i + 1)
         elif i >= 15 and i < 22:
             anime_size.append(size_odd[i])
             anime_seeds.append(seeds_odd[i])
             anime_leechers.append(leechers_odd[i])
-            sno30.append(i+1)
+            sno30.append(i + 1)
         elif i >= 22 and i < 30:
             music_size.append(size_odd[i])
             music_seeds.append(seeds_odd[i])
             music_leechers.append(leechers_odd[i])
-            sno30.append(i+1)
+            sno30.append(i + 1)
         elif i >= 30 and i < 37:
             loslessmusic_size.append(size_odd[i])
             loslessmusic_seeds.append(seeds_odd[i])
@@ -238,7 +248,7 @@ def fetch():
             books_seeds.append(seeds_odd[i])
             books_leechers.append(leechers_odd[i])
 
-    for i in xrange(60):
+    for i in xrange_(60):
         if i < 7:
             movies_size.append(size_even[i])
             movies_seeds.append(seeds_even[i])
@@ -269,16 +279,17 @@ def fetch():
             books_leechers.append(leechers_even[i])
 
     headers = ['SNO.', 'NAME', 'SIZE', 'SEEDS', 'LEECHERS']
-    movies = zip(
-        sno15, movies_name, movies_size, movies_seeds, movies_leechers)
+    movies = zip(sno15, movies_name, movies_size, movies_seeds,
+                 movies_leechers)
     tv = zip(sno15, tv_name, tv_size, tv_seeds, tv_leechers)
     anime = zip(sno15, anime_name, anime_size, anime_seeds, anime_leechers)
     music = zip(sno15, music_name, music_size, music_seeds, music_leechers)
-    loslessmusic = zip(sno15, loslessmusic_name,
-                       loslessmusic_size, loslessmusic_seeds, loslessmusic_leechers)
-    appsndgames = zip(sno30, appsndgames_name,
-                      appsndgames_size, appsndgames_seeds, appsndgames_leechers)
+    loslessmusic = zip(sno15, loslessmusic_name, loslessmusic_size,
+                       loslessmusic_seeds, loslessmusic_leechers)
+    appsndgames = zip(sno30, appsndgames_name, appsndgames_size,
+                      appsndgames_seeds, appsndgames_leechers)
     books = zip(sno15, books_name, books_size, books_seeds, books_leechers)
+
 
 def download_torrent(link):
     source_code = requests.get(link)
@@ -287,16 +298,18 @@ def download_torrent(link):
 
     soup = BeautifulSoup(plain_text, "lxml")
 
-    magnet = soup.find('a',{'title':'Magnet link'})
+    magnet = soup.find('a', {'title': 'Magnet link'})
     magnet_link = magnet.get('href')
 
     if platform == "linux" or platform == "linux2":
-        subprocess.Popen(
-            ['xdg-open', magnet_link], stdout=subprocess.PIPE, stderr=subprocess.PIPE)
+        subprocess.Popen(['xdg-open', magnet_link],
+                         stdout=subprocess.PIPE,
+                         stderr=subprocess.PIPE)
 
     elif platform == "darwin":
-        subprocess.Popen(
-            ['xdg-open', magnet_link], stdout=subprocess.PIPE, stderr=subprocess.PIPE)
+        subprocess.Popen(['xdg-open', magnet_link],
+                         stdout=subprocess.PIPE,
+                         stderr=subprocess.PIPE)
 
     elif platform == "win32":
         procs = []
@@ -309,102 +322,102 @@ def download_torrent(link):
         client1 = 'bittorrent'
         client2 = 'utorrent'
 
-        for i in procs :
-            if client1 in i.lower() :
+        for i in procs:
+            if client1 in i.lower():
                 flag = 1
                 break
             elif client2 in i.lower():
                 flag = 2
 
-        if flag == 1:            
+        if flag == 1:
             cmd1 = 'wmic process where "name=\'BitTorrent.exe\'" get ExecutablePath'
             proc1 = subprocess.Popen(cmd1, shell=True, stdout=subprocess.PIPE)
             loc1 = proc1.stdout.read()
             dir1 = loc1.split('ExecutablePath')[1].strip()
-            subprocess.Popen(['%s' %dir1, magnet_link])
+            subprocess.Popen(['%s' % dir1, magnet_link])
         elif flag == 2:
             cmd2 = 'wmic process where "name=\'uTorrent.exe\'" get ExecutablePath'
             proc2 = subprocess.Popen(cmd2, shell=True, stdout=subprocess.PIPE)
             loc2 = proc2.stdout.read()
             dir2 = loc2.split('ExecutablePath')[1].strip()
-            subprocess.Popen(['%s' %dir2, magnet_link])
-            
-        else: 
-            print "\nPlease Install/Run BitTorrent or uTorrent\n"
+            subprocess.Popen(['%s' % dir2, magnet_link])
+
+        else:
+            print("\nPlease Install/Run BitTorrent or uTorrent\n")
 
 
 def movies_torrent():
     fetch()
-    print tabulate(movies, headers, tablefmt='psql', numalign="center")
-    print 'Enter torrent No. to download or e to exit : ',
-    serial = raw_input()
+    print(tabulate(movies, headers, tablefmt='psql', numalign="center"))
+    print('Enter torrent No. to download or e to exit : '),
+    serial = raw_input_()
     if serial == 'e' or serial == 'E':
         exit()
     else:
-        download_torrent('https://kat.cr'+movies_href[int(serial)-1])
+        download_torrent('https://kat.cr' + movies_href[int(serial) - 1])
 
 
 def tv_torrent():
     fetch()
-    print tabulate(tv, headers, tablefmt='psql', numalign="center")
-    print 'Enter torrent No. to download or e to exit : ',
-    serial = raw_input()
+    print(tabulate(tv, headers, tablefmt='psql', numalign="center"))
+    print('Enter torrent No. to download or e to exit : '),
+    serial = raw_input_()
     if serial == 'e' or serial == 'E':
         exit()
     else:
-        download_torrent('https://kat.cr'+tv_href[int(serial)-1])
+        download_torrent('https://kat.cr' + tv_href[int(serial) - 1])
 
 
 def anime_torrent():
     fetch()
-    print tabulate(anime, headers, tablefmt='psql', numalign="center")
-    print 'Enter torrent No. to download or e to exit : ',
-    serial = raw_input()
+    print(tabulate(anime, headers, tablefmt='psql', numalign="center"))
+    print('Enter torrent No. to download or e to exit : '),
+    serial = raw_input_()
     if serial == 'e' or serial == 'E':
         exit()
     else:
-        download_torrent('https://kat.cr'+anime_href[int(serial)-1])
+        download_torrent('https://kat.cr' + anime_href[int(serial) - 1])
 
 
 def music_torrent():
     fetch()
-    print tabulate(music, headers, tablefmt='psql', numalign="center")
-    print 'Enter torrent No. to download or e to exit : ',
-    serial = raw_input()
+    print(tabulate(music, headers, tablefmt='psql', numalign="center"))
+    print('Enter torrent No. to download or e to exit : '),
+    serial = raw_input_()
     if serial == 'e' or serial == 'E':
         exit()
     else:
-        download_torrent('https://kat.cr'+music_href[int(serial)-1])
+        download_torrent('https://kat.cr' + music_href[int(serial) - 1])
 
 
 def loslessmusic_torrent():
     fetch()
-    print tabulate(loslessmusic, headers, tablefmt='psql', numalign="center")
-    print 'Enter torrent No. to download or e to exit : ',
-    serial = raw_input()
+    print(tabulate(loslessmusic, headers, tablefmt='psql', numalign="center"))
+    print('Enter torrent No. to download or e to exit : '),
+    serial = raw_input_()
     if serial == 'e' or serial == 'E':
         exit()
     else:
-        download_torrent('https://kat.cr'+loslessmusic_href[int(serial)-1])
+        download_torrent('https://kat.cr' + loslessmusic_href[int(serial) - 1])
 
 
 def appsndgames_torrent():
     fetch()
-    print tabulate(appsndgames, headers, tablefmt='psql', numalign="center")
-    print 'Enter torrent No. to download or e to exit : ',
-    serial = raw_input()
+    print(tabulate(appsndgames, headers, tablefmt='psql', numalign="center"))
+    print('Enter torrent No. to download or e to exit : '),
+    serial = raw_input_()
     if serial == 'e' or serial == 'E':
         exit()
     else:
-        download_torrent('https://kat.cr'+appsndgames_href[int(serial)-1])
+        download_torrent('https://kat.cr' + appsndgames_href[int(serial) - 1])
 
 
 def books_torrent():
     fetch()
-    print tabulate(books, headers, tablefmt='psql', numalign="center")
-    print 'Enter torrent No. to download or e to exit : ',
-    serial = raw_input()
+    print(tabulate(books, headers, tablefmt='psql', numalign="center"))
+    print('Enter torrent No. to download or e to exit : '),
+    serial = raw_input_()
     if serial == 'e' or serial == 'E':
         exit()
     else:
-        download_torrent('https://kat.cr'+books_href[int(serial)-1])
+        download_torrent('https://kat.cr' + books_href[int(serial) - 1])
