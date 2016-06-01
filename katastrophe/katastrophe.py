@@ -51,36 +51,26 @@ def print_table(serial, torrent, size, seeds, leechers):
         # print table
 
 
-def url_generetor(url, page):
+def url_generator(url, page):
     words = url.split()
-    if page == 1:
-        if len(words) == 1:
-            link = 'https://kat.cr/usearch/' + words[0]
-        else:
-            for i in xrange_(len(words)):
-                if i == 0:
-                    link = 'https://kat.cr/usearch/' + words[i]
-                else:
-                    link += '%20' + words[i]
-
-        return link + '/'
-
+    
+    if len(words) == 1:
+        link = 'https://kat.cr/usearch/' + words[0]
     else:
-        if len(words) == 1:
-            link = 'https://kat.cr/usearch/' + words[0]
-        else:
-            for i in xrange_(len(words)):
-                if i == 0:
-                    link = 'https://kat.cr/usearch/' + words[i]
-                else:
-                    link += '%20' + words[i]
-
-        return link + '/' + str(page) + '/'
-
-
+        for i in xrange_(len(words)):
+            if i == 0:
+                link = 'https://kat.cr/usearch/' + words[i]
+            else:
+                link += '%20' + words[i]
+                
+    if page == 1:
+        return link + '/'
+    return link + '/' + str(page) + '/
+        
+        
 def fetch(url, page):
 
-    link = url_generetor(url, page)
+    link = url_generator(url, page)
 
     source_code = requests.get(link)
 
@@ -132,12 +122,7 @@ def fetch(url, page):
 
 
 def download_torrent(torrent):
-    if platform == "linux" or platform == "linux2":
-        subprocess.Popen(['xdg-open', mag[torrent - 1]],
-                         stdout=subprocess.PIPE,
-                         stderr=subprocess.PIPE)
-
-    elif platform == "darwin":
+    if platform == "linux" or platform == "linux2" or platform == "darwin":
         subprocess.Popen(['xdg-open', mag[torrent - 1]],
                          stdout=subprocess.PIPE,
                          stderr=subprocess.PIPE)
