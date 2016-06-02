@@ -53,7 +53,7 @@ def print_table(serial, torrent, size, seeds, leechers):
 
 def url_generator(url, page):
     words = url.split()
-    
+
     if len(words) == 1:
         link = 'https://kat.cr/usearch/' + words[0]
     else:
@@ -62,12 +62,12 @@ def url_generator(url, page):
                 link = 'https://kat.cr/usearch/' + words[i]
             else:
                 link += '%20' + words[i]
-                
+
     if page == 1:
         return link + '/'
-    return link + '/' + str(page) + '/
-        
-        
+    return link + '/' + str(page) + '/'
+
+
 def fetch(url, page):
 
     link = url_generator(url, page)
