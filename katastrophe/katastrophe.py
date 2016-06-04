@@ -148,9 +148,9 @@ def download_torrent(torrent):
         if client:
             cmd = 'wmic process where "name=\'{}\'" get ExecutablePath'.format(client)
             proc = subprocess.Popen(cmd, shell=True, stdout=subprocess.PIPE)
-            loc = proc.stdout.read()
-            dir = loc.split('ExecutablePath')[1].strip()
-            subprocess.Popen(['%s' % dir, mag[torrent - 1]])
+            loc = proc.stdout.readlines()
+            exe = loc[1].strip()
+            subprocess.Popen([exe.decode(), mag[torrent - 1]])
         else:
             print("\nPlease Install/Run BitTorrent, uTorrent, or deluge.\n")
 
