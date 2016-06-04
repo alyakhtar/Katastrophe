@@ -65,7 +65,7 @@ def url_generator(url, page):
                 
     if page == 1:
         return link + '/'
-    return link + '/' + str(page) + '/
+    return link + '/' + str(page) + '/'
         
         
 def fetch(url, page):
@@ -130,36 +130,29 @@ def download_torrent(torrent):
     elif platform == "win32":
         procs = []
         flag = 0
+        client = ''
         cmd = 'WMIC PROCESS get Caption'
         proc = subprocess.Popen(cmd, shell=True, stdout=subprocess.PIPE)
         for line in proc.stdout:
             procs.append(line.strip())
 
-        client1 = 'bittorrent'
-        client2 = 'utorrent'
+        clients = ['BitTorrent.exe',
+                   'uTorrent.exe',
+                   'deluge.exe']
 
-        for i in procs:
-            if client1 in i.lower():
-                flag = 1
+        for c in clients:
+            if c in procs:
+                client = c
                 break
-            elif client2 in i.lower():
-                flag = 2
 
-        if flag == 1:
-            cmd1 = 'wmic process where "name=\'BitTorrent.exe\'" get ExecutablePath'
-            proc1 = subprocess.Popen(cmd1, shell=True, stdout=subprocess.PIPE)
-            loc1 = proc1.stdout.read()
-            dir1 = loc1.split('ExecutablePath')[1].strip()
-            subprocess.Popen(['%s' % dir1, mag[torrent - 1]])
-        elif flag == 2:
-            cmd2 = 'wmic process where "name=\'uTorrent.exe\'" get ExecutablePath'
-            proc2 = subprocess.Popen(cmd2, shell=True, stdout=subprocess.PIPE)
-            loc2 = proc2.stdout.read()
-            dir2 = loc2.split('ExecutablePath')[1].strip()
-            subprocess.Popen(['%s' % dir2, mag[torrent - 1]])
-
+        if client:
+            cmd = 'wmic process where "name=\'{}\'" get ExecutablePath'.format(client)
+            proc = subprocess.Popen(cmd, shell=True, stdout=subprocess.PIPE)
+            loc = proc.stdout.read()
+            dir = loc.split('ExecutablePath')[1].strip()
+            subprocess.Popen(['%s' % dir, mag[torrent - 1]])
         else:
-            print("\nPlease Install/Run BitTorrent or uTorrent\n")
+            print("\nPlease Install/Run BitTorrent, uTorrent, or deluge.\n")
 
 
 def main():
