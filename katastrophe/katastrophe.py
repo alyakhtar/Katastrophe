@@ -53,21 +53,12 @@ def print_table(serial, torrent, size, seeds, leechers):
 
 def url_generator(url, page):
     words = url.split()
-    
-    if len(words) == 1:
-        link = 'https://kat.cr/usearch/' + words[0]
-    else:
-        for i in xrange_(len(words)):
-            if i == 0:
-                link = 'https://kat.cr/usearch/' + words[i]
-            else:
-                link += '%20' + words[i]
-                
+    link = 'https://kat.cr/usearch/' + '%20'.join(words)
     if page == 1:
         return link + '/'
     return link + '/' + str(page) + '/
-        
-        
+
+
 def fetch(url, page):
 
     link = url_generator(url, page)
@@ -168,7 +159,7 @@ def main():
         movies_torrent()
     elif args["--tv"]:
         tv_torrent()
-    elif args['--anime']:
+    elif args["--anime"]:
         anime_torrent()
     elif args["--songs"]:
         music_torrent()
@@ -206,7 +197,5 @@ def main():
 if __name__ == "__main__":
     try:
         main()
-    except KeyboardInterrupt:
-        sys.exit()
-    except ValueError:
+    except (KeyboardInterrupt, ValueError):
         sys.exit()
