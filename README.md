@@ -1,5 +1,11 @@
 # Katastrophe
-**Python tool to download torrents from Kat.ph using the terminal or command promt.**
+.. image:: https://img.shields.io/pypi/v/katastrophe.svg
+    :target: https://img.shields.io/pypi/v/katastrophe
+    
+.. image:: https://img.shields.io/pypi/l/katastrophe.svg
+    :target: https://img.shields.io/pypi/l/katastrophe
+
+**A Command-Line Interface for scraping Kickass torrents (kat.cr). Provides options to scrape top torrents in given categories, or searching for specific torrents. The user can select single, multiple or even specify a range for the torrent to download from any category.**
 
 ![ScreenShot](http://i.imgur.com/gVdTRPk.png)
 
