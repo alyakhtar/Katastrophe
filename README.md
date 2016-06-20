@@ -46,6 +46,8 @@
     i,j     From Serial No. i to Serial No. j
     ,i      From Serial No. 1 to Serial No. i 
     i,      From Serial No. i to serial no 25
+    i,j,... Multiple Serial Numbers
+
 ```
 
 ### Options:
@@ -128,7 +130,7 @@
 ![ScreenShot](http://i.imgur.com/tknw3Zt.png)
 
 
-#### Range for Multiple Downloads
+#### Multiple Downloads
 
 
 `$ Starting and Ending Torrent`
