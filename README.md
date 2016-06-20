@@ -31,7 +31,7 @@
 * for Linux/Mac OS X
   - [Deluge](http://deluge-torrent.org)/[Transmission](http://transmissionbt.com)/[QBitTorrent](http://qbittorrent.sourceforge.net)/[Vuze](http://vuze.com)
 * for Windows
-  - [BitTorrent](https://www.bittorrent.com)/[μTorrent](https://utorrent.com)
+  - [BitTorrent](https://www.bittorrent.com)/[μTorrent](https://utorrent.com)/[Deluge](http://deluge-torrent.org)
 
 
 
@@ -41,6 +41,11 @@
   katastrophe [-m | -t | -a | -s | -l | -g | -b]
   katastrophe -h | --help
   katastrophe --version
+
+  Multi Download:
+    i,j     From Serial No. i to Serial No. j
+    ,i      From Serial No. 1 to Serial No. i 
+    i,      From Serial No. i to serial no 25
 ```
 
 ### Options:
@@ -122,6 +127,26 @@
 
 ![ScreenShot](http://i.imgur.com/tknw3Zt.png)
 
+
+#### Range for Multiple Downloads
+
+
+`$ Starting and Ending Torrent`
+
+
+![ScreenShot](http://i.imgur.com/wy78wMu.png)
+
+
+`$ Starting Torrent`
+
+
+![ScreenShot](http://i.imgur.com/hBzll6P.png)
+
+
+`$ Ending Torrent`
+
+
+![ScreenShot](http://i.imgur.com/ziLjt25.png)
 
 ### Contribute
 
