@@ -4,7 +4,12 @@ Usage:
   katastrophe
   katastrophe [-m | -t | -a | -s | -l | -g | -b]
   katastrophe -h | --help
-  katastrophe --version
+  katastrophe --version  
+  Multi Download:
+    i,j     From Serial No. i to Serial No. j
+    ,i      From Serial No. 1 to Serial No. i 
+    i,      From Serial No. i to serial no 25
+
 
 Options:
   -h, --help            Show this screen.
@@ -43,7 +48,7 @@ except NameError:
 def print_table(serial, torrent, size, seeds, leechers):
     table = zip(serial, torrent, size, seeds, leechers)
     if not table:
-        print('\nNOTHING FOUND !')
+        print('\n\tNOTHING FOUND !')
         exit()
     else:
         headers = ['S.No.', 'Torrent Name', 'Size', 'Seeders', 'Leechers']
@@ -178,7 +183,7 @@ def main():
         table = fetch(query, page)
 
         while True:
-            print('Enter torrent No. to download or m for more or b for back or e to exit : '),
+            print('Enter torrent No.(s) to download or m for more or b for back or e to exit : '),
             serial = raw_input_()
             if serial == 'm' or serial == 'M':
                 page += 1
@@ -192,8 +197,44 @@ def main():
             elif serial == 'e' or serial == 'E':
                 break
             else:
-                download_torrent(int(serial))
-                break
+                if ',' in serial:
+                    numbs = serial.split(',')
+                    if len(numbs) < 3:
+                        if numbs[0] != '' and numbs[1] != '' :
+                            start = int(numbs[0])
+                            end = int(numbs[1])
+                            if start < end:
+                                if end < 26 and start > 0:
+                                    for i in xrange(start,end+1):
+                                        download_torrent(i)
+                            break
+                        elif numbs[0] != '' and numbs[1] == '' :
+                            start = int(numbs[0])
+                            if start > 0 and start < 26:
+                                for i in xrange(start,26):
+                                    download_torrent(i)
+                            break
+                        else:
+                            end = int(numbs[1])
+                            if end > 0 and end < 26:
+                                for i in xrange(1,end+1):
+                                    download_torrent(i)
+                            break
+                    else:
+                        for sn in numbs:
+                            i = int(sn)
+                            if i > 0 and i < 26:
+                                download_torrent(i)
+                            else:
+                                print "\n\n\tINCORRECT SERIAL NUMBERS!!\n\n"
+                        break
+
+                else:
+                    if int(serial) <= 25 and int(serial) >= 1: 
+                        download_torrent(int(serial))
+                        break
+                    else:
+                        print "\n\n\tINCORRECT SERIAL, TORRRENT DOES NOT EXIST!!\n\n"
 
 
 if __name__ == "__main__":
