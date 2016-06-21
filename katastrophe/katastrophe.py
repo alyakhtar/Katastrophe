@@ -2,7 +2,7 @@
 
 Usage:
   katastrophe
-  katastrophe [-m | -t | -a | -s | -l | -g | -b | -M | -T | -A | -S | -B | -G | -P | -X]
+  katastrophe [-m | -t | -a | -s | -l | -g | -b | -x | -M | -T | -A | -S | -B | -G | -P | -X]
   katastrophe -h | --help
   katastrophe --version  
   Multi Download:
@@ -22,6 +22,7 @@ Options:
   -l, --newlosslessmusic   Show latest Lossless Music torrents
   -g, --newappsandgames    Show lates Application and Game Torrents
   -b, --newbooks           Show latest Book Torrents
+  -x, --xxx                Show latest XXX Torrents
   -M, --movies             Search by Movie Category
   -T, --tv                 Search by TV Category
   -A, --anime              Search by Anime Category
@@ -29,7 +30,7 @@ Options:
   -B, --books              Search by Book Category
   -G, --games              Search by Games Category
   -P, --applications       Search by Applications Category
-  -X, --xxx                Search by XXX Category
+  -X, --XXX                Search by XXX Category
 """
 
 import requests
@@ -42,7 +43,7 @@ import subprocess
 from docopt import docopt
 from sys import platform
 from latest import movies_torrent, tv_torrent, anime_torrent, music_torrent, loslessmusic_torrent, appsndgames_torrent, books_torrent
-from subcategories import categories
+from subcategories import categories,xxx_torrent
 
 try:
     raw_input_ = raw_input
@@ -165,7 +166,7 @@ def download_torrent(torrent):
 
 
 def main():
-    args = docopt(__doc__, version='katastrophe 1.1.5')
+    args = docopt(__doc__, version='katastrophe 1.1.6')
     if args["--newmovies"]:
         movies_torrent()
     elif args["--newtv"]:
@@ -180,6 +181,8 @@ def main():
         appsndgames_torrent()
     elif args["--newbooks"]:
         books_torrent()
+    elif args["--xxx"]:
+        xxx_torrent()
     elif args["--movies"]:
         categories(0)
     elif args["--tv"]:
@@ -194,7 +197,7 @@ def main():
         categories(5)
     elif args["--applications"]:
         categories(6)
-    elif args["--xxx"]:
+    elif args["--XXX"]:
         categories(7)
     else:
         page = 1

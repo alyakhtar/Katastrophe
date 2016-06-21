@@ -47,7 +47,7 @@
 ### Usage:
 ```sh
   katastrophe.py 
-  katastrophe [-m | -t | -a | -s | -l | -g | -b]
+  katastrophe [-m | -t | -a | -s | -l | -g | -b | -x | -M | -T | -A | -S | -B | -G | -P | -X]
   katastrophe -h | --help
   katastrophe --version
 
@@ -72,6 +72,7 @@
 | -l, --newlosslessmusic  | Show latest Lossless Music Torrents      |
 | -g, --newappsandgames   | Show lates Application and Game Torrents |
 | -b, --newbooks          | Show latest Book Torrents                |
+| -x, --xxx               | Show latest XXX Torrents                 |
 | -M, --movies            | Search by Movie Category                 |
 | -T, --tv                | Search by TV Category                    |
 | -A, --anime             | Search by Anime Category                 |
@@ -79,7 +80,7 @@
 | -B, --books             | Search by Book Category                  |
 | -G, --games             | Search by Games Category                 |
 | -P, --applications      | Search by Applications Category          |
-| -X, --xxx               | Search by XXX Category                   |
+| -X, --XXX               | Search by XXX Category                   |
 
 ### Screenshots
 

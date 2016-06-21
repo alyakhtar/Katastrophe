@@ -424,6 +424,94 @@ def by_xxx(url,page):
 
 	print_table(sno, torr, sz, sd, lc)
 
+def xxx_torrent():
+    link = 'https://kat.cr/xxx/1/?field=time_add&sorder=desc'
+    source_code = requests.get(link)
+    plain_text = source_code.text.encode('utf-8')
+    soup = BeautifulSoup(plain_text, "lxml")
+
+    global mag
+    torr = []
+    mag = []
+    sd = []
+    lc = []
+    sz = []
+    mytable = []
+    sno = []
+    count = 0
+
+    for name in soup.findAll('div', {'class': 'torrentname'}):
+        for title in name('a', {'class': 'cellMainLink'}):
+            clean_name = title.text
+            new_name = ''.join([i if ord(i) < 128 else '' for i in clean_name])
+            torr.append(new_name)
+
+    for box in soup.findAll('div', {'class': 'iaconbox center floatright'}):
+        count += 1
+        for magnet in box('a', {'title': 'Torrent magnet link'}):
+            magnet = magnet.get('href')
+            mag.append(magnet)
+        sno.append(count)
+
+    for space in soup.findAll('td', {'class': 'nobr center'}):
+        size = space.get_text()
+        sz.append(size)
+
+    for seed in soup.findAll('td', {'class': 'green center'}):
+        seeds = seed.get_text()
+        sd.append(seeds)
+
+    for leech in soup.findAll('td', {'class': 'red lasttd center'}):
+        leechers = leech.get_text()
+        lc.append(leechers)
+
+    table = zip(sno, torr, sz, sd, lc)
+    if not table:
+        print('\n\tNOTHING FOUND !')
+        exit()
+    else:
+        headers = ['S.No.', 'Torrent Name', 'Size', 'Seeders', 'Leechers']
+        print(tabulate(table, headers, tablefmt='psql', numalign="center"))
+
+    print('Enter torrent No.(s) to download or e to exit : '),
+    serial = raw_input_()
+    if serial == 'e' or serial == 'E':
+        exit()
+    else:
+        if ',' in serial:
+            numbs = serial.split(',')
+            if len(numbs) < 3:
+                if numbs[0] != '' and numbs[1] != '' :
+                    start = int(numbs[0])
+                    end = int(numbs[1])
+                    if start < end:
+                        if end < 26 and start > 0:
+                            for i in xrange(start,end+1):
+                                download_torrent(i)
+                elif numbs[0] != '' and numbs[1] == '' :
+                    start = int(numbs[0])
+                    if start > 0 and start < 26:
+                        for i in xrange(start,26):
+                            download_torrent(i)
+                else:
+                    end = int(numbs[1])
+                    if end > 0 and end < 26:
+                        for i in xrange(1,end+1):
+                            download_torrent(i)
+            else:
+                for sn in numbs:
+                    i = int(sn)
+                    if i > 0 and i < 26:
+                        download_torrent(i)
+                    else:
+                        print "\n\n\tINCORRECT SERIAL NUMBERS!!\n\n"
+
+        else:
+            if int(serial) <= 25 and int(serial) >= 1: 
+                download_torrent(i)
+            else:
+                print "\n\n\tINCORRECT SERIAL, TORRRENT DOES NOT EXIST!!\n\n"
+
 
 def categories(category):
     page = 1

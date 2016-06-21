@@ -1,7 +1,7 @@
 from setuptools import setup
 setup(name='katastrophe',
       packages=['katastrophe'],
-      version='1.1.5',
+      version='1.1.6',
       description='Download torrents from kat.ph directly through terminal',
       author='Aly Akhtar',
       license='MIT',
