@@ -330,7 +330,7 @@ def download_torrent(link):
 def movies_torrent():
     fetch()
     print(tabulate(movies, headers, tablefmt='psql', numalign="center"))
-    print('Enter torrent No. to download or e to exit : '),
+    print('Enter torrent No.(s) to download or e to exit : '),
     serial = raw_input_()
     if serial == 'e' or serial == 'E':
         exit()
@@ -373,7 +373,7 @@ def movies_torrent():
 def tv_torrent():
     fetch()
     print(tabulate(tv, headers, tablefmt='psql', numalign="center"))
-    print('Enter torrent No. to download or e to exit : '),
+    print('Enter torrent No.(s) to download or e to exit : '),
     serial = raw_input_()
     if serial == 'e' or serial == 'E':
         exit()
@@ -416,7 +416,7 @@ def tv_torrent():
 def anime_torrent():
     fetch()
     print(tabulate(anime, headers, tablefmt='psql', numalign="center"))
-    print('Enter torrent No. to download or e to exit : '),
+    print('Enter torrent No.(s) to download or e to exit : '),
     serial = raw_input_()
     if serial == 'e' or serial == 'E':
         exit()
@@ -459,7 +459,7 @@ def anime_torrent():
 def music_torrent():
     fetch()
     print(tabulate(music, headers, tablefmt='psql', numalign="center"))
-    print('Enter torrent No. to download or e to exit : '),
+    print('Enter torrent No.(s) to download or e to exit : '),
     serial = raw_input_()
     if serial == 'e' or serial == 'E':
         exit()
@@ -502,7 +502,7 @@ def music_torrent():
 def loslessmusic_torrent():
     fetch()
     print(tabulate(loslessmusic, headers, tablefmt='psql', numalign="center"))
-    print('Enter torrent No. to download or e to exit : '),
+    print('Enter torrent No.(s) to download or e to exit : '),
     serial = raw_input_()
     if serial == 'e' or serial == 'E':
         exit()
@@ -545,7 +545,7 @@ def loslessmusic_torrent():
 def appsndgames_torrent():
     fetch()
     print(tabulate(appsndgames, headers, tablefmt='psql', numalign="center"))
-    print('Enter torrent No. to download or e to exit : '),
+    print('Enter torrent No.(s) to download or e to exit : '),
     serial = raw_input_()
     if serial == 'e' or serial == 'E':
         exit()
@@ -588,7 +588,7 @@ def appsndgames_torrent():
 def books_torrent():
     fetch()
     print(tabulate(books, headers, tablefmt='psql', numalign="center"))
-    print('Enter torrent No. to download or e to exit : '),
+    print('Enter torrent No.(s) to download or e to exit : '),
     serial = raw_input_()
     if serial == 'e' or serial == 'E':
         exit()

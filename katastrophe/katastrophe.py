@@ -2,7 +2,7 @@
 
 Usage:
   katastrophe
-  katastrophe [-m | -t | -a | -s | -l | -g | -b]
+  katastrophe [-m | -t | -a | -s | -l | -g | -b | -M | -T | -A | -S | -B | -G | -P | -X]
   katastrophe -h | --help
   katastrophe --version  
   Multi Download:
@@ -13,15 +13,23 @@ Usage:
 
 
 Options:
-  -h, --help            Show this screen.
-  --version             Show version.
-  -m, --movies          Show latest Movie torrents
-  -t, --tv              Show latest TV torrents
-  -a, --anime           Show latest Anime torrents
-  -s, --songs           Show latest Music torrents
-  -l, --losslessmusic   Show latest Lossless Music torrents
-  -g, --appsandgames    Show lates Application and Game Torrents
-  -b, --books           Show latest Book Torrents
+  -h, --help               Show this screen.
+  --version                Show version.
+  -m, --newmovies          Show latest Movie torrents
+  -t, --newtv              Show latest TV torrents
+  -a, --newanime           Show latest Anime torrents
+  -s, --newsongs           Show latest Music torrents
+  -l, --newlosslessmusic   Show latest Lossless Music torrents
+  -g, --newappsandgames    Show lates Application and Game Torrents
+  -b, --newbooks           Show latest Book Torrents
+  -M, --movies             Search by Movie Category
+  -T, --tv                 Search by TV Category
+  -A, --anime              Search by Anime Category
+  -S, --songs              Search by Music Category
+  -B, --books              Search by Book Category
+  -G, --games              Search by Games Category
+  -P, --applications       Search by Applications Category
+  -X, --xxx                Search by XXX Category
 """
 
 import requests
@@ -34,6 +42,7 @@ import subprocess
 from docopt import docopt
 from sys import platform
 from latest import movies_torrent, tv_torrent, anime_torrent, music_torrent, loslessmusic_torrent, appsndgames_torrent, books_torrent
+from subcategories import categories
 
 try:
     raw_input_ = raw_input
@@ -54,7 +63,6 @@ def print_table(serial, torrent, size, seeds, leechers):
     else:
         headers = ['S.No.', 'Torrent Name', 'Size', 'Seeders', 'Leechers']
         print(tabulate(table, headers, tablefmt='psql', numalign="center"))
-        # print table
 
 
 def url_generator(url, page):
@@ -83,7 +91,6 @@ def fetch(url, page):
     plain_text = source_code.text.encode('utf-8')
 
     soup = BeautifulSoup(plain_text, "lxml")
-    # soup = soup.encode("utf-8")
 
     global mag
     torr = []
@@ -106,23 +113,19 @@ def fetch(url, page):
         for magnet in box('a', {'title': 'Torrent magnet link'}):
             magnet = magnet.get('href')
             mag.append(magnet)
-            # print magnet
         sno.append(count)
 
     for space in soup.findAll('td', {'class': 'nobr center'}):
         size = space.get_text()
         sz.append(size)
-        # print size
 
     for seed in soup.findAll('td', {'class': 'green center'}):
         seeds = seed.get_text()
         sd.append(seeds)
-        # print seeds
 
     for leech in soup.findAll('td', {'class': 'red lasttd center'}):
         leechers = leech.get_text()
         lc.append(leechers)
-        # print leechers
 
     print_table(sno, torr, sz, sd, lc)
 
@@ -162,21 +165,37 @@ def download_torrent(torrent):
 
 
 def main():
-    args = docopt(__doc__, version='katastrophe 1.1.3')
-    if args["--movies"]:
+    args = docopt(__doc__, version='katastrophe 1.1.5')
+    if args["--newmovies"]:
         movies_torrent()
-    elif args["--tv"]:
+    elif args["--newtv"]:
         tv_torrent()
-    elif args['--anime']:
+    elif args['--newanime']:
         anime_torrent()
-    elif args["--songs"]:
+    elif args["--newsongs"]:
         music_torrent()
-    elif args["--losslessmusic"]:
+    elif args["--newlosslessmusic"]:
         loslessmusic_torrent()
-    elif args["--appsandgames"]:
+    elif args["--newappsandgames"]:
         appsndgames_torrent()
-    elif args["--books"]:
+    elif args["--newbooks"]:
         books_torrent()
+    elif args["--movies"]:
+        categories(0)
+    elif args["--tv"]:
+        categories(1)
+    elif args["--anime"]:
+        categories(2)
+    elif args["--songs"]:
+        categories(3)
+    elif args["--books"]:
+        categories(4)
+    elif args["--games"]:
+        categories(5)
+    elif args["--applications"]:
+        categories(6)
+    elif args["--xxx"]:
+        categories(7)
     else:
         page = 1
         print("Torrent Search : "),
