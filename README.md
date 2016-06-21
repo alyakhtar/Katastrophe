@@ -61,15 +61,25 @@
 
 ### Options:
 ```sh
-  -h, --help            Show this screen.
-  --version             Show version.
-  -m, --movies          Show latest Movie torrents
-  -t, --tv              Show latest TV torrents
-  -a, --anime           Show latest Anime torrents
-  -s, --songs           Show latest Music torrents
-  -l, --losslessmusic   Show latest Lossless Music torrents
-  -g, --appsandgames    Show lates Application and Game Torrents
-  -b, --books           Show latest Book Torrents
+| Arguments               | Description                              |
+| ----------------------- |:----------------------------------------:|
+| -h, --help              | Show this screen                         |
+| --version               | Show version                             |
+| -m, --newmovies         | Show latest Movie Torrents               |
+| -t, --newtv             | Show latest TV Torrents                  |
+| -a, --newanime          | Show latest Anime Torrents               |
+| -s, --newsongs          | Show latest Music Torrents               |
+| -l, --newlosslessmusic  | Show latest Lossless Music Torrents      |
+| -g, --newappsandgames   | Show lates Application and Game Torrents |
+| -b, --newbooks          | Show latest Book Torrents                |
+| -M, --movies            | Search by Movie Category                 |
+| -T, --tv                | Search by TV Category                    |
+| -A, --anime             | Search by Anime Category                 |
+| -S, --songs             | Search by Music Category                 |
+| -B, --books             | Search by Book Category                  |
+| -G, --games             | Search by Games Category                 |
+| -P, --applications      | Search by Applications Category          |
+| -X, --xxx               | Search by XXX Category                   |
 ```
 
 ### Screenshots
