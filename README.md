@@ -1,9 +1,9 @@
 # Katastrophe
 <p align="left">
-    <a href="https://img.shields.io/pypi/v/katastrophe">
+    <a href="https://pypi.python.org/pypi/katastrophe/1.1.5">
         <img src="https://img.shields.io/pypi/v/katastrophe.svg">
     </a>
-    <a href="https://img.shields.io/pypi/l/katastrophe">
+    <a href="https://raw.githubusercontent.com/alyakhtar/Katastrophe/master/LICENSE.txt">
         <img src="https://img.shields.io/pypi/l/katastrophe.svg">
     </a>
 </p>
