@@ -60,7 +60,7 @@
 ```
 
 ### Options:
-```sh
+
 | Arguments               | Description                              |
 | ----------------------- |:----------------------------------------:|
 | -h, --help              | Show this screen                         |
@@ -80,7 +80,6 @@
 | -G, --games             | Search by Games Category                 |
 | -P, --applications      | Search by Applications Category          |
 | -X, --xxx               | Search by XXX Category                   |
-```
 
 ### Screenshots
 
