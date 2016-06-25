@@ -4,3 +4,4 @@ katastrophe.egg-info
 dist
 /katastrophe/latest.pyc
 /katastrophe/subcategories.pyc
+build
