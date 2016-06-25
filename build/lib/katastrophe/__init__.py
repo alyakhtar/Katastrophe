@@ -1,0 +1,1 @@
+from katastrophe import main
