@@ -2,7 +2,7 @@
 
 Usage:
   katastrophe
-  katastrophe [-m | -t | -a | -s | -l | -g | -b | -x | -M | -T | -A | -S | -B | -G | -P | -X]
+  katastrophe [-m | -t | -a | -s | -l | -g | -p | -b | -x | -M | -T | -A | -S | -B | -G | -P | -X]
   katastrophe -h | --help
   katastrophe --version  
   Multi Download:
@@ -20,7 +20,8 @@ Options:
   -a, --newanime           Show latest Anime torrents
   -s, --newsongs           Show latest Music torrents
   -l, --newlosslessmusic   Show latest Lossless Music torrents
-  -g, --newappsandgames    Show lates Application and Game Torrents
+  -g, --newgames           Show lates Game Torrents
+  -p, --newapplications    Show latest Application Torrents
   -b, --newbooks           Show latest Book Torrents
   -x, --xxx                Show latest XXX Torrents
   -M, --movies             Search by Movie Category
@@ -42,8 +43,9 @@ from tabulate import tabulate
 import subprocess
 from docopt import docopt
 from sys import platform
-from latest import movies_torrent, tv_torrent, anime_torrent, music_torrent, loslessmusic_torrent, appsndgames_torrent, books_torrent
+from latest import movies_torrent, tv_torrent, anime_torrent, music_torrent, losslessmusic_torrent, applications_torrent, books_torrent,games_torrent
 from subcategories import categories,xxx_torrent
+from run import download
 
 try:
     raw_input_ = raw_input
@@ -94,6 +96,9 @@ def fetch(url, page):
     soup = BeautifulSoup(plain_text, "lxml")
 
     global mag
+    global torr_file
+    global torr
+    torr_file = []
     torr = []
     mag = []
     sd = []
@@ -114,6 +119,9 @@ def fetch(url, page):
         for magnet in box('a', {'title': 'Torrent magnet link'}):
             magnet = magnet.get('href')
             mag.append(magnet)
+        for file in box('a',{'title':'Download torrent file'}):
+            torr_name = 'https:'+file.get('href')
+            torr_file.append(torr_name)
         sno.append(count)
 
     for space in soup.findAll('td', {'class': 'nobr center'}):
@@ -132,6 +140,8 @@ def fetch(url, page):
 
 
 def download_torrent(torrent):
+    file_name = "".join(torr[torrent-1].split())
+    
     if platform == "linux" or platform == "linux2" or platform == "darwin":
         subprocess.Popen(['xdg-open', mag[torrent - 1]],
                          stdout=subprocess.PIPE,
@@ -154,15 +164,21 @@ def download_torrent(torrent):
             if c in procs:
                 client = c
                 break
-
-        if client:
-            cmd = 'wmic process where "name=\'{}\'" get ExecutablePath'.format(client)
-            proc = subprocess.Popen(cmd, shell=True, stdout=subprocess.PIPE)
-            loc = proc.stdout.readlines()
-            exe = loc[1].strip()
-            subprocess.Popen([exe.decode(), mag[torrent - 1]])
-        else:
-            print("\nPlease Install/Run BitTorrent, uTorrent, or deluge.\n")
+    
+        # if client:
+        #     cmd = 'wmic process where "name=\'{}\'" get ExecutablePath'.format(client)
+        #     proc = subprocess.Popen(cmd, shell=True, stdout=subprocess.PIPE)
+        #     loc = proc.stdout.readlines()
+        #     exe = loc[1].strip()
+        #     subprocess.Popen([exe.decode(), mag[torrent - 1]])
+        # else:
+            # print("\nPlease Install/Run BitTorrent, uTorrent, or deluge.\n")
+        pwrshell = subprocess.Popen([r'C:\WINDOWS\system32\WindowsPowerShell\v1.0\powershell.exe',
+                         '-ExecutionPolicy',
+                         'Unrestricted',
+                         'wget %s -Outfile ../Torrents/%s.torrent' %(torr_file[torrent-1],file_name)], cwd=os.getcwd())
+        result = pwrshell.wait()
+        download(file_name+'.torrent')
 
 
 def main():
@@ -176,9 +192,11 @@ def main():
     elif args["--newsongs"]:
         music_torrent()
     elif args["--newlosslessmusic"]:
-        loslessmusic_torrent()
-    elif args["--newappsandgames"]:
-        appsndgames_torrent()
+        losslessmusic_torrent()
+    elif args["--newgames"]:
+        games_torrent()
+    elif args["--newapplications"]:
+        applications_torrent()
     elif args["--newbooks"]:
         books_torrent()
     elif args["--xxx"]:
