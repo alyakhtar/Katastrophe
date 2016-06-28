@@ -37,12 +37,13 @@ def download_torrent(link, name):
 
     if platform == "linux" or platform == "linux2" or platform == "darwin":
         try:
-            subprocess.Popen(['xdg-open', mag[torrent - 1]],
+            subprocess.Popen(['xdg-open', magnet_link],
                              stdout=subprocess.PIPE,
                              stderr=subprocess.PIPE)
         except:
-            os.system('wget %s -Outfile ../Torrents/%s.torrent' %(torr_file[torrent-1],file_name))
-            download(file_name+'.torrent')
+            os.system('wget -O ../Torrents/%s.gz https:%s' %(file_name,torr_file))
+            os.system('gunzip ../Torrents/%s.gz' %file_name)
+            download(file_name)
 
     elif platform == "win32":
         procs = []
@@ -138,50 +139,44 @@ def movies_torrent():
 
     print '\nLATEST MOVIE TORRENTS\n'
     print(tabulate(movies, headers, tablefmt='psql', numalign="center"))
-    while True:
-        print('Enter torrent No.(s) to download or e to exit : '),
-        serial = raw_input_()
-        if serial == 'e' or serial == 'E':
-            exit()
-        else:
-            if ',' in serial:
-                numbs = serial.split(',')
-                if len(numbs) < 3:
-                    if numbs[0] != '' and numbs[1] != '' :
-                        start = int(numbs[0])
-                        end = int(numbs[1])
-                        if start < end:
-                            if end < 16 and start > 0:
-                                for i in xrange_(start,end+1):
-                                    download_torrent('https://kat.cr' + torrent_href[i - 1],movies[i - 1][1])
-                                    break
-                    elif numbs[0] != '' and numbs[1] == '' :
-                        start = int(numbs[0])
-                        if start > 0 and start < 16:
-                            for i in xrange_(start,16):
+    print('Enter torrent No.(s) to download or e to exit : '),
+    serial = raw_input_()
+    if serial == 'e' or serial == 'E':
+        exit()
+    else:
+        if ',' in serial:
+            numbs = serial.split(',')
+            if len(numbs) < 3:
+                if numbs[0] != '' and numbs[1] != '' :
+                    start = int(numbs[0])
+                    end = int(numbs[1])
+                    if start < end:
+                        if end < 16 and start > 0:
+                            for i in xrange_(start,end+1):
                                 download_torrent('https://kat.cr' + torrent_href[i - 1],movies[i - 1][1])
-                                break
-                    else:
-                        end = int(numbs[1])
-                        if end > 0 and end < 16:
-                            for i in xrange_(1,end+1):
-                                download_torrent('https://kat.cr' + torrent_href[i - 1],movies[i - 1][1])
-                                break
-                else:
-                    for sn in numbs:
-                        i = int(sn)
-                        if i > 0 and i < 16:
+                elif numbs[0] != '' and numbs[1] == '' :
+                    start = int(numbs[0])
+                    if start > 0 and start < 16:
+                        for i in xrange_(start,16):
                             download_torrent('https://kat.cr' + torrent_href[i - 1],movies[i - 1][1])
-                            break
-                        else:
-                            print "\n\n\tINCORRECT SERIAL NUMBERS....TRY AGAIN!!\n\n"
-
-            else:
-                if int(serial) <= 15 and int(serial) >= 1: 
-                    download_torrent('https://kat.cr' + torrent_href[int(serial) - 1],movies[int(serial) - 1][1])
-                    break
                 else:
-                    print "\n\n\tINCORRECT SERIAL, TORRRENT DOES NOT EXIST...TRY AGAIN!!\n\n"
+                    end = int(numbs[1])
+                    if end > 0 and end < 16:
+                        for i in xrange_(1,end+1):
+                            download_torrent('https://kat.cr' + torrent_href[i - 1],movies[i - 1][1])
+            else:
+                for sn in numbs:
+                    i = int(sn)
+                    if i > 0 and i < 16:
+                        download_torrent('https://kat.cr' + torrent_href[i - 1],movies[i - 1][1])
+                    else:
+                        print "\n\n\tINCORRECT SERIAL NUMBERS....TRY AGAIN!!\n\n"
+
+        else:
+            if int(serial) <= 15 and int(serial) >= 1: 
+                download_torrent('https://kat.cr' + torrent_href[int(serial) - 1],movies[int(serial) - 1][1])
+            else:
+                print "\n\n\tINCORRECT SERIAL, TORRRENT DOES NOT EXIST...TRY AGAIN!!\n\n"
 
 
 def tv_torrent():
@@ -193,50 +188,44 @@ def tv_torrent():
 
     print '\nLATEST TV TORRENTS\n'
     print(tabulate(tv, headers, tablefmt='psql', numalign="center"))
-    while True:
-        print('Enter torrent No.(s) to download or e to exit : '),
-        serial = raw_input_()
-        if serial == 'e' or serial == 'E':
-            exit()
-        else:
-            if ',' in serial:
-                numbs = serial.split(',')
-                if len(numbs) < 3:
-                    if numbs[0] != '' and numbs[1] != '' :
-                        start = int(numbs[0])
-                        end = int(numbs[1])
-                        if start < end:
-                            if end < 16 and start > 0:
-                                for i in xrange_(start,end+1):
-                                    download_torrent('https://kat.cr' + torrent_href[(i+15) - 1],tv[i - 1][1])
-                                    break
-                    elif numbs[0] != '' and numbs[1] == '' :
-                        start = int(numbs[0])
-                        if start > 0 and start < 16:
-                            for i in xrange_(start,16):
+    print('Enter torrent No.(s) to download or e to exit : '),
+    serial = raw_input_()
+    if serial == 'e' or serial == 'E':
+        exit()
+    else:
+        if ',' in serial:
+            numbs = serial.split(',')
+            if len(numbs) < 3:
+                if numbs[0] != '' and numbs[1] != '' :
+                    start = int(numbs[0])
+                    end = int(numbs[1])
+                    if start < end:
+                        if end < 16 and start > 0:
+                            for i in xrange_(start,end+1):
                                 download_torrent('https://kat.cr' + torrent_href[(i+15) - 1],tv[i - 1][1])
-                                break
-                    else:
-                        end = int(numbs[1])
-                        if end > 0 and end < 16:
-                            for i in xrange_(1,end+1):
-                                download_torrent('https://kat.cr' + torrent_href[(i+15) - 1],tv[i - 1][1])
-                                break
-                else:
-                    for sn in numbs:
-                        i = int(sn)
-                        if i > 0 and i < 16:
+                elif numbs[0] != '' and numbs[1] == '' :
+                    start = int(numbs[0])
+                    if start > 0 and start < 16:
+                        for i in xrange_(start,16):
                             download_torrent('https://kat.cr' + torrent_href[(i+15) - 1],tv[i - 1][1])
-                            break
-                        else:
-                            print "\n\n\tINCORRECT SERIAL NUMBERS....TRY AGAIN!!\n\n"
-
-            else:
-                if int(serial) <= 15 and int(serial) >= 1: 
-                    download_torrent('https://kat.cr' + torrent_href[(int(serial) + 15) - 1],tv[int(serial) - 1][1])
-                    break
                 else:
-                    print "\n\n\tINCORRECT SERIAL, TORRRENT DOES NOT EXIST...TRY AGAIN!!\n\n"
+                    end = int(numbs[1])
+                    if end > 0 and end < 16:
+                        for i in xrange_(1,end+1):
+                            download_torrent('https://kat.cr' + torrent_href[(i+15) - 1],tv[i - 1][1])
+            else:
+                for sn in numbs:
+                    i = int(sn)
+                    if i > 0 and i < 16:
+                        download_torrent('https://kat.cr' + torrent_href[(i+15) - 1],tv[i - 1][1])
+                    else:
+                        print "\n\n\tINCORRECT SERIAL NUMBERS....TRY AGAIN!!\n\n"
+
+        else:
+            if int(serial) <= 15 and int(serial) >= 1: 
+                download_torrent('https://kat.cr' + torrent_href[(int(serial) + 15) - 1],tv[int(serial) - 1][1])
+            else:
+                print "\n\n\tINCORRECT SERIAL, TORRRENT DOES NOT EXIST...TRY AGAIN!!\n\n"
 
 
 def music_torrent():
@@ -248,50 +237,44 @@ def music_torrent():
 
     print '\nLATEST MUSIC TORRENTS\n'
     print(tabulate(music, headers, tablefmt='psql', numalign="center"))
-    while True:
-        print('Enter torrent No.(s) to download or e to exit : '),
-        serial = raw_input_()
-        if serial == 'e' or serial == 'E':
-            exit()
-        else:
-            if ',' in serial:
-                numbs = serial.split(',')
-                if len(numbs) < 3:
-                    if numbs[0] != '' and numbs[1] != '' :
-                        start = int(numbs[0])
-                        end = int(numbs[1])
-                        if start < end:
-                            if end < 16 and start > 0:
-                                for i in xrange_(start,end+1):
-                                    download_torrent('https://kat.cr' + torrent_href[(i+30) - 1],music[i - 1][1])
-                                    break
-                    elif numbs[0] != '' and numbs[1] == '' :
-                        start = int(numbs[0])
-                        if start > 0 and start < 16:
-                            for i in xrange_(start,16):
+    print('Enter torrent No.(s) to download or e to exit : '),
+    serial = raw_input_()
+    if serial == 'e' or serial == 'E':
+        exit()
+    else:
+        if ',' in serial:
+            numbs = serial.split(',')
+            if len(numbs) < 3:
+                if numbs[0] != '' and numbs[1] != '' :
+                    start = int(numbs[0])
+                    end = int(numbs[1])
+                    if start < end:
+                        if end < 16 and start > 0:
+                            for i in xrange_(start,end+1):
                                 download_torrent('https://kat.cr' + torrent_href[(i+30) - 1],music[i - 1][1])
-                                break
-                    else:
-                        end = int(numbs[1])
-                        if end > 0 and end < 16:
-                            for i in xrange_(1,end+1):
-                                download_torrent('https://kat.cr' + torrent_href[(i+30) - 1],music[i - 1][1])
-                                break
-                else:
-                    for sn in numbs:
-                        i = int(sn)
-                        if i > 0 and i < 16:
+                elif numbs[0] != '' and numbs[1] == '' :
+                    start = int(numbs[0])
+                    if start > 0 and start < 16:
+                        for i in xrange_(start,16):
                             download_torrent('https://kat.cr' + torrent_href[(i+30) - 1],music[i - 1][1])
-                            break
-                        else:
-                            print "\n\n\tINCORRECT SERIAL NUMBERS....TRY AGAIN!!\n\n"
-
-            else:
-                if int(serial) <= 15 and int(serial) >= 1: 
-                    download_torrent('https://kat.cr' + torrent_href[(int(serial) + 30) - 1],music[int(serial) - 1][1])
-                    break
                 else:
-                    print "\n\n\tINCORRECT SERIAL, TORRRENT DOES NOT EXIST...TRY AGAIN!!\n\n"
+                    end = int(numbs[1])
+                    if end > 0 and end < 16:
+                        for i in xrange_(1,end+1):
+                            download_torrent('https://kat.cr' + torrent_href[(i+30) - 1],music[i - 1][1])
+            else:
+                for sn in numbs:
+                    i = int(sn)
+                    if i > 0 and i < 16:
+                        download_torrent('https://kat.cr' + torrent_href[(i+30) - 1],music[i - 1][1])
+                    else:
+                        print "\n\n\tINCORRECT SERIAL NUMBERS....TRY AGAIN!!\n\n"
+
+        else:
+            if int(serial) <= 15 and int(serial) >= 1: 
+                download_torrent('https://kat.cr' + torrent_href[(int(serial) + 30) - 1],music[int(serial) - 1][1])
+            else:
+                print "\n\n\tINCORRECT SERIAL, TORRRENT DOES NOT EXIST...TRY AGAIN!!\n\n"
 
 
 def games_torrent():
@@ -303,50 +286,44 @@ def games_torrent():
 
     print '\nLATEST GAME TORRENTS\n'
     print(tabulate(games, headers, tablefmt='psql', numalign="center"))
-    while True:
-        print('Enter torrent No.(s) to download or e to exit : '),
-        serial = raw_input_()
-        if serial == 'e' or serial == 'E':
-            exit()
-        else:
-            if ',' in serial:
-                numbs = serial.split(',')
-                if len(numbs) < 3:
-                    if numbs[0] != '' and numbs[1] != '' :
-                        start = int(numbs[0])
-                        end = int(numbs[1])
-                        if start < end:
-                            if end < 16 and start > 0:
-                                for i in xrange_(start,end+1):
-                                    download_torrent('https://kat.cr' + torrent_href[(i+45) - 1],games[i - 1][1])
-                                    break
-                    elif numbs[0] != '' and numbs[1] == '' :
-                        start = int(numbs[0])
-                        if start > 0 and start < 16:
-                            for i in xrange_(start,16):
+    print('Enter torrent No.(s) to download or e to exit : '),
+    serial = raw_input_()
+    if serial == 'e' or serial == 'E':
+        exit()
+    else:
+        if ',' in serial:
+            numbs = serial.split(',')
+            if len(numbs) < 3:
+                if numbs[0] != '' and numbs[1] != '' :
+                    start = int(numbs[0])
+                    end = int(numbs[1])
+                    if start < end:
+                        if end < 16 and start > 0:
+                            for i in xrange_(start,end+1):
                                 download_torrent('https://kat.cr' + torrent_href[(i+45) - 1],games[i - 1][1])
-                                break
-                    else:
-                        end = int(numbs[1])
-                        if end > 0 and end < 16:
-                            for i in xrange_(1,end+1):
-                                download_torrent('https://kat.cr' + torrent_href[(i+45) - 1],games[i - 1][1])
-                                break
-                else:
-                    for sn in numbs:
-                        i = int(sn)
-                        if i > 0 and i < 16:
+                elif numbs[0] != '' and numbs[1] == '' :
+                    start = int(numbs[0])
+                    if start > 0 and start < 16:
+                        for i in xrange_(start,16):
                             download_torrent('https://kat.cr' + torrent_href[(i+45) - 1],games[i - 1][1])
-                            break
-                        else:
-                            print "\n\n\tINCORRECT SERIAL NUMBERS....TRY AGAIN!!\n\n"
-
-            else:
-                if int(serial) <= 15 and int(serial) >= 1: 
-                    download_torrent('https://kat.cr' + torrent_href[(int(serial) + 45) - 1],games[int(serial) - 1][1])
-                    break
                 else:
-                    print "\n\n\tINCORRECT SERIAL, TORRRENT DOES NOT EXIST...TRY AGAIN!!\n\n"
+                    end = int(numbs[1])
+                    if end > 0 and end < 16:
+                        for i in xrange_(1,end+1):
+                            download_torrent('https://kat.cr' + torrent_href[(i+45) - 1],games[i - 1][1])
+            else:
+                for sn in numbs:
+                    i = int(sn)
+                    if i > 0 and i < 16:
+                        download_torrent('https://kat.cr' + torrent_href[(i+45) - 1],games[i - 1][1])
+                    else:
+                        print "\n\n\tINCORRECT SERIAL NUMBERS....TRY AGAIN!!\n\n"
+
+        else:
+            if int(serial) <= 15 and int(serial) >= 1: 
+                download_torrent('https://kat.cr' + torrent_href[(int(serial) + 45) - 1],games[int(serial) - 1][1])
+            else:
+                print "\n\n\tINCORRECT SERIAL, TORRRENT DOES NOT EXIST...TRY AGAIN!!\n\n"
 
 
 def applications_torrent():
@@ -358,50 +335,44 @@ def applications_torrent():
 
     print '\nLATEST APPLICATION TORRENTS\n'
     print(tabulate(applications, headers, tablefmt='psql', numalign="center"))
-    while True:
-        print('Enter torrent No.(s) to download or e to exit : '),
-        serial = raw_input_()
-        if serial == 'e' or serial == 'E':
-            exit()
-        else:
-            if ',' in serial:
-                numbs = serial.split(',')
-                if len(numbs) < 3:
-                    if numbs[0] != '' and numbs[1] != '' :
-                        start = int(numbs[0])
-                        end = int(numbs[1])
-                        if start < end:
-                            if end < 16 and start > 0:
-                                for i in xrange_(start,end+1):
-                                    download_torrent('https://kat.cr' + torrent_href[(i+60) - 1],applications[i - 1][1])
-                                    break
-                    elif numbs[0] != '' and numbs[1] == '' :
-                        start = int(numbs[0])
-                        if start > 0 and start < 16:
-                            for i in xrange_(start,16):
+    print('Enter torrent No.(s) to download or e to exit : '),
+    serial = raw_input_()
+    if serial == 'e' or serial == 'E':
+        exit()
+    else:
+        if ',' in serial:
+            numbs = serial.split(',')
+            if len(numbs) < 3:
+                if numbs[0] != '' and numbs[1] != '' :
+                    start = int(numbs[0])
+                    end = int(numbs[1])
+                    if start < end:
+                        if end < 16 and start > 0:
+                            for i in xrange_(start,end+1):
                                 download_torrent('https://kat.cr' + torrent_href[(i+60) - 1],applications[i - 1][1])
-                                break
-                    else:
-                        end = int(numbs[1])
-                        if end > 0 and end < 16:
-                            for i in xrange_(1,end+1):
-                                download_torrent('https://kat.cr' + torrent_href[(i+60) - 1],applications[i - 1][1])
-                                break
-                else:
-                    for sn in numbs:
-                        i = int(sn)
-                        if i > 0 and i < 16:
+                elif numbs[0] != '' and numbs[1] == '' :
+                    start = int(numbs[0])
+                    if start > 0 and start < 16:
+                        for i in xrange_(start,16):
                             download_torrent('https://kat.cr' + torrent_href[(i+60) - 1],applications[i - 1][1])
-                            break
-                        else:
-                            print "\n\n\tINCORRECT SERIAL NUMBERS....TRY AGAIN!!\n\n"
-
-            else:
-                if int(serial) <= 15 and int(serial) >= 1: 
-                    download_torrent('https://kat.cr' + torrent_href[(int(serial) + 60) - 1],applications[int(serial) - 1][1])
-                    break
                 else:
-                    print "\n\n\tINCORRECT SERIAL, TORRRENT DOES NOT EXIST...TRY AGAIN!!\n\n"
+                    end = int(numbs[1])
+                    if end > 0 and end < 16:
+                        for i in xrange_(1,end+1):
+                            download_torrent('https://kat.cr' + torrent_href[(i+60) - 1],applications[i - 1][1])
+            else:
+                for sn in numbs:
+                    i = int(sn)
+                    if i > 0 and i < 16:
+                        download_torrent('https://kat.cr' + torrent_href[(i+60) - 1],applications[i - 1][1])
+                    else:
+                        print "\n\n\tINCORRECT SERIAL NUMBERS....TRY AGAIN!!\n\n"
+
+        else:
+            if int(serial) <= 15 and int(serial) >= 1: 
+                download_torrent('https://kat.cr' + torrent_href[(int(serial) + 60) - 1],applications[int(serial) - 1][1])
+            else:
+                print "\n\n\tINCORRECT SERIAL, TORRRENT DOES NOT EXIST...TRY AGAIN!!\n\n"
 
 
 
@@ -414,50 +385,44 @@ def anime_torrent():
 
     print '\nLATEST ANIME TORRENTS\n'
     print(tabulate(anime, headers, tablefmt='psql', numalign="center"))
-    while True:
-        print('Enter torrent No.(s) to download or e to exit : '),
-        serial = raw_input_()
-        if serial == 'e' or serial == 'E':
-            exit()
-        else:
-            if ',' in serial:
-                numbs = serial.split(',')
-                if len(numbs) < 3:
-                    if numbs[0] != '' and numbs[1] != '' :
-                        start = int(numbs[0])
-                        end = int(numbs[1])
-                        if start < end:
-                            if end < 16 and start > 0:
-                                for i in xrange_(start,end+1):
-                                    download_torrent('https://kat.cr' + torrent_href[(i+75) - 1],anime[i - 1][1])
-                                    break
-                    elif numbs[0] != '' and numbs[1] == '' :
-                        start = int(numbs[0])
-                        if start > 0 and start < 16:
-                            for i in xrange_(start,16):
+    print('Enter torrent No.(s) to download or e to exit : '),
+    serial = raw_input_()
+    if serial == 'e' or serial == 'E':
+        exit()
+    else:
+        if ',' in serial:
+            numbs = serial.split(',')
+            if len(numbs) < 3:
+                if numbs[0] != '' and numbs[1] != '' :
+                    start = int(numbs[0])
+                    end = int(numbs[1])
+                    if start < end:
+                        if end < 16 and start > 0:
+                            for i in xrange_(start,end+1):
                                 download_torrent('https://kat.cr' + torrent_href[(i+75) - 1],anime[i - 1][1])
-                                break
-                    else:
-                        end = int(numbs[1])
-                        if end > 0 and end < 16:
-                            for i in xrange_(1,end+1):
-                                download_torrent('https://kat.cr' + torrent_href[(i+75) - 1],anime[i - 1][1])
-                                break
-                else:
-                    for sn in numbs:
-                        i = int(sn)
-                        if i > 0 and i < 16:
+                elif numbs[0] != '' and numbs[1] == '' :
+                    start = int(numbs[0])
+                    if start > 0 and start < 16:
+                        for i in xrange_(start,16):
                             download_torrent('https://kat.cr' + torrent_href[(i+75) - 1],anime[i - 1][1])
-                            break
-                        else:
-                            print "\n\n\tINCORRECT SERIAL NUMBERS....TRY AGAIN!!\n\n"
-
-            else:
-                if int(serial) <= 15 and int(serial) >= 1: 
-                    download_torrent('https://kat.cr' + torrent_href[(int(serial) + 75) - 1],anime[int(serial) - 1][1])
-                    break
                 else:
-                    print "\n\n\tINCORRECT SERIAL, TORRRENT DOES NOT EXIST...TRY AGAIN!!\n\n"
+                    end = int(numbs[1])
+                    if end > 0 and end < 16:
+                        for i in xrange_(1,end+1):
+                            download_torrent('https://kat.cr' + torrent_href[(i+75) - 1],anime[i - 1][1])
+            else:
+                for sn in numbs:
+                    i = int(sn)
+                    if i > 0 and i < 16:
+                        download_torrent('https://kat.cr' + torrent_href[(i+75) - 1],anime[i - 1][1])
+                    else:
+                        print "\n\n\tINCORRECT SERIAL NUMBERS....TRY AGAIN!!\n\n"
+
+        else:
+            if int(serial) <= 15 and int(serial) >= 1: 
+                download_torrent('https://kat.cr' + torrent_href[(int(serial) + 75) - 1],anime[int(serial) - 1][1])
+            else:
+                print "\n\n\tINCORRECT SERIAL, TORRRENT DOES NOT EXIST...TRY AGAIN!!\n\n"
 
 
 def books_torrent():
@@ -469,50 +434,44 @@ def books_torrent():
 
     print '\nLATEST BOOK TORRENTS\n'
     print(tabulate(books, headers, tablefmt='psql', numalign="center"))
-    while True:
-        print('Enter torrent No.(s) to download or e to exit : '),
-        serial = raw_input_()
-        if serial == 'e' or serial == 'E':
-            exit()
-        else:
-            if ',' in serial:
-                numbs = serial.split(',')
-                if len(numbs) < 3:
-                    if numbs[0] != '' and numbs[1] != '' :
-                        start = int(numbs[0])
-                        end = int(numbs[1])
-                        if start < end:
-                            if end < 16 and start > 0:
-                                for i in xrange_(start,end+1):
-                                    download_torrent('https://kat.cr' + torrent_href[(i+90) - 1],books[i - 1][1])
-                                    break
-                    elif numbs[0] != '' and numbs[1] == '' :
-                        start = int(numbs[0])
-                        if start > 0 and start < 16:
-                            for i in xrange_(start,16):
+    print('Enter torrent No.(s) to download or e to exit : '),
+    serial = raw_input_()
+    if serial == 'e' or serial == 'E':
+        exit()
+    else:
+        if ',' in serial:
+            numbs = serial.split(',')
+            if len(numbs) < 3:
+                if numbs[0] != '' and numbs[1] != '' :
+                    start = int(numbs[0])
+                    end = int(numbs[1])
+                    if start < end:
+                        if end < 16 and start > 0:
+                            for i in xrange_(start,end+1):
                                 download_torrent('https://kat.cr' + torrent_href[(i+90) - 1],books[i - 1][1])
-                                break
-                    else:
-                        end = int(numbs[1])
-                        if end > 0 and end < 16:
-                            for i in xrange_(1,end+1):
-                                download_torrent('https://kat.cr' + torrent_href[(i+90) - 1],books[i - 1][1])
-                                break
-                else:
-                    for sn in numbs:
-                        i = int(sn)
-                        if i > 0 and i < 16:
+                elif numbs[0] != '' and numbs[1] == '' :
+                    start = int(numbs[0])
+                    if start > 0 and start < 16:
+                        for i in xrange_(start,16):
                             download_torrent('https://kat.cr' + torrent_href[(i+90) - 1],books[i - 1][1])
-                            break
-                        else:
-                            print "\n\n\tINCORRECT SERIAL NUMBERS....TRY AGAIN!!\n\n"
-
-            else:
-                if int(serial) <= 15 and int(serial) >= 1: 
-                    download_torrent('https://kat.cr' + torrent_href[(int(serial) + 90) - 1],books[int(serial) - 1][1])
-                    break
                 else:
-                    print "\n\n\tINCORRECT SERIAL, TORRRENT DOES NOT EXIST...TRY AGAIN!!\n\n"
+                    end = int(numbs[1])
+                    if end > 0 and end < 16:
+                        for i in xrange_(1,end+1):
+                            download_torrent('https://kat.cr' + torrent_href[(i+90) - 1],books[i - 1][1])
+            else:
+                for sn in numbs:
+                    i = int(sn)
+                    if i > 0 and i < 16:
+                        download_torrent('https://kat.cr' + torrent_href[(i+90) - 1],books[i - 1][1])
+                    else:
+                        print "\n\n\tINCORRECT SERIAL NUMBERS....TRY AGAIN!!\n\n"
+
+        else:
+            if int(serial) <= 15 and int(serial) >= 1: 
+                download_torrent('https://kat.cr' + torrent_href[(int(serial) + 90) - 1],books[int(serial) - 1][1])
+            else:
+                print "\n\n\tINCORRECT SERIAL, TORRRENT DOES NOT EXIST...TRY AGAIN!!\n\n"
 
 def losslessmusic_torrent():
     torrents = fetch()
@@ -523,47 +482,41 @@ def losslessmusic_torrent():
 
     print '\nLATEST LOSSLESS MUSIC TORRENTS\n'
     print(tabulate(losslessmusic, headers, tablefmt='psql', numalign="center"))
-    while True:
-        print('Enter torrent No.(s) to download or e to exit : '),
-        serial = raw_input_()
-        if serial == 'e' or serial == 'E':
-            exit()
-        else:
-            if ',' in serial:
-                numbs = serial.split(',')
-                if len(numbs) < 3:
-                    if numbs[0] != '' and numbs[1] != '' :
-                        start = int(numbs[0])
-                        end = int(numbs[1])
-                        if start < end:
-                            if end < 16 and start > 0:
-                                for i in xrange_(start,end+1):
-                                    download_torrent('https://kat.cr' + torrent_href[(i+105) - 1],losslessmusic[i - 1][1])
-                                    break
-                    elif numbs[0] != '' and numbs[1] == '' :
-                        start = int(numbs[0])
-                        if start > 0 and start < 16:
-                            for i in xrange_(start,16):
+    print('Enter torrent No.(s) to download or e to exit : '),
+    serial = raw_input_()
+    if serial == 'e' or serial == 'E':
+        exit()
+    else:
+        if ',' in serial:
+            numbs = serial.split(',')
+            if len(numbs) < 3:
+                if numbs[0] != '' and numbs[1] != '' :
+                    start = int(numbs[0])
+                    end = int(numbs[1])
+                    if start < end:
+                        if end < 16 and start > 0:
+                            for i in xrange_(start,end+1):
                                 download_torrent('https://kat.cr' + torrent_href[(i+105) - 1],losslessmusic[i - 1][1])
-                                break
-                    else:
-                        end = int(numbs[1])
-                        if end > 0 and end < 16:
-                            for i in xrange_(1,end+1):
-                                download_torrent('https://kat.cr' + torrent_href[(i+105) - 1],losslessmusic[i - 1][1])
-                                break
-                else:
-                    for sn in numbs:
-                        i = int(sn)
-                        if i > 0 and i < 16:
+                elif numbs[0] != '' and numbs[1] == '' :
+                    start = int(numbs[0])
+                    if start > 0 and start < 16:
+                        for i in xrange_(start,16):
                             download_torrent('https://kat.cr' + torrent_href[(i+105) - 1],losslessmusic[i - 1][1])
-                            break
-                        else:
-                            print "\n\n\tINCORRECT SERIAL NUMBERS....TRY AGAIN!!\n\n"
-
-            else:
-                if int(serial) <= 15 and int(serial) >= 1: 
-                    download_torrent('https://kat.cr' + torrent_href[(int(serial) + 105) - 1],losslessmusic[int(serial) - 1][1])
-                    break
                 else:
-                    print "\n\n\tINCORRECT SERIAL, TORRRENT DOES NOT EXIST...TRY AGAIN!!\n\n"
+                    end = int(numbs[1])
+                    if end > 0 and end < 16:
+                        for i in xrange_(1,end+1):
+                            download_torrent('https://kat.cr' + torrent_href[(i+105) - 1],losslessmusic[i - 1][1])
+            else:
+                for sn in numbs:
+                    i = int(sn)
+                    if i > 0 and i < 16:
+                        download_torrent('https://kat.cr' + torrent_href[(i+105) - 1],losslessmusic[i - 1][1])
+                    else:
+                        print "\n\n\tINCORRECT SERIAL NUMBERS....TRY AGAIN!!\n\n"
+
+        else:
+            if int(serial) <= 15 and int(serial) >= 1: 
+                download_torrent('https://kat.cr' + torrent_href[(int(serial) + 105) - 1],losslessmusic[int(serial) - 1][1])
+            else:
+                print "\n\n\tINCORRECT SERIAL, TORRRENT DOES NOT EXIST...TRY AGAIN!!\n\n"

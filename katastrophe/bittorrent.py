@@ -165,7 +165,7 @@ def writeToFile(file, length, peerMngr):
     if platform == "win32":
         fileObj = open('C:\Users\%s\Downloads\\' %user + file, 'wb')
     else:
-        fileObj = open('./' + file, 'wb')
+        fileObj = open('/home/%s/Downloads' %user + file, 'wb')
     myBuffer = ''
    
     bufferGenerator = generateMoreData(myBuffer, peerMngr)
@@ -182,7 +182,7 @@ def write(info, peerMngr):
         if platform == "win32":
             path = 'C:\Users'+'\\'+ user + '\Downloads\\'+ info['name'] + '/'
         else:
-            path = './' + info['name'] + '/'
+            path = '/home/'+ user +'/Downloads/' + info['name'] + '/'
         writeToMultipleFiles(info['files'], path, peerMngr)    
     else:
         writeToFile(info['name'], info['length'], peerMngr)

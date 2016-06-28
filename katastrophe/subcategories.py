@@ -61,8 +61,9 @@ def download_torrent(torrent):
 	                         stdout=subprocess.PIPE,
 	                         stderr=subprocess.PIPE)
 		except:
-			os.system('wget %s -Outfile ../Torrents/%s.torrent' %(torr_file[torrent-1],file_name))
-			download(file_name+'.torrent')
+			os.system('wget -O ../Torrents/%s.gz %s' %(file_name,torr_file[torrent-1]))
+			os.system('gunzip ../Torrents/%s.gz' %file_name)
+			download(file_name)
 
 	elif platform == "win32":
 		procs = []

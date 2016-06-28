@@ -113,7 +113,7 @@ class PeerManager(object):
             NewValue = ((now * NewRange) / OldRange)
 
         percentage = (float(NewValue)/float(newfinal)) * 100
-        sys.stdout.write("\r[%s%s] %d%% Completed" % ('=' * (NewValue),' ' * (newfinal - NewValue),percentage))
+        sys.stdout.write("\r[%s>%s] %d%% Completed" % ('=' * (NewValue),' ' * (newfinal - NewValue),percentage))
         return now == final
         sys.stdout.flush()
 
