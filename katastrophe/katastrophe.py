@@ -142,10 +142,12 @@ def fetch(url, page):
 def download_torrent(torrent):
     file_name = "".join(torr[torrent-1].split())
     
-    if platform == "linux" or platform == "linux2" or platform == "darwin":
+    if platform == "linux" or platform == "linux2":
         subprocess.Popen(['xdg-open', mag[torrent - 1]],
                          stdout=subprocess.PIPE,
                          stderr=subprocess.PIPE)
+    elif platform == "darwin":
+        os.system('open '+mag[torrent - 1])
 
     elif platform == "win32":
         procs = []
@@ -267,7 +269,7 @@ def main():
                             if i > 0 and i < 26:
                                 download_torrent(i)
                             else:
-                                print "\n\n\tINCORRECT SERIAL NUMBERS!!\n\n"
+                                print("\n\n\tINCORRECT SERIAL NUMBERS!!\n\n")
                         break
 
                 else:
@@ -275,7 +277,7 @@ def main():
                         download_torrent(int(serial))
                         break
                     else:
-                        print "\n\n\tINCORRECT SERIAL, TORRRENT DOES NOT EXIST!!\n\n"
+                        print("\n\n\tINCORRECT SERIAL, TORRRENT DOES NOT EXIST!!\n\n")
 
 
 if __name__ == "__main__":
