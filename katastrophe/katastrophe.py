@@ -147,8 +147,6 @@ def download_torrent(torrent):
 
     if platform == "linux" or platform == "linux2" or platform == "darwin":
         directory = '/home/'+ user +'/Torrents'
-        if not os.path.exists(directory):
-            os.makedirs(directory)
         try:
             subprocess.Popen(['xdg-open', mag[torrent - 1]],
                              stdout=subprocess.PIPE,

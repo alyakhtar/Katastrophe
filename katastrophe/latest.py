@@ -83,7 +83,7 @@ def download_torrent(link, name):
             result = pwrshell.wait()
         print '\n'
         download(file_name+'.torrent')
-        print '\n\nDownload Complete'n
+        print '\n\nDownload Complete\n'
 
 
 def fetch():
