@@ -46,6 +46,7 @@ from sys import platform
 from latest import movies_torrent, tv_torrent, anime_torrent, music_torrent, losslessmusic_torrent, applications_torrent, books_torrent,games_torrent
 from subcategories import categories,xxx_torrent
 from run import download
+import getpass
 
 try:
     raw_input_ = raw_input
@@ -141,22 +142,27 @@ def fetch(url, page):
 
 def download_torrent(torrent):
     file_name = "".join(torr[torrent-1].split())
+    user = getpass.getuser()
     
-    directory = '../Torrents'
-    if not os.path.exists(directory):
-        os.makedirs(directory)
 
     if platform == "linux" or platform == "linux2" or platform == "darwin":
+        directory = '/home/'+ user +'/Torrents'
+        if not os.path.exists(directory):
+            os.makedirs(directory)
         try:
             subprocess.Popen(['xdg-open', mag[torrent - 1]],
                              stdout=subprocess.PIPE,
                              stderr=subprocess.PIPE)
         except:
-            os.system('wget -O ../Torrents/%s.gz %s' %(file_name,torr_file[torrent-1]))
-            os.system('gunzip ../Torrents/%s.gz' %file_name)
+            if not os.path.exists(directory):
+                os.makedirs(directory)
+            os.system('wget -O %s/%s.gz %s' %(directory,file_name,torr_file[torrent-1]))
+            os.system('gunzip %s/%s.gz' %(directory,file_name))
             download(file_name)
+            print '\n\nDownload Complete\n'
 
     elif platform == "win32":
+        directory = 'C:\Users' + user + '\Torrents'
         procs = []
         flag = 0
         client = ''
@@ -181,19 +187,21 @@ def download_torrent(torrent):
             exe = loc[1].strip()
             subprocess.Popen([exe.decode(), mag[torrent - 1]])
         else:
+            if not os.path.exists(directory):
+                os.makedirs(directory)
             # print("\nPlease Install/Run BitTorrent, uTorrent, or deluge.\n")
             pwrshell = subprocess.Popen([r'C:\WINDOWS\system32\WindowsPowerShell\v1.0\powershell.exe',
                              '-ExecutionPolicy',
                              'Unrestricted',
-                             'wget %s -Outfile ../Torrents/%s.torrent' %(torr_file[torrent-1],file_name)], cwd=os.getcwd())
+                             'wget %s -Outfile %s/%s.torrent' %(directory,torr_file[torrent-1],file_name)], cwd=os.getcwd())
             result = pwrshell.wait()
             print '\n'
             download(file_name+'.torrent')
-            print '\n\nDownload Complete'
+            print '\n\nDownload Complete\n'
 
 
 def main():
-    args = docopt(__doc__, version='katastrophe 1.1.6')
+    args = docopt(__doc__, version='katastrophe 2.0.2')
     if args["--newmovies"]:
         movies_torrent()
     elif args["--newtv"]:

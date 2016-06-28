@@ -5,6 +5,7 @@ from sys import platform
 import subprocess
 import os,time
 from run import download
+import getpass
 
 try:
     raw_input_ = raw_input
@@ -31,21 +32,26 @@ def download_torrent(link, name):
     torr = soup.find('a', {'title': 'Download verified torrent file'})
     torr_file = torr.get('href')
 
-    directory = '../Torrents'
-    if not os.path.exists(directory):
-        os.makedirs(directory)
+    user = getpass.getuser()
+
+    directory = 'Torrents'
 
     if platform == "linux" or platform == "linux2" or platform == "darwin":
+        directory = '/home/'+ user +'/Torrents'
         try:
             subprocess.Popen(['xdg-open', magnet_link],
                              stdout=subprocess.PIPE,
                              stderr=subprocess.PIPE)
         except:
-            os.system('wget -O ../Torrents/%s.gz https:%s' %(file_name,torr_file))
-            os.system('gunzip ../Torrents/%s.gz' %file_name)
+            if not os.path.exists(directory):
+                os.makedirs(directory)
+            os.system('wget -O %s/%s.gz %s' %(directory,file_name,torr_file[torrent-1]))
+            os.system('gunzip %s/%s.gz' %(directory,file_name))
             download(file_name)
+            print '\n\nDownload Complete\n'
 
     elif platform == "win32":
+        directory = 'C:\Users' + user + '\Torrents'
         procs = []
         flag = 0
         client = ''
@@ -73,11 +79,11 @@ def download_torrent(link, name):
             pwrshell = subprocess.Popen([r'C:\WINDOWS\system32\WindowsPowerShell\v1.0\powershell.exe',
                                          '-ExecutionPolicy',
                                          'Unrestricted',
-                                         'wget https:%s -Outfile ../Torrents/%s.torrent' % (torr_file, file_name)], cwd=os.getcwd())
+                                         'wget %s -Outfile %s/%s.torrent' %(directory,torr_file, file_name)], cwd=os.getcwd())
             result = pwrshell.wait()
         print '\n'
         download(file_name+'.torrent')
-        print '\n\nDownload Complete'
+        print '\n\nDownload Complete'n
 
 
 def fetch():

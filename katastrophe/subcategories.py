@@ -6,6 +6,7 @@ import subprocess
 from sys import platform
 import os
 from run import download
+import getpass
 
 try:
     raw_input_ = raw_input
@@ -50,27 +51,32 @@ def url_generator(url, page, category):
 
 def download_torrent(torrent):	
 	file_name = "".join(torr[torrent-1].split())
+    user = getpass.getuser()
+    
 
-	directory = '../Torrents'
-	if not os.path.exists(directory):
-		os.makedirs(directory)
+    if platform == "linux" or platform == "linux2" or platform == "darwin":
+        directory = '/home/'+ user +'/Torrents'
+        if not os.path.exists(directory):
+            os.makedirs(directory)
+        try:
+            subprocess.Popen(['xdg-open', mag[torrent - 1]],
+                             stdout=subprocess.PIPE,
+                             stderr=subprocess.PIPE)
+        except:
+            if not os.path.exists(directory):
+                os.makedirs(directory)
+            os.system('wget -O %s/%s.gz %s' %(directory,file_name,torr_file[torrent-1]))
+            os.system('gunzip %s/%s.gz' %(directory,file_name))
+            download(file_name)
+            print '\n\nDownload Complete\n'
 
-	if platform == "linux" or platform == "linux2" or platform == "darwin":
-		try:
-			subprocess.Popen(['xdg-open', mag[torrent - 1]],
-	                         stdout=subprocess.PIPE,
-	                         stderr=subprocess.PIPE)
-		except:
-			os.system('wget -O ../Torrents/%s.gz %s' %(file_name,torr_file[torrent-1]))
-			os.system('gunzip ../Torrents/%s.gz' %file_name)
-			download(file_name)
-
-	elif platform == "win32":
-		procs = []
-		flag = 0
-		client = ''
-		cmd = 'WMIC PROCESS get Caption'
-		proc = subprocess.Popen(cmd, shell=True, stdout=subprocess.PIPE)
+    elif platform == "win32":
+        directory = 'C:\Users' + user + '\Torrents'
+        procs = []
+        flag = 0
+        client = ''
+        cmd = 'WMIC PROCESS get Caption'
+        proc = subprocess.Popen(cmd, shell=True, stdout=subprocess.PIPE)
         for line in proc.stdout:
             procs.append(line.strip())
 
@@ -78,6 +84,11 @@ def download_torrent(torrent):
                    'uTorrent.exe',
                    'deluge.exe']
 
+        for c in clients:
+            if c in procs:
+                client = c
+                break
+    
         if client:
             cmd = 'wmic process where "name=\'{}\'" get ExecutablePath'.format(client)
             proc = subprocess.Popen(cmd, shell=True, stdout=subprocess.PIPE)
@@ -85,15 +96,18 @@ def download_torrent(torrent):
             exe = loc[1].strip()
             subprocess.Popen([exe.decode(), mag[torrent - 1]])
         else:
+            if not os.path.exists(directory):
+                os.makedirs(directory)
             # print("\nPlease Install/Run BitTorrent, uTorrent, or deluge.\n")
-	        pwrshell = subprocess.Popen([r'C:\WINDOWS\system32\WindowsPowerShell\v1.0\powershell.exe',
-	                         '-ExecutionPolicy',
-	                         'Unrestricted',
-	                         'wget %s -Outfile ../Torrents/%s.torrent' %(torr_file[torrent-1],file_name)], cwd=os.getcwd())
-	        result = pwrshell.wait()
-	        print '\n'
-	        download(file_name+'.torrent')
-	        print '\n\nDownload Complete'
+            pwrshell = subprocess.Popen([r'C:\WINDOWS\system32\WindowsPowerShell\v1.0\powershell.exe',
+                             '-ExecutionPolicy',
+                             'Unrestricted',
+                             'wget %s -Outfile %s/%s.torrent' %(directory,torr_file[torrent-1],file_name)], cwd=os.getcwd())
+            result = pwrshell.wait()
+            print '\n'
+            download(file_name+'.torrent')
+            print '\n\nDownload Complete\n'
+
 
 
 def by_movies(url,page):

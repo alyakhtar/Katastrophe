@@ -13,7 +13,7 @@ import pieces
 import logging
 from sys import platform
 
-# logging = logging.getLogger('bittorrent')
+logging = logging.getLogger('bittorrent')
 
 OKBLUE = '\033[94m'
 RESET_SEQ = "\033[0m"
