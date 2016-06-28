@@ -32,11 +32,11 @@ def download_torrent(link, name):
     torr_file = torr.get('href')
 
     if platform == "linux" or platform == "linux2":
-        subprocess.Popen(['xdg-open', mag[torrent - 1]],
+        subprocess.Popen(['xdg-open', magnet_link],
                          stdout=subprocess.PIPE,
                          stderr=subprocess.PIPE)
     elif platform == "darwin":
-	            os.system('open '+mag[torrent - 1])
+	            os.system('open '+magnet_link)
     elif platform == "win32":
         procs = []
         flag = 0
