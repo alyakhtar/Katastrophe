@@ -4,6 +4,8 @@ from bs4 import BeautifulSoup
 from tabulate import tabulate
 import subprocess
 from sys import platform
+import os
+from run import download
 
 try:
     raw_input_ = raw_input
@@ -46,29 +48,34 @@ def url_generator(url, page, category):
 	return link + '/' + str(page) + '/'
 
 
-def download_torrent(torrent):
-    if platform == "linux" or platform == "linux2" or platform == "darwin":
-        subprocess.Popen(['xdg-open', mag[torrent - 1]],
-                         stdout=subprocess.PIPE,
-                         stderr=subprocess.PIPE)
+def download_torrent(torrent):	
+	file_name = "".join(torr[torrent-1].split())
 
-    elif platform == "win32":
-        procs = []
-        flag = 0
-        client = ''
-        cmd = 'WMIC PROCESS get Caption'
-        proc = subprocess.Popen(cmd, shell=True, stdout=subprocess.PIPE)
+	directory = '../Torrents'
+	if not os.path.exists(directory):
+		os.makedirs(directory)
+
+	if platform == "linux" or platform == "linux2" or platform == "darwin":
+		try:
+			subprocess.Popen(['xdg-open', mag[torrent - 1]],
+	                         stdout=subprocess.PIPE,
+	                         stderr=subprocess.PIPE)
+		except:
+			os.system('wget %s -Outfile ../Torrents/%s.torrent' %(torr_file[torrent-1],file_name))
+			download(file_name+'.torrent')
+
+	elif platform == "win32":
+		procs = []
+		flag = 0
+		client = ''
+		cmd = 'WMIC PROCESS get Caption'
+		proc = subprocess.Popen(cmd, shell=True, stdout=subprocess.PIPE)
         for line in proc.stdout:
             procs.append(line.strip())
 
         clients = ['BitTorrent.exe',
                    'uTorrent.exe',
                    'deluge.exe']
-
-        for c in clients:
-            if c in procs:
-                client = c
-                break
 
         if client:
             cmd = 'wmic process where "name=\'{}\'" get ExecutablePath'.format(client)
@@ -77,7 +84,15 @@ def download_torrent(torrent):
             exe = loc[1].strip()
             subprocess.Popen([exe.decode(), mag[torrent - 1]])
         else:
-            print("\nPlease Install/Run BitTorrent, uTorrent, or deluge.\n")
+            # print("\nPlease Install/Run BitTorrent, uTorrent, or deluge.\n")
+	        pwrshell = subprocess.Popen([r'C:\WINDOWS\system32\WindowsPowerShell\v1.0\powershell.exe',
+	                         '-ExecutionPolicy',
+	                         'Unrestricted',
+	                         'wget %s -Outfile ../Torrents/%s.torrent' %(torr_file[torrent-1],file_name)], cwd=os.getcwd())
+	        result = pwrshell.wait()
+	        print '\n'
+	        download(file_name+'.torrent')
+	        print '\n\nDownload Complete'
 
 
 def by_movies(url,page):
@@ -87,7 +102,10 @@ def by_movies(url,page):
 	soup = BeautifulSoup(plain_text, "lxml")
 
 	global mag
+	global torr_file
+	global torr
 	torr = []
+	torr_file = []
 	mag = []
 	sd = []
 	lc = []
@@ -107,6 +125,9 @@ def by_movies(url,page):
 		for magnet in box('a', {'title': 'Torrent magnet link'}):
 			magnet = magnet.get('href')
 	    	mag.append(magnet)
+		for file in box('a',{'title':'Download torrent file'}):
+			torr_name = 'https:'+file.get('href')
+			torr_file.append(torr_name)
 		sno.append(count)
 
 	for space in soup.findAll('td', {'class': 'nobr center'}):
@@ -130,7 +151,10 @@ def by_tv(url,page):
 	soup = BeautifulSoup(plain_text, "lxml")
 
 	global mag
+	global torr_file
+	global torr
 	torr = []
+	torr_file = []
 	mag = []
 	sd = []
 	lc = []
@@ -150,6 +174,9 @@ def by_tv(url,page):
 		for magnet in box('a', {'title': 'Torrent magnet link'}):
 			magnet = magnet.get('href')
 	    	mag.append(magnet)
+		for file in box('a',{'title':'Download torrent file'}):
+			torr_name = 'https:'+file.get('href')
+			torr_file.append(torr_name)
 		sno.append(count)
 
 	for space in soup.findAll('td', {'class': 'nobr center'}):
@@ -173,7 +200,10 @@ def by_anime(url,page):
 	soup = BeautifulSoup(plain_text, "lxml")
 
 	global mag
+	global torr_file
+	global torr
 	torr = []
+	torr_file = []
 	mag = []
 	sd = []
 	lc = []
@@ -193,6 +223,9 @@ def by_anime(url,page):
 		for magnet in box('a', {'title': 'Torrent magnet link'}):
 			magnet = magnet.get('href')
 	    	mag.append(magnet)
+		for file in box('a',{'title':'Download torrent file'}):
+			torr_name = 'https:'+file.get('href')
+			torr_file.append(torr_name)
 		sno.append(count)
 
 	for space in soup.findAll('td', {'class': 'nobr center'}):
@@ -216,7 +249,10 @@ def by_music(url,page):
 	soup = BeautifulSoup(plain_text, "lxml")
 
 	global mag
+	global torr_file
+	global torr
 	torr = []
+	torr_file = []
 	mag = []
 	sd = []
 	lc = []
@@ -236,6 +272,9 @@ def by_music(url,page):
 		for magnet in box('a', {'title': 'Torrent magnet link'}):
 			magnet = magnet.get('href')
 	    	mag.append(magnet)
+		for file in box('a',{'title':'Download torrent file'}):
+			torr_name = 'https:'+file.get('href')
+			torr_file.append(torr_name)
 		sno.append(count)
 
 	for space in soup.findAll('td', {'class': 'nobr center'}):
@@ -259,7 +298,10 @@ def by_books(url,page):
 	soup = BeautifulSoup(plain_text, "lxml")
 
 	global mag
+	global torr_file
+	global torr
 	torr = []
+	torr_file = []
 	mag = []
 	sd = []
 	lc = []
@@ -279,6 +321,9 @@ def by_books(url,page):
 		for magnet in box('a', {'title': 'Torrent magnet link'}):
 			magnet = magnet.get('href')
 	    	mag.append(magnet)
+		for file in box('a',{'title':'Download torrent file'}):
+			torr_name = 'https:'+file.get('href')
+			torr_file.append(torr_name)
 		sno.append(count)
 
 	for space in soup.findAll('td', {'class': 'nobr center'}):
@@ -302,7 +347,10 @@ def by_games(url,page):
 	soup = BeautifulSoup(plain_text, "lxml")
 
 	global mag
+	global torr_file
+	global torr
 	torr = []
+	torr_file = []
 	mag = []
 	sd = []
 	lc = []
@@ -322,6 +370,9 @@ def by_games(url,page):
 		for magnet in box('a', {'title': 'Torrent magnet link'}):
 			magnet = magnet.get('href')
 	    	mag.append(magnet)
+		for file in box('a',{'title':'Download torrent file'}):
+			torr_name = 'https:'+file.get('href')
+			torr_file.append(torr_name)
 		sno.append(count)
 
 	for space in soup.findAll('td', {'class': 'nobr center'}):
@@ -345,7 +396,10 @@ def by_applications(url,page):
 	soup = BeautifulSoup(plain_text, "lxml")
 
 	global mag
+	global torr_file
+	global torr
 	torr = []
+	torr_file = []
 	mag = []
 	sd = []
 	lc = []
@@ -365,6 +419,9 @@ def by_applications(url,page):
 		for magnet in box('a', {'title': 'Torrent magnet link'}):
 			magnet = magnet.get('href')
 	    	mag.append(magnet)
+		for file in box('a',{'title':'Download torrent file'}):
+			torr_name = 'https:'+file.get('href')
+			torr_file.append(torr_name)
 		sno.append(count)
 
 	for space in soup.findAll('td', {'class': 'nobr center'}):
@@ -388,7 +445,10 @@ def by_xxx(url,page):
 	soup = BeautifulSoup(plain_text, "lxml")
 
 	global mag
+	global torr_file
+	global torr
 	torr = []
+	torr_file = []
 	mag = []
 	sd = []
 	lc = []
@@ -408,6 +468,9 @@ def by_xxx(url,page):
 		for magnet in box('a', {'title': 'Torrent magnet link'}):
 			magnet = magnet.get('href')
 	    	mag.append(magnet)
+		for file in box('a',{'title':'Download torrent file'}):
+			torr_name = 'https:'+file.get('href')
+			torr_file.append(torr_name)
 		sno.append(count)
 
 	for space in soup.findAll('td', {'class': 'nobr center'}):
@@ -431,7 +494,10 @@ def xxx_torrent():
     soup = BeautifulSoup(plain_text, "lxml")
 
     global mag
+    global torr_file
+    global torr
     torr = []
+    torr_file = []
     mag = []
     sd = []
     lc = []
@@ -451,6 +517,9 @@ def xxx_torrent():
         for magnet in box('a', {'title': 'Torrent magnet link'}):
             magnet = magnet.get('href')
             mag.append(magnet)
+        for file in box('a',{'title':'Download torrent file'}):
+            torr_name = 'https:'+file.get('href')
+            torr_file.append(torr_name)
         sno.append(count)
 
     for space in soup.findAll('td', {'class': 'nobr center'}):

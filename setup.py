@@ -1,7 +1,7 @@
 from setuptools import setup
 setup(name='katastrophe',
       packages=['katastrophe'],
-      version='1.1.9',
+      version='1.1.6',
       description='Download torrents from kat.ph directly through terminal',
       author='Aly Akhtar',
       license='MIT',
@@ -13,6 +13,6 @@ setup(name='katastrophe',
                katastrophe=katastrophe:main
            ''',
       install_requires=[
-          'beautifulsoup4', 'tabulate', 'requests', 'lxml', 'docopt'
+          'beautifulsoup4', 'tabulate', 'requests', 'lxml', 'docopt','bencode','bitstring'
       ],
       keywords=['torrent', 'download', 'kat.ph'], )

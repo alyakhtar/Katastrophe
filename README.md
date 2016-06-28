@@ -8,7 +8,7 @@
     </a>
 </p>
 
-**A Command-Line Interface for scraping Kickass torrents (kat.cr). Provides options to scrape top torrents in given categories, or searching for specific torrents. The user can select single, multiple or even specify a range for the torrent to download from any category.**
+**A Command-Line Interface for scraping Kickass torrents (kat.cr). Provides options to scrape top torrents in given categories, or searching for specific torrents. The user can select single, multiple or even specify a range for the torrent to download from any category. It has an inbuilt bittorent client, if none exist on the system then the Command line bittorent client is used for downloading. **
 
 ![ScreenShot](http://i.imgur.com/gVdTRPk.png)
 
@@ -33,6 +33,8 @@
 * [docopt](https://github.com/docopt/docopt)
 * [requests](https://pypi.python.org/pypi/requests/)
 * [lxml](https://pypi.python.org/pypi/lxml)
+* [bencode](https://pypi.python.org/pypi/bencode/1.0)
+* [bitstring](https://pypi.python.org/pypi/bitstring/3.1.3)
 
 
 ### Requires
@@ -173,6 +175,9 @@
 ### Contribute
 
 Found a bug or want to suggest a new feature? Report it by opening an issue. Feel free to send a pull request for any improvements or feature requests ;)
+
+### Thanks
+A big thanks to [Lita](https://github.com/lita/bittorrent) for her bittorrent client.
 
 
 ### License

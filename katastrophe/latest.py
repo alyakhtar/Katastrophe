@@ -3,8 +3,8 @@ from bs4 import BeautifulSoup
 from tabulate import tabulate
 from sys import platform
 import subprocess
-import os
-# from run import download
+import os,time
+from run import download
 
 try:
     raw_input_ = raw_input
@@ -31,10 +31,18 @@ def download_torrent(link, name):
     torr = soup.find('a', {'title': 'Download verified torrent file'})
     torr_file = torr.get('href')
 
+    directory = '../Torrents'
+    if not os.path.exists(directory):
+        os.makedirs(directory)
+
     if platform == "linux" or platform == "linux2" or platform == "darwin":
-        subprocess.Popen(['xdg-open', mag[torrent - 1]],
-                         stdout=subprocess.PIPE,
-                         stderr=subprocess.PIPE)
+        try:
+            subprocess.Popen(['xdg-open', mag[torrent - 1]],
+                             stdout=subprocess.PIPE,
+                             stderr=subprocess.PIPE)
+        except:
+            os.system('wget %s -Outfile ../Torrents/%s.torrent' %(torr_file[torrent-1],file_name))
+            download(file_name+'.torrent')
 
     elif platform == "win32":
         procs = []
@@ -61,13 +69,14 @@ def download_torrent(link, name):
             exe = loc[1].strip()
             subprocess.Popen([exe.decode(), magnet_link])
         else:
-            print("\nPlease Install/Run BitTorrent, uTorrent, or deluge.\n")
-            # pwrshell = subprocess.Popen([r'C:\WINDOWS\system32\WindowsPowerShell\v1.0\powershell.exe',
-            #                              '-ExecutionPolicy',
-            #                              'Unrestricted',
-            #                              'wget https:%s -Outfile ../Torrents/%s.torrent' % (torr_file, file_name)], cwd=os.getcwd())
-            # result = pwrshell.wait()
-            # download(file_name+'.torrent')
+            pwrshell = subprocess.Popen([r'C:\WINDOWS\system32\WindowsPowerShell\v1.0\powershell.exe',
+                                         '-ExecutionPolicy',
+                                         'Unrestricted',
+                                         'wget https:%s -Outfile ../Torrents/%s.torrent' % (torr_file, file_name)], cwd=os.getcwd())
+            result = pwrshell.wait()
+        print '\n'
+        download(file_name+'.torrent')
+        print '\n\nDownload Complete'
 
 
 def fetch():
