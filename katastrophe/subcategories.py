@@ -4,6 +4,7 @@ from bs4 import BeautifulSoup
 from tabulate import tabulate
 import subprocess
 from sys import platform
+import os
 
 try:
     raw_input_ = raw_input
@@ -47,11 +48,12 @@ def url_generator(url, page, category):
 
 
 def download_torrent(torrent):
-    if platform == "linux" or platform == "linux2" or platform == "darwin":
+    if platform == "linux" or platform == "linux2":
         subprocess.Popen(['xdg-open', mag[torrent - 1]],
                          stdout=subprocess.PIPE,
                          stderr=subprocess.PIPE)
-
+    elif platform == "darwin":
+	            os.system('open '+mag[torrent - 1])
     elif platform == "win32":
         procs = []
         flag = 0

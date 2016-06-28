@@ -31,11 +31,12 @@ def download_torrent(link, name):
     torr = soup.find('a', {'title': 'Download verified torrent file'})
     torr_file = torr.get('href')
 
-    if platform == "linux" or platform == "linux2" or platform == "darwin":
+    if platform == "linux" or platform == "linux2":
         subprocess.Popen(['xdg-open', mag[torrent - 1]],
                          stdout=subprocess.PIPE,
                          stderr=subprocess.PIPE)
-
+    elif platform == "darwin":
+	            os.system('open '+mag[torrent - 1])
     elif platform == "win32":
         procs = []
         flag = 0
