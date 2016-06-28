@@ -99,14 +99,14 @@ def by_movies(url,page):
 	for name in soup.findAll('div', {'class': 'torrentname'}):
 		for title in name('a', {'class': 'cellMainLink'}):
 			clean_name = title.text
-	    	new_name = ''.join([i if ord(i) < 128 else '' for i in clean_name])
-	    	torr.append(new_name)
+		new_name = ''.join([i if ord(i) < 128 else '' for i in clean_name])
+		torr.append(new_name)
 
 	for box in soup.findAll('div', {'class': 'iaconbox center floatright'}):
 		count += 1
 		for magnet in box('a', {'title': 'Torrent magnet link'}):
 			magnet = magnet.get('href')
-	    	mag.append(magnet)
+		mag.append(magnet)
 		sno.append(count)
 
 	for space in soup.findAll('td', {'class': 'nobr center'}):
@@ -142,14 +142,14 @@ def by_tv(url,page):
 	for name in soup.findAll('div', {'class': 'torrentname'}):
 		for title in name('a', {'class': 'cellMainLink'}):
 			clean_name = title.text
-	    	new_name = ''.join([i if ord(i) < 128 else '' for i in clean_name])
-	    	torr.append(new_name)
+		new_name = ''.join([i if ord(i) < 128 else '' for i in clean_name])
+		torr.append(new_name)
 
 	for box in soup.findAll('div', {'class': 'iaconbox center floatright'}):
 		count += 1
 		for magnet in box('a', {'title': 'Torrent magnet link'}):
 			magnet = magnet.get('href')
-	    	mag.append(magnet)
+		mag.append(magnet)
 		sno.append(count)
 
 	for space in soup.findAll('td', {'class': 'nobr center'}):
@@ -185,14 +185,14 @@ def by_anime(url,page):
 	for name in soup.findAll('div', {'class': 'torrentname'}):
 		for title in name('a', {'class': 'cellMainLink'}):
 			clean_name = title.text
-	    	new_name = ''.join([i if ord(i) < 128 else '' for i in clean_name])
-	    	torr.append(new_name)
+		new_name = ''.join([i if ord(i) < 128 else '' for i in clean_name])
+		torr.append(new_name)
 
 	for box in soup.findAll('div', {'class': 'iaconbox center floatright'}):
 		count += 1
 		for magnet in box('a', {'title': 'Torrent magnet link'}):
 			magnet = magnet.get('href')
-	    	mag.append(magnet)
+		mag.append(magnet)
 		sno.append(count)
 
 	for space in soup.findAll('td', {'class': 'nobr center'}):
@@ -228,14 +228,14 @@ def by_music(url,page):
 	for name in soup.findAll('div', {'class': 'torrentname'}):
 		for title in name('a', {'class': 'cellMainLink'}):
 			clean_name = title.text
-	    	new_name = ''.join([i if ord(i) < 128 else '' for i in clean_name])
-	    	torr.append(new_name)
+		new_name = ''.join([i if ord(i) < 128 else '' for i in clean_name])
+		torr.append(new_name)
 
 	for box in soup.findAll('div', {'class': 'iaconbox center floatright'}):
 		count += 1
 		for magnet in box('a', {'title': 'Torrent magnet link'}):
 			magnet = magnet.get('href')
-	    	mag.append(magnet)
+		mag.append(magnet)
 		sno.append(count)
 
 	for space in soup.findAll('td', {'class': 'nobr center'}):
@@ -271,14 +271,14 @@ def by_books(url,page):
 	for name in soup.findAll('div', {'class': 'torrentname'}):
 		for title in name('a', {'class': 'cellMainLink'}):
 			clean_name = title.text
-	    	new_name = ''.join([i if ord(i) < 128 else '' for i in clean_name])
-	    	torr.append(new_name)
+		new_name = ''.join([i if ord(i) < 128 else '' for i in clean_name])
+		torr.append(new_name)
 
 	for box in soup.findAll('div', {'class': 'iaconbox center floatright'}):
 		count += 1
 		for magnet in box('a', {'title': 'Torrent magnet link'}):
 			magnet = magnet.get('href')
-	    	mag.append(magnet)
+		mag.append(magnet)
 		sno.append(count)
 
 	for space in soup.findAll('td', {'class': 'nobr center'}):
@@ -314,14 +314,14 @@ def by_games(url,page):
 	for name in soup.findAll('div', {'class': 'torrentname'}):
 		for title in name('a', {'class': 'cellMainLink'}):
 			clean_name = title.text
-	    	new_name = ''.join([i if ord(i) < 128 else '' for i in clean_name])
-	    	torr.append(new_name)
+		new_name = ''.join([i if ord(i) < 128 else '' for i in clean_name])
+		torr.append(new_name)
 
 	for box in soup.findAll('div', {'class': 'iaconbox center floatright'}):
 		count += 1
 		for magnet in box('a', {'title': 'Torrent magnet link'}):
 			magnet = magnet.get('href')
-	    	mag.append(magnet)
+		mag.append(magnet)
 		sno.append(count)
 
 	for space in soup.findAll('td', {'class': 'nobr center'}):
@@ -357,14 +357,14 @@ def by_applications(url,page):
 	for name in soup.findAll('div', {'class': 'torrentname'}):
 		for title in name('a', {'class': 'cellMainLink'}):
 			clean_name = title.text
-	    	new_name = ''.join([i if ord(i) < 128 else '' for i in clean_name])
-	    	torr.append(new_name)
+		new_name = ''.join([i if ord(i) < 128 else '' for i in clean_name])
+		torr.append(new_name)
 
 	for box in soup.findAll('div', {'class': 'iaconbox center floatright'}):
 		count += 1
 		for magnet in box('a', {'title': 'Torrent magnet link'}):
 			magnet = magnet.get('href')
-	    	mag.append(magnet)
+		mag.append(magnet)
 		sno.append(count)
 
 	for space in soup.findAll('td', {'class': 'nobr center'}):
@@ -400,14 +400,14 @@ def by_xxx(url,page):
 	for name in soup.findAll('div', {'class': 'torrentname'}):
 		for title in name('a', {'class': 'cellMainLink'}):
 			clean_name = title.text
-	    	new_name = ''.join([i if ord(i) < 128 else '' for i in clean_name])
-	    	torr.append(new_name)
+		new_name = ''.join([i if ord(i) < 128 else '' for i in clean_name])
+		torr.append(new_name)
 
 	for box in soup.findAll('div', {'class': 'iaconbox center floatright'}):
 		count += 1
 		for magnet in box('a', {'title': 'Torrent magnet link'}):
 			magnet = magnet.get('href')
-	    	mag.append(magnet)
+		mag.append(magnet)
 		sno.append(count)
 
 	for space in soup.findAll('td', {'class': 'nobr center'}):
@@ -504,13 +504,13 @@ def xxx_torrent():
                     if i > 0 and i < 26:
                         download_torrent(i)
                     else:
-                        print "\n\n\tINCORRECT SERIAL NUMBERS!!\n\n"
+                        print("\n\n\tINCORRECT SERIAL NUMBERS!!\n\n")
 
         else:
             if int(serial) <= 25 and int(serial) >= 1: 
                 download_torrent(i)
             else:
-                print "\n\n\tINCORRECT SERIAL, TORRRENT DOES NOT EXIST!!\n\n"
+                print("\n\n\tINCORRECT SERIAL, TORRRENT DOES NOT EXIST!!\n\n")
 
 
 def categories(category):
@@ -565,7 +565,7 @@ def categories(category):
                         if i > 0 and i < 26:
                             download_torrent(i)
                         else:
-                            print "\n\n\tINCORRECT SERIAL NUMBERS!!\n\n"
+                            print("\n\n\tINCORRECT SERIAL NUMBERS!!\n\n")
                     break
 
             else:
@@ -573,4 +573,4 @@ def categories(category):
                     download_torrent(int(serial))
                     break
                 else:
-                    print "\n\n\tINCORRECT SERIAL, TORRRENT DOES NOT EXIST!!\n\n"
+                    print("\n\n\tINCORRECT SERIAL, TORRRENT DOES NOT EXIST!!\n\n")
