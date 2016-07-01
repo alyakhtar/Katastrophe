@@ -66,7 +66,7 @@
 | Arguments               | Description                                             |
 | ----------------------- |:-------------------------------------------------------:|
 | -h, --help              | Show this screen                                        |
-| --verify=<Boolean>      | Change SSL setting in request package [default: True]   |
+| --verifyssl             | Change SSL setting in request package [default: True]   |
 | --version               | Show version                                            |
 | -m, --newmovies         | Show latest Movie Torrents                              |
 | -t, --newtv             | Show latest TV Torrents                                 |
