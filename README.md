@@ -86,6 +86,9 @@
 | -P, --applications      | Search by Applications Category                         |    
 | -X, --XXX               | Search by XXX Category                                  |
 
+### Demo
+[![asciicast](https://asciinema.org/a/4ije2cjuk0eyhyeqyed1fq2ys.png)](https://asciinema.org/a/4ije2cjuk0eyhyeqyed1fq2ys)
+
 ### Screenshots
 
 
