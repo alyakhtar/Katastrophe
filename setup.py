@@ -1,13 +1,12 @@
 from setuptools import setup
 setup(name='katastrophe',
       packages=['katastrophe'],
-      version='1.1.9',
-      description='Download torrents from kat.ph directly through terminal',
-      author='Aly Akhtar',
+      version='3',
+      description='Command line interface to Kickass Torrents',
+      author='Kevin Grant',
       license='MIT',
-      author_email='samurai.aly@gmail.com',
-      url='https://github.com/alyakhtar/katastrophe',
-      download_url = 'https://github.com/alyakhtar/mypackage/tarball/1.1.5',
+      author_email='kevinwgrant@gmail.com',
+      url='https://github.com/wedwabbit/katastrophe',
       entry_points='''
                [console_scripts]
                katastrophe=katastrophe:main
@@ -15,4 +14,4 @@ setup(name='katastrophe',
       install_requires=[
           'beautifulsoup4', 'tabulate', 'requests', 'lxml', 'docopt'
       ],
-      keywords=['torrent', 'download', 'kat.ph'], )
+      keywords=['torrent', 'download', 'kat.cr', 'Kickass'], )
