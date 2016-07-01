@@ -2,50 +2,43 @@
 
 Usage:
   katastrophe
-  katastrophe [-m | -t | -a | -s | -l | -g | -p | -b | -x | -M | -T | -A | -S | -B | -G | -P | -X]
+  katastrophe [ -m | -t | -a | -s | -l | -g | -p | -b | -x | -M | -T | -A | -S | -L | -G | -P | -B | -X ]
   katastrophe -h | --help
   katastrophe --version  
-  Multi Download:
-    i,j     From Serial No. i to Serial No. j
-    ,i      From Serial No. 1 to Serial No. i 
-    i,      From Serial No. i to serial no 25
-    i,j,... Multiple Serial Numbers
-
 
 Options:
   -h, --help               Show this screen.
   --version                Show version.
-  -m, --newmovies          Show latest Movie torrents
-  -t, --newtv              Show latest TV torrents
-  -a, --newanime           Show latest Anime torrents
-  -s, --newsongs           Show latest Music torrents
-  -l, --newlosslessmusic   Show latest Lossless Music torrents
-  -g, --newgames           Show lates Game Torrents
-  -p, --newapplications    Show latest Application Torrents
-  -b, --newbooks           Show latest Book Torrents
-  -x, --xxx                Show latest XXX Torrents
-  -M, --movies             Search by Movie Category
-  -T, --tv                 Search by TV Category
-  -A, --anime              Search by Anime Category
-  -S, --songs              Search by Music Category
-  -B, --books              Search by Book Category
-  -G, --games              Search by Games Category
-  -P, --applications       Search by Applications Category
-  -X, --XXX                Search by XXX Category
+  -m, --topmovies          Show top Movie torrents
+  -t, --toptv              Show top TV torrents
+  -a, --topanime           Show top Anime torrents
+  -s, --topsongs           Show top Music torrents
+  -l, --toplossless        Show top Lossless Music torrents
+  -g, --topgames           Show top Game torrents
+  -p, --topapplications    Show top Application torrents
+  -b, --topbooks           Show top Book torrents
+  -x, --topxxx             Show top XXX torrents
+  -M, --movies             Search by Movie category
+  -T, --tv                 Search by TV category
+  -A, --anime              Search by Anime category
+  -S, --songs              Search by Music category
+  -L, --lossless           Search by Lossless Music category
+  -G, --games              Search by Games category
+  -P, --applications       Search by Applications category
+  -B, --books              Search by Book category
+  -X, --xxx                Search by XXX category
 """
 
+
 import requests
-import sys
 from bs4 import BeautifulSoup
-import os
-import time
 from tabulate import tabulate
+from sys import platform
 import subprocess
+import os
 from docopt import docopt
 from sys import platform
-from latest import movies_torrent, tv_torrent, anime_torrent, music_torrent, losslessmusic_torrent, applications_torrent, books_torrent,games_torrent
-from subcategories import categories,xxx_torrent
-# from run import download
+
 
 try:
     raw_input_ = raw_input
@@ -58,96 +51,23 @@ except NameError:
     xrange_ = range
 
 
-def print_table(serial, torrent, size, seeds, leechers):
-    table = zip(serial, torrent, size, seeds, leechers)
-    if not table:
-        print('\n\tNOTHING FOUND !')
-        exit()
-    else:
-        headers = ['S.No.', 'Torrent Name', 'Size', 'Seeders', 'Leechers']
-        print(tabulate(table, headers, tablefmt='psql', numalign="center"))
+def download_torrent(link, name):
 
-
-def url_generator(url, page):
-    words = url.split()
-    
-    if len(words) == 1:
-        link = 'https://kat.cr/usearch/' + words[0]
-    else:
-        for i in xrange_(len(words)):
-            if i == 0:
-                link = 'https://kat.cr/usearch/' + words[i]
-            else:
-                link += '%20' + words[i]
-                
-    if page == 1:
-        return link + '/'
-    return link + '/' + str(page) + '/'
-        
-        
-def fetch(url, page):
-
-    link = url_generator(url, page)
-
+    file_name = "".join(name.split()) # Remove whitespace from name to serve as filename.
     source_code = requests.get(link)
-
     plain_text = source_code.text.encode('utf-8')
-
     soup = BeautifulSoup(plain_text, "lxml")
 
-    global mag
-    global torr_file
-    global torr
-    torr_file = []
-    torr = []
-    mag = []
-    sd = []
-    lc = []
-    sz = []
-    mytable = []
-    sno = []
-    count = 0
+    magnet = soup.find('a', {'title': 'Magnet link'}) # Extract the magnet link.
+    magnet_link = magnet.get('href')
 
-    for name in soup.findAll('div', {'class': 'torrentname'}):
-        for title in name('a', {'class': 'cellMainLink'}):
-            clean_name = title.text
-            new_name = ''.join([i if ord(i) < 128 else '' for i in clean_name])
-            torr.append(new_name)
-
-    for box in soup.findAll('div', {'class': 'iaconbox center floatright'}):
-        count += 1
-        for magnet in box('a', {'title': 'Torrent magnet link'}):
-            magnet = magnet.get('href')
-            mag.append(magnet)
-        for file in box('a',{'title':'Download torrent file'}):
-            torr_name = 'https:'+file.get('href')
-            torr_file.append(torr_name)
-        sno.append(count)
-
-    for space in soup.findAll('td', {'class': 'nobr center'}):
-        size = space.get_text()
-        sz.append(size)
-
-    for seed in soup.findAll('td', {'class': 'green center'}):
-        seeds = seed.get_text()
-        sd.append(seeds)
-
-    for leech in soup.findAll('td', {'class': 'red lasttd center'}):
-        leechers = leech.get_text()
-        lc.append(leechers)
-
-    print_table(sno, torr, sz, sd, lc)
-
-
-def download_torrent(torrent):
-    file_name = "".join(torr[torrent-1].split())
-    
     if platform == "linux" or platform == "linux2":
-        subprocess.Popen(['xdg-open', mag[torrent - 1]],
+        subprocess.Popen(['xdg-open', magnet_link],
                          stdout=subprocess.PIPE,
                          stderr=subprocess.PIPE)
+
     elif platform == "darwin":
-        os.system('open '+mag[torrent - 1])
+	            os.system('open '+magnet_link)
 
     elif platform == "win32":
         procs = []
@@ -160,124 +80,155 @@ def download_torrent(torrent):
 
         clients = ['BitTorrent.exe',
                    'uTorrent.exe',
-                   'deluge.exe']
+                   'deluge.exe',
+                   'qbittorrent.exe']
 
         for c in clients:
             if c in procs:
                 client = c
                 break
-    
+
         if client:
             cmd = 'wmic process where "name=\'{}\'" get ExecutablePath'.format(client)
             proc = subprocess.Popen(cmd, shell=True, stdout=subprocess.PIPE)
             loc = proc.stdout.readlines()
             exe = loc[1].strip()
-            subprocess.Popen([exe.decode(), mag[torrent - 1]])
+            subprocess.Popen([exe.decode(), magnet_link])
         else:
-            print("\nPlease Install/Run BitTorrent, uTorrent, or deluge.\n")
-        # pwrshell = subprocess.Popen([r'C:\WINDOWS\system32\WindowsPowerShell\v1.0\powershell.exe',
-        #                  '-ExecutionPolicy',
-        #                  'Unrestricted',
-        #                  'wget %s -Outfile ../Torrents/%s.torrent' %(torr_file[torrent-1],file_name)], cwd=os.getcwd())
-        # result = pwrshell.wait()
-        # download(file_name+'.torrent')
+            print("Compatible torrent client not installed or running.")
+            return
+        
+    print('Downloaded: '+name); # Let the user know which torrent was downloaded.
+ 
+
+def fetch_list(media_type, query=None):
+
+    torrent_name = []
+    torrent_size = []
+    torrent_seeds = []
+    torrent_leechers = []
+    torrent_hrefs = []
+    count = 0
+    link = 'https://kat.cr/'
+
+    if query != None:
+        link += 'usearch/'
+        words=query.split()
+        for idx,val in enumerate(words):
+            if idx == 0:
+                link += val
+            else:
+                link += '%20' + val
+        if media_type != '':
+            link += '%20category%3A'+media_type
+    else:
+        link += media_type
+
+    source_code = requests.get(link)
+    plain_text = source_code.text.encode('utf-8')
+    soup = BeautifulSoup(plain_text, "lxml")
+
+    for i in soup.findAll('table', {'class': 'data'}):
+        for j in i('a', {'class': 'cellMainLink'}):
+            torrent_name.append((''.join([k if ord(k) < 128 else '' for k in j.get_text()]))[:64]) # Add the torrent name - max 64 chars.
+            torrent_hrefs.append(j.get('href'))
+            count += 1
+
+        for j in i('td', {'class': 'nobr center'}):
+            torrent_size.append(j.get_text())
+
+        for j in i('td', {'class': 'green center'}):
+            torrent_seeds.append(j.get_text())
+
+        for j in i('td', {'class': 'red lasttd center'}):
+            torrent_leechers.append(j.get_text())
+
+    return (count,
+            list(zip(xrange_(count), torrent_name, torrent_size, torrent_seeds, torrent_leechers)),
+            torrent_hrefs)
+
+
+def list_torrents(media_type, query=None):
+    count, torrent_list, torrent_hrefs = fetch_list(media_type, query)
+
+    headers = ['No.', 'Name', 'Size', 'Seeds', 'Leechers']
+    print('\nTop '+media_type.upper()+' torrents\n')
+    print(tabulate(torrent_list, headers, tablefmt='psql', numalign="center"))
+
+    while True:
+        print('Enter torrent No.(s) to download or e to exit: '),
+        req_torrents = raw_input_()
+        if 'e' in req_torrents.lower():
+            exit()
+        else:
+            if ',' in req_torrents:
+                for x in req_torrents.split(','):
+                    try: 
+                        i = int(x)
+                    except:
+                        print(x+" is an invalid torrent number - ignored\n")
+                        continue
+                    if i >= 0 and i < count:
+                        download_torrent('https://kat.cr' + torrent_hrefs[i],torrent_list[i][1])
+                    else:
+                        print(x+" is an invalid torrent number - ignored\n")
+            else:
+                try:
+                    i = int(req_torrents)
+                except:
+                    print(req_torrents+" is an invalid torrent - ignored!\n")
+                    continue
+                if i >= 0 and i < count:
+                    download_torrent('https://kat.cr' + torrent_hrefs[i],torrent_list[i][1])
+                else:
+                    print(req_torrents+" is an invalid torrent - ignored!\n")
 
 
 def main():
-    args = docopt(__doc__, version='katastrophe 1.1.9')
-    if args["--newmovies"]:
-        movies_torrent()
-    elif args["--newtv"]:
-        tv_torrent()
-    elif args['--newanime']:
-        anime_torrent()
-    elif args["--newsongs"]:
-        music_torrent()
-    elif args["--newlosslessmusic"]:
-        losslessmusic_torrent()
-    elif args["--newgames"]:
-        games_torrent()
-    elif args["--newapplications"]:
-        applications_torrent()
-    elif args["--newbooks"]:
-        books_torrent()
-    elif args["--xxx"]:
-        xxx_torrent()
+    args = docopt(__doc__, version='katastrophe 3.0')
+
+    media_type = '' # Set a default empty category.
+
+    if args['--topmovies']:
+        list_torrents('movies')
+    elif args['--toptv']:
+        list_torrents('tv')
+    elif args['--topanime']:
+        list_torrents('anime')
+    elif args["--topsongs"]:
+        list_torrents('music')
+    elif args['--toplossless']:
+        list_torrents('lossless')
+    elif args['--topgames']:
+        list_torrents('games')
+    elif args["--topapplications"]:
+        list_torrents('applications')
+    elif args["--topbooks"]:
+        list_torrents('books')
+    elif args["--topxxx"]:
+        list_torrents('xxx')
     elif args["--movies"]:
-        categories(0)
+        media_type='movies'
     elif args["--tv"]:
-        categories(1)
+        media_type='tv'
     elif args["--anime"]:
-        categories(2)
+        media_type='anime'
     elif args["--songs"]:
-        categories(3)
+        media_type='songs'
+    elif args["--lossless"]:
+        media_type='lossless'
     elif args["--books"]:
-        categories(4)
+        media_type='books'
     elif args["--games"]:
-        categories(5)
+        media_type='games'
     elif args["--applications"]:
-        categories(6)
-    elif args["--XXX"]:
-        categories(7)
-    else:
-        page = 1
-        print("Torrent Search : "),
-        query = raw_input_()
-        table = fetch(query, page)
-
-        while True:
-            print('Enter torrent No.(s) to download or m for more or b for back or e to exit : '),
-            serial = raw_input_()
-            if serial == 'm' or serial == 'M':
-                page += 1
-                fetch(query, page)
-            elif serial == 'b' or serial == 'B':
-                if page != 1:
-                    page -= 1
-                    fetch(query, page)
-                else:
-                    print("\n Can't Go Back !\n")
-            elif serial == 'e' or serial == 'E':
-                break
-            else:
-                if ',' in serial:
-                    numbs = serial.split(',')
-                    if len(numbs) < 3:
-                        if numbs[0] != '' and numbs[1] != '' :
-                            start = int(numbs[0])
-                            end = int(numbs[1])
-                            if start < end:
-                                if end < 26 and start > 0:
-                                    for i in xrange(start,end+1):
-                                        download_torrent(i)
-                            break
-                        elif numbs[0] != '' and numbs[1] == '' :
-                            start = int(numbs[0])
-                            if start > 0 and start < 26:
-                                for i in xrange(start,26):
-                                    download_torrent(i)
-                            break
-                        else:
-                            end = int(numbs[1])
-                            if end > 0 and end < 26:
-                                for i in xrange(1,end+1):
-                                    download_torrent(i)
-                            break
-                    else:
-                        for sn in numbs:
-                            i = int(sn)
-                            if i > 0 and i < 26:
-                                download_torrent(i)
-                            else:
-                                print("\n\n\tINCORRECT SERIAL NUMBERS!!\n\n")
-                        break
-
-                else:
-                    if int(serial) <= 25 and int(serial) >= 1: 
-                        download_torrent(int(serial))
-                        break
-                    else:
-                        print("\n\n\tINCORRECT SERIAL, TORRRENT DOES NOT EXIST!!\n\n")
+        media_type='applications'
+    elif args["--xxx"]:
+        media_type='xxx'
+        
+    print("Torrent Search : "),
+    query = raw_input_()
+    list_torrents(media_type, query)
 
 
 if __name__ == "__main__":
