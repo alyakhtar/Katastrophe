@@ -18,10 +18,10 @@ except NameError:
     xrange_ = range
 
 
-def download_torrent(link, name):
+def download_torrent(link, name, ssl):
     file_name = "".join(name.split())
 
-    source_code = requests.get(link)
+    source_code = requests.get(link, verify = ssl)
 
     plain_text = source_code.text.encode('utf-8')
 
@@ -81,16 +81,16 @@ def download_torrent(link, name):
                                          'Unrestricted',
                                          'wget %s -Outfile %s/%s.torrent' %(directory,torr_file, file_name)], cwd=os.getcwd())
             result = pwrshell.wait()
-        print '\n'
-        download(file_name+'.torrent')
-        print '\n\nDownload Complete\n'
+            print '\n'
+            download(file_name+'.torrent')
+            print '\n\nDownload Complete\n'
 
 
-def fetch():
+def fetch(ssl):
 
     link = 'https://kat.cr/full/'
-
-    source_code = requests.get(link)
+    
+    source_code = requests.get(link,verify = ssl)
 
     plain_text = source_code.text.encode('utf-8')
 
@@ -136,8 +136,8 @@ def fetch():
     return combine
 
 
-def movies_torrent():
-    torrents = fetch()
+def movies_torrent(ssl):
+    torrents = fetch(ssl)
     movies = []
     headers = ['SNO.', 'NAME', 'SIZE', 'SEEDS', 'LEECHERS']
     for i in xrange_(15):
@@ -159,34 +159,34 @@ def movies_torrent():
                     if start < end:
                         if end < 16 and start > 0:
                             for i in xrange_(start,end+1):
-                                download_torrent('https://kat.cr' + torrent_href[i - 1],movies[i - 1][1])
+                                download_torrent('https://kat.cr' + torrent_href[i - 1],movies[i - 1][1], ssl)
                 elif numbs[0] != '' and numbs[1] == '' :
                     start = int(numbs[0])
                     if start > 0 and start < 16:
                         for i in xrange_(start,16):
-                            download_torrent('https://kat.cr' + torrent_href[i - 1],movies[i - 1][1])
+                            download_torrent('https://kat.cr' + torrent_href[i - 1],movies[i - 1][1], ssl)
                 else:
                     end = int(numbs[1])
                     if end > 0 and end < 16:
                         for i in xrange_(1,end+1):
-                            download_torrent('https://kat.cr' + torrent_href[i - 1],movies[i - 1][1])
+                            download_torrent('https://kat.cr' + torrent_href[i - 1],movies[i - 1][1], ssl)
             else:
                 for sn in numbs:
                     i = int(sn)
                     if i > 0 and i < 16:
-                        download_torrent('https://kat.cr' + torrent_href[i - 1],movies[i - 1][1])
+                        download_torrent('https://kat.cr' + torrent_href[i - 1],movies[i - 1][1], ssl)
                     else:
                         print "\n\n\tINCORRECT SERIAL NUMBERS....TRY AGAIN!!\n\n"
 
         else:
             if int(serial) <= 15 and int(serial) >= 1: 
-                download_torrent('https://kat.cr' + torrent_href[int(serial) - 1],movies[int(serial) - 1][1])
+                download_torrent('https://kat.cr' + torrent_href[int(serial) - 1],movies[int(serial) - 1][1], ssl)
             else:
                 print "\n\n\tINCORRECT SERIAL, TORRRENT DOES NOT EXIST...TRY AGAIN!!\n\n"
 
 
-def tv_torrent():
-    torrents = fetch()
+def tv_torrent(ssl):
+    torrents = fetch(ssl)
     tv = []
     headers = ['SNO.', 'NAME', 'SIZE', 'SEEDS', 'LEECHERS']
     for i in xrange_(15,30):
@@ -208,34 +208,34 @@ def tv_torrent():
                     if start < end:
                         if end < 16 and start > 0:
                             for i in xrange_(start,end+1):
-                                download_torrent('https://kat.cr' + torrent_href[(i+15) - 1],tv[i - 1][1])
+                                download_torrent('https://kat.cr' + torrent_href[(i+15) - 1],tv[i - 1][1], ssl)
                 elif numbs[0] != '' and numbs[1] == '' :
                     start = int(numbs[0])
                     if start > 0 and start < 16:
                         for i in xrange_(start,16):
-                            download_torrent('https://kat.cr' + torrent_href[(i+15) - 1],tv[i - 1][1])
+                            download_torrent('https://kat.cr' + torrent_href[(i+15) - 1],tv[i - 1][1], ssl)
                 else:
                     end = int(numbs[1])
                     if end > 0 and end < 16:
                         for i in xrange_(1,end+1):
-                            download_torrent('https://kat.cr' + torrent_href[(i+15) - 1],tv[i - 1][1])
+                            download_torrent('https://kat.cr' + torrent_href[(i+15) - 1],tv[i - 1][1], ssl)
             else:
                 for sn in numbs:
                     i = int(sn)
                     if i > 0 and i < 16:
-                        download_torrent('https://kat.cr' + torrent_href[(i+15) - 1],tv[i - 1][1])
+                        download_torrent('https://kat.cr' + torrent_href[(i+15) - 1],tv[i - 1][1], ssl)
                     else:
                         print "\n\n\tINCORRECT SERIAL NUMBERS....TRY AGAIN!!\n\n"
 
         else:
             if int(serial) <= 15 and int(serial) >= 1: 
-                download_torrent('https://kat.cr' + torrent_href[(int(serial) + 15) - 1],tv[int(serial) - 1][1])
+                download_torrent('https://kat.cr' + torrent_href[(int(serial) + 15) - 1],tv[int(serial) - 1][1], ssl)
             else:
                 print "\n\n\tINCORRECT SERIAL, TORRRENT DOES NOT EXIST...TRY AGAIN!!\n\n"
 
 
-def music_torrent():
-    torrents = fetch()
+def music_torrent(ssl):
+    torrents = fetch(ssl)
     music = []
     headers = ['SNO.', 'NAME', 'SIZE', 'SEEDS', 'LEECHERS']
     for i in xrange_(30,45):
@@ -257,34 +257,34 @@ def music_torrent():
                     if start < end:
                         if end < 16 and start > 0:
                             for i in xrange_(start,end+1):
-                                download_torrent('https://kat.cr' + torrent_href[(i+30) - 1],music[i - 1][1])
+                                download_torrent('https://kat.cr' + torrent_href[(i+30) - 1],music[i - 1][1], ssl)
                 elif numbs[0] != '' and numbs[1] == '' :
                     start = int(numbs[0])
                     if start > 0 and start < 16:
                         for i in xrange_(start,16):
-                            download_torrent('https://kat.cr' + torrent_href[(i+30) - 1],music[i - 1][1])
+                            download_torrent('https://kat.cr' + torrent_href[(i+30) - 1],music[i - 1][1], ssl)
                 else:
                     end = int(numbs[1])
                     if end > 0 and end < 16:
                         for i in xrange_(1,end+1):
-                            download_torrent('https://kat.cr' + torrent_href[(i+30) - 1],music[i - 1][1])
+                            download_torrent('https://kat.cr' + torrent_href[(i+30) - 1],music[i - 1][1], ssl)
             else:
                 for sn in numbs:
                     i = int(sn)
                     if i > 0 and i < 16:
-                        download_torrent('https://kat.cr' + torrent_href[(i+30) - 1],music[i - 1][1])
+                        download_torrent('https://kat.cr' + torrent_href[(i+30) - 1],music[i - 1][1], ssl)
                     else:
                         print "\n\n\tINCORRECT SERIAL NUMBERS....TRY AGAIN!!\n\n"
 
         else:
             if int(serial) <= 15 and int(serial) >= 1: 
-                download_torrent('https://kat.cr' + torrent_href[(int(serial) + 30) - 1],music[int(serial) - 1][1])
+                download_torrent('https://kat.cr' + torrent_href[(int(serial) + 30) - 1],music[int(serial) - 1][1], ssl)
             else:
                 print "\n\n\tINCORRECT SERIAL, TORRRENT DOES NOT EXIST...TRY AGAIN!!\n\n"
 
 
-def games_torrent():
-    torrents = fetch()
+def games_torrent(ssl):
+    torrents = fetch(ssl)
     games = []
     headers = ['SNO.', 'NAME', 'SIZE', 'SEEDS', 'LEECHERS']
     for i in xrange_(45,60):
@@ -306,34 +306,34 @@ def games_torrent():
                     if start < end:
                         if end < 16 and start > 0:
                             for i in xrange_(start,end+1):
-                                download_torrent('https://kat.cr' + torrent_href[(i+45) - 1],games[i - 1][1])
+                                download_torrent('https://kat.cr' + torrent_href[(i+45) - 1],games[i - 1][1], ssl)
                 elif numbs[0] != '' and numbs[1] == '' :
                     start = int(numbs[0])
                     if start > 0 and start < 16:
                         for i in xrange_(start,16):
-                            download_torrent('https://kat.cr' + torrent_href[(i+45) - 1],games[i - 1][1])
+                            download_torrent('https://kat.cr' + torrent_href[(i+45) - 1],games[i - 1][1], ssl)
                 else:
                     end = int(numbs[1])
                     if end > 0 and end < 16:
                         for i in xrange_(1,end+1):
-                            download_torrent('https://kat.cr' + torrent_href[(i+45) - 1],games[i - 1][1])
+                            download_torrent('https://kat.cr' + torrent_href[(i+45) - 1],games[i - 1][1], ssl)
             else:
                 for sn in numbs:
                     i = int(sn)
                     if i > 0 and i < 16:
-                        download_torrent('https://kat.cr' + torrent_href[(i+45) - 1],games[i - 1][1])
+                        download_torrent('https://kat.cr' + torrent_href[(i+45) - 1],games[i - 1][1], ssl)
                     else:
                         print "\n\n\tINCORRECT SERIAL NUMBERS....TRY AGAIN!!\n\n"
 
         else:
             if int(serial) <= 15 and int(serial) >= 1: 
-                download_torrent('https://kat.cr' + torrent_href[(int(serial) + 45) - 1],games[int(serial) - 1][1])
+                download_torrent('https://kat.cr' + torrent_href[(int(serial) + 45) - 1],games[int(serial) - 1][1], ssl)
             else:
                 print "\n\n\tINCORRECT SERIAL, TORRRENT DOES NOT EXIST...TRY AGAIN!!\n\n"
 
 
-def applications_torrent():
-    torrents = fetch()
+def applications_torrent(ssl):
+    torrents = fetch(ssl)
     applications = []
     headers = ['SNO.', 'NAME', 'SIZE', 'SEEDS', 'LEECHERS']
     for i in xrange_(60,75):
@@ -355,35 +355,35 @@ def applications_torrent():
                     if start < end:
                         if end < 16 and start > 0:
                             for i in xrange_(start,end+1):
-                                download_torrent('https://kat.cr' + torrent_href[(i+60) - 1],applications[i - 1][1])
+                                download_torrent('https://kat.cr' + torrent_href[(i+60) - 1],applications[i - 1][1], ssl)
                 elif numbs[0] != '' and numbs[1] == '' :
                     start = int(numbs[0])
                     if start > 0 and start < 16:
                         for i in xrange_(start,16):
-                            download_torrent('https://kat.cr' + torrent_href[(i+60) - 1],applications[i - 1][1])
+                            download_torrent('https://kat.cr' + torrent_href[(i+60) - 1],applications[i - 1][1], ssl)
                 else:
                     end = int(numbs[1])
                     if end > 0 and end < 16:
                         for i in xrange_(1,end+1):
-                            download_torrent('https://kat.cr' + torrent_href[(i+60) - 1],applications[i - 1][1])
+                            download_torrent('https://kat.cr' + torrent_href[(i+60) - 1],applications[i - 1][1], ssl)
             else:
                 for sn in numbs:
                     i = int(sn)
                     if i > 0 and i < 16:
-                        download_torrent('https://kat.cr' + torrent_href[(i+60) - 1],applications[i - 1][1])
+                        download_torrent('https://kat.cr' + torrent_href[(i+60) - 1],applications[i - 1][1], ssl)
                     else:
                         print "\n\n\tINCORRECT SERIAL NUMBERS....TRY AGAIN!!\n\n"
 
         else:
             if int(serial) <= 15 and int(serial) >= 1: 
-                download_torrent('https://kat.cr' + torrent_href[(int(serial) + 60) - 1],applications[int(serial) - 1][1])
+                download_torrent('https://kat.cr' + torrent_href[(int(serial) + 60) - 1],applications[int(serial) - 1][1], ssl)
             else:
                 print "\n\n\tINCORRECT SERIAL, TORRRENT DOES NOT EXIST...TRY AGAIN!!\n\n"
 
 
 
-def anime_torrent():
-    torrents = fetch()
+def anime_torrent(ssl):
+    torrents = fetch(ssl)
     anime = []
     headers = ['SNO.', 'NAME', 'SIZE', 'SEEDS', 'LEECHERS']
     for i in xrange_(75,90):
@@ -405,34 +405,34 @@ def anime_torrent():
                     if start < end:
                         if end < 16 and start > 0:
                             for i in xrange_(start,end+1):
-                                download_torrent('https://kat.cr' + torrent_href[(i+75) - 1],anime[i - 1][1])
+                                download_torrent('https://kat.cr' + torrent_href[(i+75) - 1],anime[i - 1][1], ssl)
                 elif numbs[0] != '' and numbs[1] == '' :
                     start = int(numbs[0])
                     if start > 0 and start < 16:
                         for i in xrange_(start,16):
-                            download_torrent('https://kat.cr' + torrent_href[(i+75) - 1],anime[i - 1][1])
+                            download_torrent('https://kat.cr' + torrent_href[(i+75) - 1],anime[i - 1][1], ssl)
                 else:
                     end = int(numbs[1])
                     if end > 0 and end < 16:
                         for i in xrange_(1,end+1):
-                            download_torrent('https://kat.cr' + torrent_href[(i+75) - 1],anime[i - 1][1])
+                            download_torrent('https://kat.cr' + torrent_href[(i+75) - 1],anime[i - 1][1], ssl)
             else:
                 for sn in numbs:
                     i = int(sn)
                     if i > 0 and i < 16:
-                        download_torrent('https://kat.cr' + torrent_href[(i+75) - 1],anime[i - 1][1])
+                        download_torrent('https://kat.cr' + torrent_href[(i+75) - 1],anime[i - 1][1], ssl)
                     else:
                         print "\n\n\tINCORRECT SERIAL NUMBERS....TRY AGAIN!!\n\n"
 
         else:
             if int(serial) <= 15 and int(serial) >= 1: 
-                download_torrent('https://kat.cr' + torrent_href[(int(serial) + 75) - 1],anime[int(serial) - 1][1])
+                download_torrent('https://kat.cr' + torrent_href[(int(serial) + 75) - 1],anime[int(serial) - 1][1], ssl)
             else:
                 print "\n\n\tINCORRECT SERIAL, TORRRENT DOES NOT EXIST...TRY AGAIN!!\n\n"
 
 
-def books_torrent():
-    torrents = fetch()
+def books_torrent(ssl):
+    torrents = fetch(ssl)
     books = []
     headers = ['SNO.', 'NAME', 'SIZE', 'SEEDS', 'LEECHERS']
     for i in xrange_(90,105):
@@ -454,33 +454,33 @@ def books_torrent():
                     if start < end:
                         if end < 16 and start > 0:
                             for i in xrange_(start,end+1):
-                                download_torrent('https://kat.cr' + torrent_href[(i+90) - 1],books[i - 1][1])
+                                download_torrent('https://kat.cr' + torrent_href[(i+90) - 1],books[i - 1][1], ssl)
                 elif numbs[0] != '' and numbs[1] == '' :
                     start = int(numbs[0])
                     if start > 0 and start < 16:
                         for i in xrange_(start,16):
-                            download_torrent('https://kat.cr' + torrent_href[(i+90) - 1],books[i - 1][1])
+                            download_torrent('https://kat.cr' + torrent_href[(i+90) - 1],books[i - 1][1], ssl)
                 else:
                     end = int(numbs[1])
                     if end > 0 and end < 16:
                         for i in xrange_(1,end+1):
-                            download_torrent('https://kat.cr' + torrent_href[(i+90) - 1],books[i - 1][1])
+                            download_torrent('https://kat.cr' + torrent_href[(i+90) - 1],books[i - 1][1], ssl)
             else:
                 for sn in numbs:
                     i = int(sn)
                     if i > 0 and i < 16:
-                        download_torrent('https://kat.cr' + torrent_href[(i+90) - 1],books[i - 1][1])
+                        download_torrent('https://kat.cr' + torrent_href[(i+90) - 1],books[i - 1][1], ssl)
                     else:
                         print "\n\n\tINCORRECT SERIAL NUMBERS....TRY AGAIN!!\n\n"
 
         else:
             if int(serial) <= 15 and int(serial) >= 1: 
-                download_torrent('https://kat.cr' + torrent_href[(int(serial) + 90) - 1],books[int(serial) - 1][1])
+                download_torrent('https://kat.cr' + torrent_href[(int(serial) + 90) - 1],books[int(serial) - 1][1], ssl)
             else:
                 print "\n\n\tINCORRECT SERIAL, TORRRENT DOES NOT EXIST...TRY AGAIN!!\n\n"
 
-def losslessmusic_torrent():
-    torrents = fetch()
+def losslessmusic_torrent(ssl):
+    torrents = fetch(ssl)
     losslessmusic = []
     headers = ['SNO.', 'NAME', 'SIZE', 'SEEDS', 'LEECHERS']
     for i in xrange_(105,120):
@@ -502,27 +502,27 @@ def losslessmusic_torrent():
                     if start < end:
                         if end < 16 and start > 0:
                             for i in xrange_(start,end+1):
-                                download_torrent('https://kat.cr' + torrent_href[(i+105) - 1],losslessmusic[i - 1][1])
+                                download_torrent('https://kat.cr' + torrent_href[(i+105) - 1],losslessmusic[i - 1][1], ssl)
                 elif numbs[0] != '' and numbs[1] == '' :
                     start = int(numbs[0])
                     if start > 0 and start < 16:
                         for i in xrange_(start,16):
-                            download_torrent('https://kat.cr' + torrent_href[(i+105) - 1],losslessmusic[i - 1][1])
+                            download_torrent('https://kat.cr' + torrent_href[(i+105) - 1],losslessmusic[i - 1][1], ssl)
                 else:
                     end = int(numbs[1])
                     if end > 0 and end < 16:
                         for i in xrange_(1,end+1):
-                            download_torrent('https://kat.cr' + torrent_href[(i+105) - 1],losslessmusic[i - 1][1])
+                            download_torrent('https://kat.cr' + torrent_href[(i+105) - 1],losslessmusic[i - 1][1], ssl)
             else:
                 for sn in numbs:
                     i = int(sn)
                     if i > 0 and i < 16:
-                        download_torrent('https://kat.cr' + torrent_href[(i+105) - 1],losslessmusic[i - 1][1])
+                        download_torrent('https://kat.cr' + torrent_href[(i+105) - 1],losslessmusic[i - 1][1], ssl)
                     else:
                         print "\n\n\tINCORRECT SERIAL NUMBERS....TRY AGAIN!!\n\n"
 
         else:
             if int(serial) <= 15 and int(serial) >= 1: 
-                download_torrent('https://kat.cr' + torrent_href[(int(serial) + 105) - 1],losslessmusic[int(serial) - 1][1])
+                download_torrent('https://kat.cr' + torrent_href[(int(serial) + 105) - 1],losslessmusic[int(serial) - 1][1], ssl)
             else:
                 print "\n\n\tINCORRECT SERIAL, TORRRENT DOES NOT EXIST...TRY AGAIN!!\n\n"

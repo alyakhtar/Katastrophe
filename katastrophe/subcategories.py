@@ -107,9 +107,9 @@ def download_torrent(torrent):
 
 
 
-def by_movies(url,page):
+def by_movies(url, page, ssl):
 	link = url_generator(url, page, 0)
-	source_code = requests.get(link)
+	source_code = requests.get(link, verify = ssl)
 	plain_text = source_code.text.encode('utf-8')
 	soup = BeautifulSoup(plain_text, "lxml")
 
@@ -156,9 +156,9 @@ def by_movies(url,page):
 
 	print_table(sno, torr, sz, sd, lc)
 
-def by_tv(url,page):
+def by_tv(url, page, ssl):
 	link = url_generator(url, page, 1)
-	source_code = requests.get(link)
+	source_code = requests.get(link, verify = ssl)
 	plain_text = source_code.text.encode('utf-8')
 	soup = BeautifulSoup(plain_text, "lxml")
 
@@ -205,9 +205,9 @@ def by_tv(url,page):
 
 	print_table(sno, torr, sz, sd, lc)
 
-def by_anime(url,page):
+def by_anime(url, page, ssl):
 	link = url_generator(url, page, 2)
-	source_code = requests.get(link)
+	source_code = requests.get(link, verify = ssl)
 	plain_text = source_code.text.encode('utf-8')
 	soup = BeautifulSoup(plain_text, "lxml")
 
@@ -254,9 +254,9 @@ def by_anime(url,page):
 
 	print_table(sno, torr, sz, sd, lc)
 
-def by_music(url,page):
+def by_music(url, page, ssl):
 	link = url_generator(url, page, 3)
-	source_code = requests.get(link)
+	source_code = requests.get(link, verify = ssl)
 	plain_text = source_code.text.encode('utf-8')
 	soup = BeautifulSoup(plain_text, "lxml")
 
@@ -303,9 +303,9 @@ def by_music(url,page):
 
 	print_table(sno, torr, sz, sd, lc)
 
-def by_books(url,page):
+def by_books(url, page, ssl):
 	link = url_generator(url, page, 4)
-	source_code = requests.get(link)
+	source_code = requests.get(link, verify = ssl)
 	plain_text = source_code.text.encode('utf-8')
 	soup = BeautifulSoup(plain_text, "lxml")
 
@@ -352,9 +352,9 @@ def by_books(url,page):
 
 	print_table(sno, torr, sz, sd, lc)
 
-def by_games(url,page):
+def by_games(url, page, ssl):
 	link = url_generator(url, page, 5)
-	source_code = requests.get(link)
+	source_code = requests.get(link, verify = ssl)
 	plain_text = source_code.text.encode('utf-8')
 	soup = BeautifulSoup(plain_text, "lxml")
 
@@ -401,9 +401,9 @@ def by_games(url,page):
 
 	print_table(sno, torr, sz, sd, lc)
 
-def by_applications(url,page):
+def by_applications(url, page, ssl):
 	link = url_generator(url, page, 6)
-	source_code = requests.get(link)
+	source_code = requests.get(link, verify = ssl)
 	plain_text = source_code.text.encode('utf-8')
 	soup = BeautifulSoup(plain_text, "lxml")
 
@@ -450,9 +450,9 @@ def by_applications(url,page):
 
 	print_table(sno, torr, sz, sd, lc)
 
-def by_xxx(url,page):
+def by_xxx(url, page, ssl):
 	link = url_generator(url, page, 7)
-	source_code = requests.get(link)
+	source_code = requests.get(link, verify = ssl)
 	plain_text = source_code.text.encode('utf-8')
 	soup = BeautifulSoup(plain_text, "lxml")
 
@@ -499,9 +499,9 @@ def by_xxx(url,page):
 
 	print_table(sno, torr, sz, sd, lc)
 
-def xxx_torrent():
+def xxx_torrent(ssl):
     link = 'https://kat.cr/xxx/1/?field=time_add&sorder=desc'
-    source_code = requests.get(link)
+    source_code = requests.get(link, verify = ssl)
     plain_text = source_code.text.encode('utf-8')
     soup = BeautifulSoup(plain_text, "lxml")
 
@@ -594,24 +594,24 @@ def xxx_torrent():
                 print "\n\n\tINCORRECT SERIAL, TORRRENT DOES NOT EXIST!!\n\n"
 
 
-def categories(category):
+def categories(category, ssl):
     page = 1
     category_list = ['movies', 'tv', 'anime', 'music',
 	    'books', 'games', 'applications', 'xxx']
     print("Torrent Search : "),
     query = raw_input_()
-    table = getattr(sys.modules[__name__], 'by_%s' % category_list[category])(query, page)
+    table = getattr(sys.modules[__name__], 'by_%s' % category_list[category])(query, page ,ssl)
 
     while True:
         print('Enter torrent No.(s) to download or m for more or b for back or e to exit : '),
         serial = raw_input_()
         if serial == 'm' or serial == 'M':
             page += 1
-            getattr(sys.modules[__name__], 'by_%s' % category_list[category])(query, page)
+            getattr(sys.modules[__name__], 'by_%s' % category_list[category])(query, page, ssl)
         elif serial == 'b' or serial == 'B':
             if page != 1:
                 page -= 1
-                getattr(sys.modules[__name__], 'by_%s' % category_list[category])(query, page)
+                getattr(sys.modules[__name__], 'by_%s' % category_list[category])(query, page, ssl)
             else:
                 print("\n Can't Go Back !\n")
         elif serial == 'e' or serial == 'E':

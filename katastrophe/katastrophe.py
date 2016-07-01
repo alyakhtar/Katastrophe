@@ -2,19 +2,14 @@
 
 Usage:
   katastrophe
-  katastrophe [-m | -t | -a | -s | -l | -g | -p | -b | -x | -M | -T | -A | -S | -B | -G | -P | -X]
+  katastrophe [--verifyssl=<boolean>][-m | -t | -a | -s | -l | -g | -p | -b | -x | -M | -T | -A | -S | -B | -G | -P | -X]
   katastrophe -h | --help
   katastrophe --version  
-  Multi Download:
-    i,j     From Serial No. i to Serial No. j
-    ,i      From Serial No. 1 to Serial No. i 
-    i,      From Serial No. i to serial no 25
-    i,j,... Multiple Serial Numbers
-
 
 Options:
   -h, --help               Show this screen.
   --version                Show version.
+  --verifyssl=<boolean>    Change SSL setting in request package [default: True]
   -m, --newmovies          Show latest Movie torrents
   -t, --newtv              Show latest TV torrents
   -a, --newanime           Show latest Anime torrents
@@ -32,6 +27,12 @@ Options:
   -G, --games              Search by Games Category
   -P, --applications       Search by Applications Category
   -X, --XXX                Search by XXX Category
+
+  Multi Download:
+    i,j     From Serial No. i to Serial No. j
+    ,i      From Serial No. 1 to Serial No. i 
+    i,      From Serial No. i to serial no 25
+    i,j,... Multiple Serial Numbers
 """
 
 import requests
@@ -47,6 +48,9 @@ from latest import movies_torrent, tv_torrent, anime_torrent, music_torrent, los
 from subcategories import categories,xxx_torrent
 from run import download
 import getpass
+from requests.packages.urllib3.exceptions import InsecureRequestWarning
+
+requests.packages.urllib3.disable_warnings(InsecureRequestWarning)
 
 try:
     raw_input_ = raw_input
@@ -86,11 +90,11 @@ def url_generator(url, page):
     return link + '/' + str(page) + '/'
         
         
-def fetch(url, page):
+def fetch(url, page, ssl):
 
     link = url_generator(url, page)
 
-    source_code = requests.get(link)
+    source_code = requests.get(link,verify = ssl)
 
     plain_text = source_code.text.encode('utf-8')
 
@@ -199,57 +203,60 @@ def download_torrent(torrent):
 
 
 def main():
-    args = docopt(__doc__, version='katastrophe 2.0.2')
+    args = docopt(__doc__, version='katastrophe 2.0.4')
+    ssl = True
+    if args['--verifyssl'] == 'false' or args['--verifyssl'] == 'False':
+        ssl = False
     if args["--newmovies"]:
-        movies_torrent()
+        movies_torrent(ssl)
     elif args["--newtv"]:
-        tv_torrent()
+        tv_torrent(ssl)
     elif args['--newanime']:
-        anime_torrent()
+        anime_torrent(ssl)
     elif args["--newsongs"]:
-        music_torrent()
+        music_torrent(ssl)
     elif args["--newlosslessmusic"]:
-        losslessmusic_torrent()
+        losslessmusic_torrent(ssl)
     elif args["--newgames"]:
-        games_torrent()
+        games_torrent(ssl)
     elif args["--newapplications"]:
-        applications_torrent()
+        applications_torrent(ssl)
     elif args["--newbooks"]:
-        books_torrent()
+        books_torrent(ssl)
     elif args["--xxx"]:
-        xxx_torrent()
+        xxx_torrent(ssl)
     elif args["--movies"]:
-        categories(0)
+        categories(0,ssl)
     elif args["--tv"]:
-        categories(1)
+        categories(1,ssl)
     elif args["--anime"]:
-        categories(2)
+        categories(2,ssl)
     elif args["--songs"]:
-        categories(3)
+        categories(3,ssl)
     elif args["--books"]:
-        categories(4)
+        categories(4,ssl)
     elif args["--games"]:
-        categories(5)
+        categories(5,ssl)
     elif args["--applications"]:
-        categories(6)
+        categories(6,ssl)
     elif args["--XXX"]:
-        categories(7)
+        categories(7,ssl)
     else:
         page = 1
         print("Torrent Search : "),
         query = raw_input_()
-        table = fetch(query, page)
+        table = fetch(query, page, ssl)
 
         while True:
             print('Enter torrent No.(s) to download or m for more or b for back or e to exit : '),
             serial = raw_input_()
             if serial == 'm' or serial == 'M':
                 page += 1
-                fetch(query, page)
+                fetch(query, page, ssl)
             elif serial == 'b' or serial == 'B':
                 if page != 1:
                     page -= 1
-                    fetch(query, page)
+                    fetch(query, page, ssl)
                 else:
                     print("\n Can't Go Back !\n")
             elif serial == 'e' or serial == 'E':

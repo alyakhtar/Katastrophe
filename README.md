@@ -49,7 +49,7 @@
 ### Usage:
 ```sh
   katastrophe.py 
-  katastrophe [-m | -t | -a | -s | -l | -g | -p | -b | -x | -M | -T | -A | -S | -B | -G | -P | -X]
+  katastrophe [--verifyssl=<boolean>][-m | -t | -a | -s | -l | -g | -p | -b | -x | -M | -T | -A | -S | -B | -G | -P | -X]
   katastrophe -h | --help
   katastrophe --version
 
@@ -63,27 +63,28 @@
 
 ### Options:
 
-| Arguments               | Description                              |
-| ----------------------- |:----------------------------------------:|
-| -h, --help              | Show this screen                         |
-| --version               | Show version                             |
-| -m, --newmovies         | Show latest Movie Torrents               |
-| -t, --newtv             | Show latest TV Torrents                  |
-| -a, --newanime          | Show latest Anime Torrents               |
-| -s, --newsongs          | Show latest Music Torrents               |
-| -l, --newlosslessmusic  | Show latest Lossless Music Torrents      |
-| -g, --newgames          | Show latest Game Torrents                |
-| -p, --newapplications   | Shoe latest Application Torrents         |
-| -b, --newbooks          | Show latest Book Torrents                |
-| -x, --xxx               | Show latest XXX Torrents                 |
-| -M, --movies            | Search by Movie Category                 |
-| -T, --tv                | Search by TV Category                    |
-| -A, --anime             | Search by Anime Category                 |
-| -S, --songs             | Search by Music Category                 |
-| -B, --books             | Search by Book Category                  |
-| -G, --games             | Search by Games Category                 |
-| -P, --applications      | Search by Applications Category          |
-| -X, --XXX               | Search by XXX Category                   |
+| Arguments               | Description                                             |
+| ----------------------- |:-------------------------------------------------------:|
+| -h, --help              | Show this screen                                        |
+| --verify=<Boolean>      | Change SSL setting in request package [default: True]   |
+| --version               | Show version                                            |
+| -m, --newmovies         | Show latest Movie Torrents                              |
+| -t, --newtv             | Show latest TV Torrents                                 |
+| -a, --newanime          | Show latest Anime Torrents                              |
+| -s, --newsongs          | Show latest Music Torrents                              |
+| -l, --newlosslessmusic  | Show latest Lossless Music Torrents                     |
+| -g, --newgames          | Show latest Game Torrents                               |
+| -p, --newapplications   | Shoe latest Application Torrents                        |  
+| -b, --newbooks          | Show latest Book Torrents                               |
+| -x, --xxx               | Show latest XXX Torrents                                |
+| -M, --movies            | Search by Movie Category                                |
+| -T, --tv                | Search by TV Category                                   |
+| -A, --anime             | Search by Anime Category                                |
+| -S, --songs             | Search by Music Category                                |
+| -B, --books             | Search by Book Category                                 |
+| -G, --games             | Search by Games Category                                |
+| -P, --applications      | Search by Applications Category                         |    
+| -X, --XXX               | Search by XXX Category                                  |
 
 ### Screenshots
 
@@ -171,6 +172,15 @@
 
 
 ![ScreenShot](http://i.imgur.com/ziLjt25.png)
+
+
+#### SSL Verification
+
+
+`$ katastrophe --verifyssl=True/False`
+
+
+![ScreenShot](http://i.imgur.com/Kh5MkYh.png)
 
 ### Contribute
 
