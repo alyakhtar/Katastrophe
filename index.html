@@ -1,0 +1,318 @@
+<!DOCTYPE html>
+<html>
+  <head>
+    <meta charset='utf-8'>
+    <meta http-equiv="X-UA-Compatible" content="chrome=1">
+    <meta name="viewport" content="width=device-width, initial-scale=1, maximum-scale=1">
+    <link href='https://fonts.googleapis.com/css?family=Architects+Daughter' rel='stylesheet' type='text/css'>
+    <link rel="stylesheet" type="text/css" href="stylesheets/stylesheet.css" media="screen">
+    <link rel="stylesheet" type="text/css" href="stylesheets/github-light.css" media="screen">
+    <link rel="stylesheet" type="text/css" href="stylesheets/print.css" media="print">
+
+    <!--[if lt IE 9]>
+    <script src="//html5shiv.googlecode.com/svn/trunk/html5.js"></script>
+    <![endif]-->
+
+    <title>Katastrophe by alyakhtar</title>
+  </head>
+
+  <body>
+    <header>
+      <div class="inner">
+        <h1>Katastrophe</h1>
+        <h2>Command Line Tool to download torrents from kat.ph</h2>
+        <a href="https://github.com/alyakhtar/Katastrophe" class="button"><small>View project on</small> GitHub</a>
+      </div>
+    </header>
+
+    <div id="content-wrapper">
+      <div class="inner clearfix">
+        <section id="main-content">
+          <h1>
+<a id="katastrophe" class="anchor" href="#katastrophe" aria-hidden="true"><span aria-hidden="true" class="octicon octicon-link"></span></a>Katastrophe</h1>
+
+<p align="left">
+    <a href="https://pypi.python.org/pypi/katastrophe/1.1.5">
+        <img src="https://img.shields.io/pypi/v/katastrophe.svg">
+    </a>
+    <a href="https://raw.githubusercontent.com/alyakhtar/Katastrophe/master/LICENSE.txt">
+        <img src="https://img.shields.io/pypi/l/katastrophe.svg">
+    </a>
+</p>
+
+<p><em>A Command-Line Interface for scraping Kickass torrents (kat.cr). Provides options to scrape top torrents in given categories, or searching for specific torrents. The user can select single, multiple or even specify a range for the torrent to download from any category. It has an inbuilt bittorent client, if none exist on the system then the Command line bittorent client is used for downloading.</em></p>
+
+<p><img src="http://i.imgur.com/gVdTRPk.png" alt="ScreenShot"></p>
+
+<h2>
+<a id="installation" class="anchor" href="#installation" aria-hidden="true"><span aria-hidden="true" class="octicon octicon-link"></span></a>Installation</h2>
+
+<h3>
+<a id="using-pip" class="anchor" href="#using-pip" aria-hidden="true"><span aria-hidden="true" class="octicon octicon-link"></span></a>Using <a href="https://pypi.python.org/pypi/pip/">pip</a>
+</h3>
+
+<p><code>$ pip install katastrophe</code></p>
+
+<h3>
+<a id="get-the-latest-build-from-the-source" class="anchor" href="#get-the-latest-build-from-the-source" aria-hidden="true"><span aria-hidden="true" class="octicon octicon-link"></span></a>Get the latest build from the Source</h3>
+
+<ul>
+<li>Clone the repo git clone <a href="https://github.com/alyakhtar/katastrophe">https://github.com/alyakhtar/katastrophe</a>
+</li>
+<li>Run python setup.py install</li>
+</ul>
+
+<h3>
+<a id="dependencies" class="anchor" href="#dependencies" aria-hidden="true"><span aria-hidden="true" class="octicon octicon-link"></span></a>Dependencies</h3>
+
+<ul>
+<li><a href="https://pypi.python.org/pypi/beautifulsoup4/4.3.2">BeautifulSoup4</a></li>
+<li><a href="https://pypi.python.org/pypi/tabulate">tabulate</a></li>
+<li><a href="https://github.com/docopt/docopt">docopt</a></li>
+<li><a href="https://pypi.python.org/pypi/requests/">requests</a></li>
+<li><a href="https://pypi.python.org/pypi/lxml">lxml</a></li>
+<li><a href="https://pypi.python.org/pypi/bencode/1.0">bencode</a></li>
+<li><a href="https://pypi.python.org/pypi/bitstring/3.1.3">bitstring</a></li>
+</ul>
+
+<h3>
+<a id="requires" class="anchor" href="#requires" aria-hidden="true"><span aria-hidden="true" class="octicon octicon-link"></span></a>Requires</h3>
+
+<ul>
+<li>for Linux/Mac OS X
+
+<ul>
+<li>
+<a href="http://deluge-torrent.org">Deluge</a>/<a href="http://transmissionbt.com">Transmission</a>/<a href="http://qbittorrent.sourceforge.net">QBitTorrent</a>/<a href="http://vuze.com">Vuze</a>
+</li>
+</ul>
+</li>
+<li>for Windows
+
+<ul>
+<li>
+<a href="https://www.bittorrent.com">BitTorrent</a>/<a href="https://utorrent.com">μTorrent</a>/<a href="http://deluge-torrent.org">Deluge</a>
+</li>
+</ul>
+</li>
+</ul>
+
+<h3>
+<a id="usage" class="anchor" href="#usage" aria-hidden="true"><span aria-hidden="true" class="octicon octicon-link"></span></a>Usage:</h3>
+
+<div class="highlight highlight-source-shell"><pre>  katastrophe.py 
+  katastrophe [--verifyssl<span class="pl-k">=&lt;</span>boolean<span class="pl-k">&gt;</span>][-m <span class="pl-k">|</span> <span class="pl-k">-t</span> <span class="pl-k">|</span> <span class="pl-k">-a</span> <span class="pl-k">|</span> <span class="pl-k">-s</span> <span class="pl-k">|</span> -l <span class="pl-k">|</span> <span class="pl-k">-g</span> <span class="pl-k">|</span> <span class="pl-k">-p</span> <span class="pl-k">|</span> <span class="pl-k">-b</span> <span class="pl-k">|</span> <span class="pl-k">-x</span> <span class="pl-k">|</span> -M <span class="pl-k">|</span> -T <span class="pl-k">|</span> -A <span class="pl-k">|</span> <span class="pl-k">-S</span> <span class="pl-k">|</span> -B <span class="pl-k">|</span> <span class="pl-k">-G</span> <span class="pl-k">|</span> -P <span class="pl-k">|</span> -X]
+  katastrophe -h <span class="pl-k">|</span> --help
+  katastrophe --version
+
+  Multi Download:
+    i,j     From Serial No. i to Serial No. j
+    ,i      From Serial No. 1 to Serial No. i 
+    i,      From Serial No. i to serial no 25
+    i,j,... Multiple Serial Numbers
+</pre></div>
+
+<h3>
+<a id="options" class="anchor" href="#options" aria-hidden="true"><span aria-hidden="true" class="octicon octicon-link"></span></a>Options:</h3>
+
+<table>
+<thead>
+<tr>
+<th>Arguments</th>
+<th align="center">Description</th>
+</tr>
+</thead>
+<tbody>
+<tr>
+<td>-h, --help</td>
+<td align="center">Show this screen</td>
+</tr>
+<tr>
+<td>--verifyssl</td>
+<td align="center">Change SSL setting in request package [default: True]</td>
+</tr>
+<tr>
+<td>--version</td>
+<td align="center">Show version</td>
+</tr>
+<tr>
+<td>-m, --newmovies</td>
+<td align="center">Show latest Movie Torrents</td>
+</tr>
+<tr>
+<td>-t, --newtv</td>
+<td align="center">Show latest TV Torrents</td>
+</tr>
+<tr>
+<td>-a, --newanime</td>
+<td align="center">Show latest Anime Torrents</td>
+</tr>
+<tr>
+<td>-s, --newsongs</td>
+<td align="center">Show latest Music Torrents</td>
+</tr>
+<tr>
+<td>-l, --newlosslessmusic</td>
+<td align="center">Show latest Lossless Music Torrents</td>
+</tr>
+<tr>
+<td>-g, --newgames</td>
+<td align="center">Show latest Game Torrents</td>
+</tr>
+<tr>
+<td>-p, --newapplications</td>
+<td align="center">Shoe latest Application Torrents</td>
+</tr>
+<tr>
+<td>-b, --newbooks</td>
+<td align="center">Show latest Book Torrents</td>
+</tr>
+<tr>
+<td>-x, --xxx</td>
+<td align="center">Show latest XXX Torrents</td>
+</tr>
+<tr>
+<td>-M, --movies</td>
+<td align="center">Search by Movie Category</td>
+</tr>
+<tr>
+<td>-T, --tv</td>
+<td align="center">Search by TV Category</td>
+</tr>
+<tr>
+<td>-A, --anime</td>
+<td align="center">Search by Anime Category</td>
+</tr>
+<tr>
+<td>-S, --songs</td>
+<td align="center">Search by Music Category</td>
+</tr>
+<tr>
+<td>-B, --books</td>
+<td align="center">Search by Book Category</td>
+</tr>
+<tr>
+<td>-G, --games</td>
+<td align="center">Search by Games Category</td>
+</tr>
+<tr>
+<td>-P, --applications</td>
+<td align="center">Search by Applications Category</td>
+</tr>
+<tr>
+<td>-X, --XXX</td>
+<td align="center">Search by XXX Category</td>
+</tr>
+</tbody>
+</table>
+
+<h3>
+<a id="screenshots" class="anchor" href="#screenshots" aria-hidden="true"><span aria-hidden="true" class="octicon octicon-link"></span></a>Screenshots</h3>
+
+<h4>
+<a id="latest-movies" class="anchor" href="#latest-movies" aria-hidden="true"><span aria-hidden="true" class="octicon octicon-link"></span></a>Latest Movies</h4>
+
+<p><code>$ katastrophe -m</code></p>
+
+<p><img src="http://i.imgur.com/sMbc4Pb.png" alt="ScreenShot"></p>
+
+<h4>
+<a id="latest-tv-shows" class="anchor" href="#latest-tv-shows" aria-hidden="true"><span aria-hidden="true" class="octicon octicon-link"></span></a>Latest TV Shows</h4>
+
+<p><code>$ katastrophe -t</code></p>
+
+<p><img src="http://i.imgur.com/NJKtGWH.png" alt="Screenshot"></p>
+
+<h4>
+<a id="latest-games-and-applications" class="anchor" href="#latest-games-and-applications" aria-hidden="true"><span aria-hidden="true" class="octicon octicon-link"></span></a>Latest Games and Applications</h4>
+
+<p><code>$ katastrophe -g</code></p>
+
+<p><img src="http://i.imgur.com/YSQoOpS.png" alt="ScreenShot"></p>
+
+<h4>
+<a id="latest-music" class="anchor" href="#latest-music" aria-hidden="true"><span aria-hidden="true" class="octicon octicon-link"></span></a>Latest Music</h4>
+
+<p><code>$ katastrophe -s</code></p>
+
+<p><img src="http://i.imgur.com/PXcGIEO.png" alt="ScreenShot"></p>
+
+<h4>
+<a id="latest-anime" class="anchor" href="#latest-anime" aria-hidden="true"><span aria-hidden="true" class="octicon octicon-link"></span></a>Latest Anime</h4>
+
+<p><code>$ katastrophe -a</code></p>
+
+<p><img src="http://i.imgur.com/IVnSAs1.png" alt="ScreenShot"></p>
+
+<h3>
+<a id="latest-books" class="anchor" href="#latest-books" aria-hidden="true"><span aria-hidden="true" class="octicon octicon-link"></span></a>Latest Books</h3>
+
+<p><code>$ katastrophe -b</code></p>
+
+<p><img src="http://i.imgur.com/DDwqrZF.png" alt="ScreenShot"></p>
+
+<h4>
+<a id="latest-lossless-music" class="anchor" href="#latest-lossless-music" aria-hidden="true"><span aria-hidden="true" class="octicon octicon-link"></span></a>Latest Lossless Music</h4>
+
+<p><code>$ katastrophe -l</code></p>
+
+<p><img src="http://i.imgur.com/tknw3Zt.png" alt="ScreenShot"></p>
+
+<h4>
+<a id="multiple-downloads" class="anchor" href="#multiple-downloads" aria-hidden="true"><span aria-hidden="true" class="octicon octicon-link"></span></a>Multiple Downloads</h4>
+
+<p><code>$ Starting and Ending Torrent</code></p>
+
+<p><img src="http://i.imgur.com/wy78wMu.png" alt="ScreenShot"></p>
+
+<p><code>$ Starting Torrent</code></p>
+
+<p><img src="http://i.imgur.com/hBzll6P.png" alt="ScreenShot"></p>
+
+<p><code>$ Ending Torrent</code></p>
+
+<p><img src="http://i.imgur.com/ziLjt25.png" alt="ScreenShot"></p>
+
+<h4>
+<a id="ssl-verification" class="anchor" href="#ssl-verification" aria-hidden="true"><span aria-hidden="true" class="octicon octicon-link"></span></a>SSL Verification</h4>
+
+<p><code>$ katastrophe --verifyssl=True/False</code></p>
+
+<p><img src="http://i.imgur.com/Kh5MkYh.png" alt="ScreenShot"></p>
+
+<h3>
+<a id="contribute" class="anchor" href="#contribute" aria-hidden="true"><span aria-hidden="true" class="octicon octicon-link"></span></a>Contribute</h3>
+
+<p>Found a bug or want to suggest a new feature? Report it by opening an issue. Feel free to send a pull request for any improvements or feature requests ;)</p>
+
+<h3>
+<a id="thanks" class="anchor" href="#thanks" aria-hidden="true"><span aria-hidden="true" class="octicon octicon-link"></span></a>Thanks</h3>
+
+<p>A big thanks to <a href="https://github.com/lita/bittorrent">Lita</a> for her bittorrent client.</p>
+
+<h3>
+<a id="license" class="anchor" href="#license" aria-hidden="true"><span aria-hidden="true" class="octicon octicon-link"></span></a>License</h3>
+
+<p>MIT © <a href="https://github.com/alyakhtar">Aly Akhtar</a></p>
+        </section>
+
+        <aside id="sidebar">
+          <a href="https://github.com/alyakhtar/Katastrophe/zipball/master" class="button">
+            <small>Download</small>
+            .zip file
+          </a>
+          <a href="https://github.com/alyakhtar/Katastrophe/tarball/master" class="button">
+            <small>Download</small>
+            .tar.gz file
+          </a>
+
+          <p class="repo-owner"><a href="https://github.com/alyakhtar/Katastrophe"></a> is maintained by <a href="https://github.com/alyakhtar">alyakhtar</a>.</p>
+
+          <p>This page was generated by <a href="https://pages.github.com">GitHub Pages</a> using the Architect theme by <a href="https://twitter.com/jasonlong">Jason Long</a>.</p>
+        </aside>
+      </div>
+    </div>
+
+  
+  </body>
+</html>
