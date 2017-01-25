@@ -1,14 +1,5 @@
 # Katastrophe
-<p align="left">
-    <a href="https://pypi.python.org/pypi/katastrophe/1.1.5">
-        <img src="https://img.shields.io/pypi/v/katastrophe.svg">
-    </a>
-    <a href="https://raw.githubusercontent.com/alyakhtar/Katastrophe/master/LICENSE.txt">
-        <img src="https://img.shields.io/pypi/l/katastrophe.svg">
-    </a>
-</p>
-
-**A Command-Line Interface for scraping Kickass torrents (kat.cr). Provides options to scrape top torrents in given categories, or searching for specific torrents. The user can select single, multiple or even specify a range for the torrent to download from any category. It has an inbuilt bittorent client, if none exist on the system then the Command line bittorent client is used for downloading. **
+**A Command-Line Interface for scraping Kickass torrents (kat.how). Provides options to scrape top torrents in given categories, or searching for specific torrents. The user can select single, multiple or even specify a range for the torrent to download from any category. It has an inbuilt bittorent client, if none exist on the system then the Command line bittorent client is used for downloading. **
 
 ![ScreenShot](http://i.imgur.com/gVdTRPk.png)
 
@@ -48,14 +39,14 @@
 
 ### Usage:
 ```sh
-  katastrophe.py 
+  katastrophe.py
   katastrophe [--verifyssl=<boolean>][-m | -t | -a | -s | -l | -g | -p | -b | -x | -M | -T | -A | -S | -B | -G | -P | -X]
   katastrophe -h | --help
   katastrophe --version
 
   Multi Download:
     i,j     From Serial No. i to Serial No. j
-    ,i      From Serial No. 1 to Serial No. i 
+    ,i      From Serial No. 1 to Serial No. i
     i,      From Serial No. i to serial no 25
     i,j,... Multiple Serial Numbers
 
@@ -74,7 +65,7 @@
 | -s, --newsongs          | Show latest Music Torrents                              |
 | -l, --newlosslessmusic  | Show latest Lossless Music Torrents                     |
 | -g, --newgames          | Show latest Game Torrents                               |
-| -p, --newapplications   | Shoe latest Application Torrents                        |  
+| -p, --newapplications   | Shoe latest Application Torrents                        |
 | -b, --newbooks          | Show latest Book Torrents                               |
 | -x, --xxx               | Show latest XXX Torrents                                |
 | -M, --movies            | Search by Movie Category                                |
@@ -83,7 +74,7 @@
 | -S, --songs             | Search by Music Category                                |
 | -B, --books             | Search by Book Category                                 |
 | -G, --games             | Search by Games Category                                |
-| -P, --applications      | Search by Applications Category                         |    
+| -P, --applications      | Search by Applications Category                         |
 | -X, --XXX               | Search by XXX Category                                  |
 
 ### Demo
@@ -120,7 +111,7 @@
 ![ScreenShot](http://i.imgur.com/YSQoOpS.png)
 
 
-#### Latest Music 
+#### Latest Music
 
 
 `$ katastrophe -s`
@@ -189,10 +180,8 @@
 
 Found a bug or want to suggest a new feature? Report it by opening an issue. Feel free to send a pull request for any improvements or feature requests ;)
 
-### Thanks
-A big thanks to [Lita](https://github.com/lita/bittorrent) for her bittorrent client.
 
 
 ### License
 
-MIT © [Aly Akhtar](https://github.com/alyakhtar)
+MIT ©
