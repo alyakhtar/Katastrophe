@@ -35,11 +35,11 @@ def url_generator(url, page, category):
 	words = url.split()
 
 	if len(words) == 1:
-		link = 'https://kat.cr/usearch/' + words[0] + '%' + '20category%3' + 'A' + category_list[category]
+		link = 'https://kat.how/usearch/' + words[0] + '%' + '20category%3' + 'A' + category_list[category]
 	else:
 		for i in xrange_(len(words)):
 			if i == 0:
-				link = 'https://kat.cr/usearch/' + words[i]
+				link = 'https://kat.how/usearch/' + words[i]
 			else:
 				link += '%20' + words[i]
 		link += '%' + '20category%3' + 'A' + category_list[category]
@@ -500,7 +500,7 @@ def by_xxx(url, page, ssl):
 	print_table(sno, torr, sz, sd, lc)
 
 def xxx_torrent(ssl):
-    link = 'https://kat.cr/xxx/1/?field=time_add&sorder=desc'
+    link = 'https://kat.how/xxx/1/?field=time_add&sorder=desc'
     source_code = requests.get(link, verify = ssl)
     plain_text = source_code.text.encode('utf-8')
     soup = BeautifulSoup(plain_text, "lxml")
