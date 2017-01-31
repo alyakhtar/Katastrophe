@@ -77,11 +77,11 @@ def url_generator(url, page):
     words = url.split()
     
     if len(words) == 1:
-        link = 'https://kat.cr/usearch/' + words[0]
+        link = 'https://kickasstorrents.to/usearch/' + words[0]
     else:
         for i in xrange_(len(words)):
             if i == 0:
-                link = 'https://kat.cr/usearch/' + words[i]
+                link = 'https://kickasstorrents.to/usearch/' + words[i]
             else:
                 link += '%20' + words[i]
                 
