@@ -8,7 +8,7 @@
     </a>
 </p>
 
-**A Command-Line Interface for scraping Kickass torrents (kat.cr). Provides options to scrape top torrents in given categories, or searching for specific torrents. The user can select single, multiple or even specify a range for the torrent to download from any category. It has an inbuilt bittorent client, if none exist on the system then the Command line bittorent client is used for downloading. **
+**A Command-Line Interface for scraping Kickass torrents (kickasstorrents.to). Provides options to scrape top torrents in given categories, or searching for specific torrents. The user can select single, multiple or even specify a range for the torrent to download from any category. It has an inbuilt bittorent client, if none exist on the system then the Command line bittorent client is used for downloading. **
 
 ![ScreenShot](http://i.imgur.com/gVdTRPk.png)
 
